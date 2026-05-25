@@ -40,7 +40,6 @@ DIGEST_SECRET = os.environ.get("DIGEST_SECRET", "")
 # Guide: https://www.usitc.gov/sites/default/files/press_room/documents/edis_data_web_service_guide.pdf
 EDIS_BASE = "https://edis.usitc.gov/data"
 EDIS_QUERY_ENDPOINT = f"{EDIS_BASE}/investigation"   # may differ — verify
-EDIS_PDF_URL = "{EDIS_BASE}/document/{doc_id}/pdf"  # may differ — verify (note: formatted at use time)
 
 # Section 337 document type codes — verify exact EDIS codes from the guide
 EDIS_DOC_TYPES = {
@@ -396,7 +395,7 @@ def build_record(doc: ItcDocument, summary: dict) -> dict:
     return {
         "source_type": "itc_commission",
         "source_file_path": doc.source_file_path,
-        "origin": "USITC",
+        "origin": "ITC",
         "appeal_number": doc.investigation_number,
         "case_name": doc.investigation_title,
         "document_type": doc.document_type_label,

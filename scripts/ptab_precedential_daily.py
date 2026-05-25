@@ -185,7 +185,7 @@ def filter_new_decisions(
     return [
         d for d in decisions
         if last_seen.get(d.designation_type) is None
-        or d.decision_date > last_seen[d.designation_type]
+        or d.decision_date >= last_seen[d.designation_type]
     ]
 
 

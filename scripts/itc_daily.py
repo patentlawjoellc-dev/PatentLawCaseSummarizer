@@ -17,7 +17,7 @@ import json
 import os
 import re
 import sys
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import date, datetime
 from typing import Optional
 
@@ -29,6 +29,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Ensure UTF-8 output on Windows consoles
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
 EDIS_API_KEY = os.environ.get("EDIS_API_KEY", "")
@@ -36,18 +40,25 @@ MODEL = os.environ.get("CAFC_SUMMARY_MODEL", "claude-sonnet-4-6")
 SITE_URL = os.environ.get("NEXT_PUBLIC_SITE_URL", "")
 DIGEST_SECRET = os.environ.get("DIGEST_SECRET", "")
 
-# VERIFY THESE ENDPOINTS against the EDIS Data Web Service Guide after registration.
-# Guide: https://www.usitc.gov/sites/default/files/press_room/documents/edis_data_web_service_guide.pdf
 EDIS_BASE = "https://edis.usitc.gov/data"
-EDIS_QUERY_ENDPOINT = f"{EDIS_BASE}/investigation"   # may differ — verify
+EDIS_DOC_ENDPOINT = f"{EDIS_BASE}/document"
 
-# Section 337 document type codes — verify exact EDIS codes from the guide
+# Map actual EDIS documentType strings → internal codes
+EDIS_DOC_TYPE_MAP = {
+    "Complaint":                   "COMPLAINT",
+    "Notice of Investigation":     "NOI",
+    "ID/RD - Final on Violation":  "ID",
+    "Recommended Determination":   "RD",
+    "Opinion, Commission":         "FCO",
+}
+
+# Internal code → human-readable label
 EDIS_DOC_TYPES = {
-    "COMPLAINT":   "Complaint",
-    "NOI":         "Notice of Investigation",
-    "ID":          "Initial Determination",
-    "RD":          "Recommended Determination",
-    "FCO":         "Final Commission Opinion",
+    "COMPLAINT": "Complaint",
+    "NOI":       "Notice of Investigation",
+    "ID":        "Initial Determination",
+    "RD":        "Recommended Determination",
+    "FCO":       "Final Commission Opinion",
 }
 
 _SUPABASE_HEADERS = {
@@ -89,34 +100,22 @@ def _edis_headers() -> dict:
 
 
 def query_edis(target_date: date) -> list[ItcDocument]:
-    """
-    Query EDIS for Section 337 documents filed on target_date.
-
-    IMPORTANT: The parameter names below (inv_type, doc_type, from_date, pageNumber)
-    are best-guess estimates. Verify against the EDIS Data Web Service Guide
-    at https://www.usitc.gov/sites/default/files/press_room/documents/edis_data_web_service_guide.pdf
-    and adjust as needed after EDIS registration.
-    """
+    """Query EDIS for Section 337 documents filed on target_date."""
     if not EDIS_API_KEY:
         print("ERROR: EDIS_API_KEY not set. Register at https://edis.usitc.gov.")
         sys.exit(1)
 
     documents: list[ItcDocument] = []
+    date_str = target_date.strftime("%Y-%m-%d")
     page = 1
 
     while True:
-        params = {
-            "inv_type": "337",                        # Section 337 (verify param name)
-            "from_date": target_date.strftime("%Y-%m-%d"),  # verify format
-            "to_date":   target_date.strftime("%Y-%m-%d"),
-            "pageNumber": str(page),
-            "pageSize":   "100",
-        }
         try:
             resp = requests.get(
-                EDIS_QUERY_ENDPOINT,
+                EDIS_DOC_ENDPOINT,
                 headers=_edis_headers(),
-                params=params,
+                params={"filingDateFrom": date_str, "filingDateTo": date_str,
+                        "pageSize": "200", "pageNumber": str(page)},
                 timeout=30,
             )
             resp.raise_for_status()
@@ -125,21 +124,24 @@ def query_edis(target_date: date) -> list[ItcDocument]:
             break
 
         parsed = xmltodict.parse(resp.text)
-        # Navigate XML structure — adjust keys based on actual EDIS response format
-        root = parsed.get("response") or parsed.get("results") or parsed
-        items = root.get("document") or root.get("item") or []
+        root = parsed.get("results", {})
+        items = root.get("documents", {}).get("document", [])
         if isinstance(items, dict):
-            items = [items]  # single result wrapped in dict
+            items = [items]
         if not items:
             break
 
         for item in items:
+            if item.get("investigationType") != "Sec 337":
+                continue
+            doc_type_str = item.get("documentType", "")
+            if doc_type_str not in EDIS_DOC_TYPE_MAP:
+                continue
             doc = _parse_edis_item(item, target_date)
             if doc:
                 documents.append(doc)
 
-        # Check if there are more pages
-        total_pages = int(root.get("totalPages") or root.get("total_pages") or 1)
+        total_pages = int(root.get("totalPages") or 1)
         if page >= total_pages:
             break
         page += 1
@@ -148,47 +150,32 @@ def query_edis(target_date: date) -> list[ItcDocument]:
 
 
 def _parse_edis_item(item: dict, fallback_date: date) -> Optional[ItcDocument]:
-    """
-    Parse one EDIS XML item into an ItcDocument.
-    Field names below are best guesses — verify against actual API response.
-    """
-    doc_type_code = (
-        item.get("documentType") or item.get("doc_type") or item.get("type") or ""
-    ).upper()
+    doc_type_str = item.get("documentType", "")
+    doc_type_code = EDIS_DOC_TYPE_MAP[doc_type_str]
 
-    if doc_type_code not in EDIS_DOC_TYPES:
-        return None  # skip non-Section-337-decision documents
+    # Reconstruct "337-TA-XXXX" from the investigation title
+    inv_title = item.get("investigationTitle", "")
+    inv_match = re.search(r"337-TA-\d+", inv_title)
+    raw_num = item.get("investigationNumber", "UNKNOWN")
+    inv_number = inv_match.group(0) if inv_match else f"337-TA-{raw_num.replace('337-', '')}"
 
-    inv_number = item.get("investigationNumber") or item.get("inv_number") or "UNKNOWN"
-    inv_title  = item.get("investigationTitle")  or item.get("inv_title")  or inv_number
-    doc_id     = item.get("documentId") or item.get("doc_id") or item.get("id") or ""
+    doc_id = item.get("id", "")
 
-    filing_date_str = item.get("filingDate") or item.get("filing_date") or ""
+    date_str = item.get("documentDate", "")
     try:
-        filing_date = datetime.strptime(filing_date_str[:10], "%Y-%m-%d").date()
+        filing_date = datetime.strptime(date_str[:10], "%Y/%m/%d").date()
     except (ValueError, TypeError):
         filing_date = fallback_date
 
-    complainant = item.get("complainantName") or item.get("complainant") or "Unknown Complainant"
+    # onBehalfOf is the filer; exclude USITC/staff entries as complainant
+    on_behalf = item.get("onBehalfOf", "")
+    complainant = (on_behalf if on_behalf
+                   and "USITC" not in on_behalf
+                   and "Office of" not in on_behalf
+                   else "Unknown Complainant")
 
-    respondents_raw = item.get("respondents") or item.get("respondent") or []
-    if isinstance(respondents_raw, str):
-        respondents = [r.strip() for r in respondents_raw.split(";") if r.strip()]
-    elif isinstance(respondents_raw, dict):
-        name = respondents_raw.get("name") or respondents_raw.get("#text") or ""
-        respondents = [name] if name else []
-    elif isinstance(respondents_raw, list):
-        respondents = [
-            (r.get("name") or r.get("#text") or r) if isinstance(r, dict) else str(r)
-            for r in respondents_raw
-        ]
-    else:
-        respondents = []
-
-    pdf_url = (item.get("pdfUrl") or item.get("pdf_url")
-               or f"{EDIS_BASE}/document/{doc_id}/pdf")
-
-    slug = re.sub(r"[^a-z0-9-]", "", inv_number.lower().replace(" ", "-"))
+    attachment_url = f"{EDIS_BASE}/attachment/{doc_id}"
+    slug = re.sub(r"[^a-z0-9-]", "", inv_number.lower())
     source_file_path = f"itc/{filing_date.isoformat()}/{slug}/{doc_type_code.lower()}"
 
     return ItcDocument(
@@ -198,23 +185,30 @@ def _parse_edis_item(item: dict, fallback_date: date) -> Optional[ItcDocument]:
         document_type_label=EDIS_DOC_TYPES[doc_type_code],
         filing_date=filing_date,
         complainant=complainant,
-        respondents=respondents,
+        respondents=[],
         doc_id=doc_id,
-        pdf_url=pdf_url,
+        pdf_url=attachment_url,
         source_file_path=source_file_path,
     )
 
 
 # ── PDF download + text extraction ───────────────────────────────────────────
 
-def download_pdf(pdf_url: str) -> bytes:
-    resp = requests.get(
-        pdf_url,
-        headers={**_edis_headers(), "Accept": "application/pdf"},
-        timeout=60,
-    )
+def download_pdf(attachment_url: str) -> bytes:
+    """Resolve attachment list URL → download first attachment with a valid downloadUri."""
+    resp = requests.get(attachment_url, headers=_edis_headers(), timeout=30)
     resp.raise_for_status()
-    return resp.content
+    parsed = xmltodict.parse(resp.text)
+    attachments = parsed.get("results", {}).get("attachments", {}).get("attachment", [])
+    if isinstance(attachments, dict):
+        attachments = [attachments]
+    for att in attachments:
+        uri = att.get("downloadUri")
+        if uri and uri.startswith("http"):
+            resp2 = requests.get(uri, headers={**_edis_headers(), "Accept": "application/pdf"}, timeout=60)
+            resp2.raise_for_status()
+            return resp2.content
+    raise ValueError(f"No downloadable attachment found at {attachment_url}")
 
 
 def extract_text(pdf_bytes: bytes) -> str:

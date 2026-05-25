@@ -95,6 +95,7 @@ def parse_args() -> argparse.Namespace:
                    help="Process all weekdays in range, e.g. 2026-05-12:2026-05-25")
     p.add_argument("--no-ai", dest="no_ai", action="store_true", help="Skip Claude; write stat blocks for all decisions.")
     p.add_argument("--no-supabase", dest="no_supabase", action="store_true", help="Skip Supabase upsert (dry-run).")
+    p.add_argument("--no-trigger", dest="no_trigger", action="store_true", help="Skip digest trigger (used by orchestration script).")
     return p.parse_args()
 
 
@@ -728,7 +729,7 @@ def sync_supabase(records: list[dict]) -> None:
 # Main
 # ─────────────────────────────────────────────────────────────────────────────
 
-def process_date(date_str: str, use_ai: bool, no_supabase: bool) -> None:
+def process_date(date_str: str, use_ai: bool, no_supabase: bool, no_trigger: bool = False) -> None:
     log.info("Processing PTAB director decisions for %s (ai=%s)", date_str, use_ai)
 
     raw_records = fetch_decisions(date_str)
@@ -796,7 +797,8 @@ def process_date(date_str: str, use_ai: bool, no_supabase: bool) -> None:
         cleanup_ptab_for_date(date_str)
         sync_supabase(upsert_records)
         log.info("Supabase sync complete for %s.", date_str)
-        _trigger_daily_digest(date_str)
+        if not no_trigger:
+            _trigger_daily_digest(date_str)
 
 
 def _trigger_daily_digest(date_str: str) -> None:
@@ -836,11 +838,11 @@ def main() -> None:
         days = date_range_weekdays(parts[0], parts[1])
         log.info("Processing %d weekdays from %s to %s", len(days), parts[0], parts[1])
         for day in days:
-            process_date(day.isoformat(), use_ai, args.no_supabase)
+            process_date(day.isoformat(), use_ai, args.no_supabase, args.no_trigger)
         return
 
     day = target_date(args.date)
-    process_date(day.isoformat(), use_ai, args.no_supabase)
+    process_date(day.isoformat(), use_ai, args.no_supabase, args.no_trigger)
 
 
 if __name__ == "__main__":

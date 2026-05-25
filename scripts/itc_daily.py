@@ -223,7 +223,10 @@ def _parse_edis_item(item: dict, fallback_date: date) -> Optional[ItcDocument]:
 
 def download_pdf(attachment_url: str) -> bytes:
     """Resolve attachment list URL → download first attachment with a valid downloadUri."""
-    resp = requests.get(attachment_url, headers=_edis_headers(), timeout=30)
+    if _CFFI:
+        resp = cffi_requests.get(attachment_url, headers=_edis_headers(), impersonate="chrome", timeout=30)
+    else:
+        resp = requests.get(attachment_url, headers=_edis_headers(), timeout=30)
     resp.raise_for_status()
     parsed = xmltodict.parse(resp.text)
     attachments = parsed.get("results", {}).get("attachments", {}).get("attachment", [])
@@ -232,7 +235,10 @@ def download_pdf(attachment_url: str) -> bytes:
     for att in attachments:
         uri = att.get("downloadUri")
         if uri and uri.startswith("http"):
-            resp2 = requests.get(uri, headers={**_edis_headers(), "Accept": "application/pdf"}, timeout=60)
+            if _CFFI:
+                resp2 = cffi_requests.get(uri, headers={**_edis_headers(), "Accept": "application/pdf"}, impersonate="chrome", timeout=60)
+            else:
+                resp2 = requests.get(uri, headers={**_edis_headers(), "Accept": "application/pdf"}, timeout=60)
             resp2.raise_for_status()
             return resp2.content
     raise ValueError(f"No downloadable attachment found at {attachment_url}")
@@ -477,6 +483,7 @@ def main() -> None:
     parser.add_argument("--date", help="Target date (YYYY-MM-DD), defaults to today")
     parser.add_argument("--no-ai", action="store_true", help="Skip Claude summarization")
     parser.add_argument("--no-supabase", action="store_true", help="Dry run — skip DB writes")
+    parser.add_argument("--no-trigger", action="store_true", help="Skip digest trigger (used by orchestration script)")
     args = parser.parse_args()
 
     target_date = date.fromisoformat(args.date) if args.date else date.today()
@@ -522,4 +529,15 @@ def main() -> None:
             try:
                 sync_supabase(record)
                 print(f"    ✓ Upserted: {doc.source_file_path}")
-      
+                processed_dates.add(doc.filing_date)
+            except Exception as exc:
+                print(f"    ✗ Supabase error: {exc}")
+
+    if processed_dates and not args.no_supabase and not args.no_trigger:
+        trigger_itc_digest(max(processed_dates))
+
+    print(f"[itc_daily] Done — processed {len(documents)} document(s).")
+
+
+if __name__ == "__main__":
+    main()

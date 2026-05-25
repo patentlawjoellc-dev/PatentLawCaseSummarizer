@@ -1,9 +1,6 @@
 # Patent Law University — Daily Scrapers
-# All times UTC. EDT = UTC-4, EST = UTC-5.
+# All times UTC.  EDT = UTC-4,  EST = UTC-5.
+# 15:00 UTC = 11:00 AM EDT (summer) / 10:00 AM EST (winter)
+# Runs Mon–Fri only; skip weekends since courts don't publish on weekends.
 
-# ITC Commission Decisions — 2 PM ET (18:00 UTC EDT / 19:00 UTC EST)
-0 18 * * * cd /app && python scripts/itc_daily.py >> /app/logs/itc.log 2>&1
-
-# PTAB Precedential/Informative — 5 PM ET (21:00 UTC EDT / 22:00 UTC EST)
-0 21 * * * cd /app && python scripts/ptab_precedential_daily.py >> /app/logs/ptab_precedential.log 2>&1
-
+0 15 * * 1-5 cd /app && bash /app/scripts/run_daily.sh >> /app/logs/daily.log 2>&1

@@ -2,8 +2,13 @@
 -- Run in Supabase SQL editor for project ijgjlbrcccwbdydrpgzq.
 
 -- 1. Extend source_type CHECK to include new pipeline values
+-- Migration 002 added source_type as an inline column-level CHECK, which PostgreSQL
+-- auto-names cafc_documents_source_type_check. Drop both the numbered and unnumbered
+-- variants defensively to handle either naming outcome.
 alter table public.cafc_documents
   drop constraint if exists cafc_documents_source_type_check;
+alter table public.cafc_documents
+  drop constraint if exists cafc_documents_source_type_check1;
 
 alter table public.cafc_documents
   add constraint cafc_documents_source_type_check

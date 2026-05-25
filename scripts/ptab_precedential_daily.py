@@ -283,3 +283,147 @@ def fallback_summary(decision: Decision) -> dict:
         "technology_area": None,
         "disposition": decision.designation_type.upper(),
     }
+
+
+# ── Supabase upsert ───────────────────────────────────────────────────────────
+
+def build_record(decision: Decision, summary: dict) -> dict:
+    key_points = summary.get("key_points", [])
+    holding = summary.get("holding", "")
+    why_it_matters = summary.get("why_it_matters", "")
+    # summary_text feeds FTS — combine key content fields
+    summary_text = " ".join(filter(None, [
+        holding, why_it_matters, " ".join(key_points)
+    ]))
+    return {
+        "source_type": "ptab_precedential",
+        "source_file_path": decision.source_file_path,
+        "origin": "PTO",
+        "appeal_number": decision.case_number,
+        "case_name": decision.title,
+        "document_type": f"{decision.designation_type.capitalize()} Decision",
+        "opinion_date": decision.decision_date.isoformat(),
+        "designation_type": decision.designation_type,
+        "source_tribunal": "Patent Trial and Appeal Board",
+        "holding": holding,
+        "why_it_matters": why_it_matters,
+        "key_points": key_points,
+        "tags": summary.get("tags", []),
+        "technology_area": summary.get("technology_area"),
+        "disposition": summary.get("disposition"),
+        "summary_text": summary_text or holding,
+        "pdf_url": decision.pdf_url,
+        "source_url": PTAB_PAGE_URL,
+        "summary_mode": f"claude:{MODEL}",
+    }
+
+
+def sync_supabase(record: dict) -> None:
+    resp = requests.post(
+        f"{SUPABASE_URL}/rest/v1/cafc_documents?on_conflict=source_file_path",
+        headers={**_SUPABASE_HEADERS, "Prefer": "resolution=merge-duplicates,return=minimal"},
+        json=record,
+    )
+    resp.raise_for_status()
+
+
+def trigger_breaking_news(target_date: date) -> None:
+    if not SITE_URL or not DIGEST_SECRET:
+        print("  SKIP: SITE_URL or DIGEST_SECRET not set, skipping breaking news trigger")
+        return
+    try:
+        resp = requests.post(
+            f"{SITE_URL}/api/admin/ptab-breaking-news",
+            headers={"Authorization": DIGEST_SECRET, "Content-Type": "application/json"},
+            json={"date": target_date.isoformat()},
+            timeout=30,
+        )
+        if resp.ok:
+            data = resp.json()
+            print(f"  ✓ Breaking news triggered: postId={data.get('postId')}")
+        else:
+            print(f"  ✗ Breaking news trigger failed: {resp.status_code} {resp.text[:200]}")
+    except Exception as exc:
+        print(f"  ✗ Breaking news trigger error: {exc}")
+
+
+# ── main ──────────────────────────────────────────────────────────────────────
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Check USPTO PTAB page for new precedential/informative decisions"
+    )
+    parser.add_argument("--date", help="Force-process decisions with this date (YYYY-MM-DD)")
+    parser.add_argument("--no-ai", action="store_true", help="Skip Claude — use fallback summary")
+    parser.add_argument("--no-supabase", action="store_true", help="Dry run — skip all DB writes")
+    args = parser.parse_args()
+
+    print(f"[ptab_precedential] Starting at {datetime.now().isoformat()}")
+
+    html = fetch_page()
+    all_decisions = parse_decisions(html)
+    print(f"  Found {len(all_decisions)} decisions on page")
+
+    if args.date:
+        forced = date.fromisoformat(args.date)
+        decisions = [d for d in all_decisions if d.decision_date == forced]
+        print(f"  Forced date {forced}: {len(decisions)} matching decisions")
+    elif args.no_supabase:
+        last_seen: dict[str, Optional[date]] = {"precedential": None, "informative": None}
+        decisions = filter_new_decisions(all_decisions, last_seen)
+    else:
+        last_seen = get_last_seen_dates()
+        print(f"  Last seen — precedential: {last_seen['precedential']}, informative: {last_seen['informative']}")
+        decisions = filter_new_decisions(all_decisions, last_seen)
+
+    print(f"  New decisions to process: {len(decisions)}")
+    if not decisions:
+        print("  No new precedential/informative decisions. Exiting.")
+        return
+
+    processed_dates: set[date] = set()
+
+    for decision in decisions:
+        print(f"  [{decision.designation_type.upper()}] {decision.case_number} Paper {decision.paper_number}: {decision.title[:60]}")
+
+        try:
+            pdf_bytes = download_pdf(decision.pdf_url)
+            text = extract_text(pdf_bytes)
+            print(f"    Downloaded PDF ({len(pdf_bytes):,} bytes, {len(text):,} chars)")
+        except Exception as exc:
+            print(f"    ✗ PDF error: {exc}")
+            text = ""
+
+        use_ai = not args.no_ai and bool(os.environ.get("ANTHROPIC_API_KEY"))
+        if use_ai:
+            try:
+                summary = summarize_with_claude(decision, text)
+                print(f"    ✓ Claude: {summary['holding'][:80]}…")
+            except Exception as exc:
+                print(f"    ✗ Claude error: {exc} — using fallback")
+                summary = fallback_summary(decision)
+        else:
+            summary = fallback_summary(decision)
+            print("    Using fallback summary")
+
+        record = build_record(decision, summary)
+
+        if args.no_supabase:
+            print(f"    [DRY RUN] Would upsert: {decision.source_file_path}")
+            print(f"    {json.dumps({k: v for k, v in record.items() if k != 'summary_text'}, default=str, indent=2)[:600]}")
+        else:
+            try:
+                sync_supabase(record)
+                print(f"    ✓ Upserted: {decision.source_file_path}")
+                processed_dates.add(decision.decision_date)
+            except Exception as exc:
+                print(f"    ✗ Supabase error: {exc}")
+
+    if processed_dates and not args.no_supabase:
+        trigger_breaking_news(max(processed_dates))
+
+    print(f"[ptab_precedential] Done — processed {len(decisions)} decision(s).")
+
+
+if __name__ == "__main__":
+    main()

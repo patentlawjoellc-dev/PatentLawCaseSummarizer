@@ -438,18 +438,19 @@ def trigger_itc_digest(target_date: date) -> None:
         return
     try:
         resp = requests.post(
-            f"{SITE_URL}/api/admin/itc-digest",
+            f"{SITE_URL}/api/admin/send-digest",
             headers={"Authorization": DIGEST_SECRET, "Content-Type": "application/json"},
             json={"date": target_date.isoformat()},
             timeout=30,
         )
         if resp.ok:
             data = resp.json()
-            print(f"  ✓ ITC digest triggered: postId={data.get('postId')}")
+            print(f"  ✓ Digest triggered: {data.get('recipientCount', 0)} recipients, "
+                  f"cafc={data.get('cafcCount', 0)} itc={data.get('itcCount', 0)} ptab={data.get('ptabCount', 0)}")
         else:
-            print(f"  ✗ ITC digest trigger failed: {resp.status_code} {resp.text[:200]}")
+            print(f"  ✗ Digest trigger failed: {resp.status_code} {resp.text[:200]}")
     except Exception as exc:
-        print(f"  ✗ ITC digest trigger error: {exc}")
+        print(f"  ✗ Digest trigger error: {exc}")
 
 
 # ── main ──────────────────────────────────────────────────────────────────────

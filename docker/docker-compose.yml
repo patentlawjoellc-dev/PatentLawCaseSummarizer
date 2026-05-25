@@ -1,0 +1,17 @@
+services:
+  patent-scrapers:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: patent-scrapers
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"

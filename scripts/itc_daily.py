@@ -226,3 +226,290 @@ def extract_text(pdf_bytes: bytes) -> str:
             if t:
                 parts.append(t)
     return "\n".join(parts)
+
+
+# ── Claude summarization ──────────────────────────────────────────────────────
+
+_PROMPTS: dict[str, str] = {
+    "COMPLAINT": """\
+You are a senior patent litigator reviewing a newly filed USITC Section 337 complaint.
+
+Investigation: {inv_number} — {inv_title}
+Complainant: {complainant}
+Respondents: {respondents}
+Filing Date: {filing_date}
+
+Complaint text (first 120,000 characters):
+{text}
+
+Return ONLY a JSON object:
+{{
+  "holding": "1-2 sentences summarizing the complaint: who is suing whom, over what patents, for what products",
+  "why_it_matters": "2-3 sentences on significance: technology, market impact, relief sought (exclusion order)",
+  "key_points": ["point 1", "point 2", "point 3"],
+  "tags": ["tag1", "tag2"],
+  "technology_area": "brief tech area",
+  "disposition": "COMPLAINT FILED"
+}}
+
+Choose tags from: {tags_list}
+Return ONLY valid JSON. No markdown fences.""",
+
+    "NOI": """\
+You are a senior patent litigator reviewing a USITC Notice of Investigation.
+
+Investigation: {inv_number} — {inv_title}
+Complainant: {complainant}
+Respondents: {respondents}
+Date: {filing_date}
+
+Notice text:
+{text}
+
+Return ONLY a JSON object:
+{{
+  "holding": "1-2 sentences: investigation instituted, parties, products at issue",
+  "why_it_matters": "Why this investigation matters — technology area, market impact",
+  "key_points": ["point 1", "point 2", "point 3"],
+  "tags": ["tag1", "tag2"],
+  "technology_area": "brief tech area",
+  "disposition": "INVESTIGATION INSTITUTED"
+}}
+
+Return ONLY valid JSON.""",
+
+    "ID": """\
+You are a senior patent litigator reviewing a USITC ALJ Initial Determination.
+
+Investigation: {inv_number} — {inv_title}
+Complainant: {complainant}
+Respondents: {respondents}
+Date: {filing_date}
+
+Decision text (first 120,000 characters):
+{text}
+
+Return ONLY a JSON object:
+{{
+  "holding": "1-2 sentences: ALJ's finding on § 337 violation (yes/no), key claim construction and infringement conclusions",
+  "why_it_matters": "2-3 sentences: practical significance, what the Commission will review, likelihood of exclusion order",
+  "key_points": ["point 1", "point 2", "point 3", "point 4", "point 5"],
+  "tags": ["tag1", "tag2", "tag3"],
+  "technology_area": "brief tech area",
+  "disposition": "VIOLATION FOUND or NO VIOLATION or PARTIAL VIOLATION"
+}}
+
+Choose tags from: {tags_list}
+Return ONLY valid JSON.""",
+
+    "RD": """\
+You are a senior patent litigator reviewing a USITC ALJ Recommended Determination on remedy.
+
+Investigation: {inv_number} — {inv_title}
+Date: {filing_date}
+
+Text:
+{text}
+
+Return ONLY a JSON object:
+{{
+  "holding": "1-2 sentences: recommended remedy (exclusion order, cease and desist), scope, bonding recommendation",
+  "why_it_matters": "2-3 sentences: what the full Commission will decide on remedy",
+  "key_points": ["point 1", "point 2", "point 3"],
+  "tags": ["tag1", "tag2"],
+  "technology_area": "brief tech area or null",
+  "disposition": "EXCLUSION ORDER RECOMMENDED or NO REMEDY RECOMMENDED"
+}}
+
+Return ONLY valid JSON.""",
+
+    "FCO": """\
+You are a senior patent litigator reviewing a USITC Final Commission Opinion.
+
+Investigation: {inv_number} — {inv_title}
+Complainant: {complainant}
+Respondents: {respondents}
+Date: {filing_date}
+
+Opinion text (first 120,000 characters):
+{text}
+
+Return ONLY a JSON object:
+{{
+  "holding": "1-2 sentences: Commission's final ruling on § 337 violation, whether exclusion order was issued",
+  "why_it_matters": "2-3 sentences: market impact, scope of exclusion/remedy, appeal prospects",
+  "key_points": ["point 1", "point 2", "point 3", "point 4", "point 5"],
+  "tags": ["tag1", "tag2", "tag3"],
+  "technology_area": "brief tech area",
+  "disposition": "EXCLUSION ORDER or NO VIOLATION or REMEDY MODIFIED or CASE TERMINATED"
+}}
+
+Choose tags from: {tags_list}
+Return ONLY valid JSON.""",
+}
+
+
+def summarize_with_claude(doc: ItcDocument, text: str) -> dict:
+    prompt_template = _PROMPTS.get(doc.document_type_code, _PROMPTS["ID"])
+    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    prompt = prompt_template.format(
+        inv_number=doc.investigation_number,
+        inv_title=doc.investigation_title,
+        complainant=doc.complainant,
+        respondents=", ".join(doc.respondents) if doc.respondents else "Unknown",
+        filing_date=doc.filing_date.isoformat(),
+        text=text[:120_000],
+        tags_list=", ".join(ITC_TAGS),
+    )
+    resp = client.messages.create(
+        model=MODEL, max_tokens=2048, temperature=0.1,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    raw = resp.content[0].text.strip()
+    raw = re.sub(r"^```[a-z]*\n?", "", raw)
+    raw = re.sub(r"\n?```$", "", raw)
+    return json.loads(raw)
+
+
+def fallback_summary(doc: ItcDocument) -> dict:
+    return {
+        "holding": f"{doc.document_type_label}: {doc.investigation_number} — {doc.investigation_title}. Complainant: {doc.complainant}.",
+        "why_it_matters": f"A {doc.document_type_label.lower()} has been filed/issued in USITC Investigation {doc.investigation_number}.",
+        "key_points": [
+            f"Investigation: {doc.investigation_number}",
+            f"Complainant: {doc.complainant}",
+            f"Respondents: {', '.join(doc.respondents[:3])}",
+        ],
+        "tags": [],
+        "technology_area": None,
+        "disposition": doc.document_type_label.upper(),
+    }
+
+
+# ── Supabase upsert ───────────────────────────────────────────────────────────
+
+def build_record(doc: ItcDocument, summary: dict) -> dict:
+    holding = summary.get("holding", "")
+    why_it_matters = summary.get("why_it_matters", "")
+    key_points = summary.get("key_points", [])
+    summary_text = " ".join(filter(None, [holding, why_it_matters, " ".join(key_points)]))
+    return {
+        "source_type": "itc_commission",
+        "source_file_path": doc.source_file_path,
+        "origin": "USITC",
+        "appeal_number": doc.investigation_number,
+        "case_name": doc.investigation_title,
+        "document_type": doc.document_type_label,
+        "opinion_date": doc.filing_date.isoformat(),
+        "source_tribunal": "U.S. International Trade Commission",
+        "holding": holding,
+        "why_it_matters": why_it_matters,
+        "key_points": key_points,
+        "tags": summary.get("tags", []),
+        "technology_area": summary.get("technology_area"),
+        "disposition": summary.get("disposition"),
+        "summary_text": summary_text or holding,
+        "pdf_url": doc.pdf_url,
+        "source_url": f"https://edis.usitc.gov/edis3-internal/case-admin/investigation/{doc.investigation_number.replace('-', '%2D')}",
+        "summary_mode": f"claude:{MODEL}",
+        "cafc_metadata": {
+            "complainant": doc.complainant,
+            "respondents": doc.respondents,
+            "edis_doc_id": doc.doc_id,
+        },
+    }
+
+
+def sync_supabase(record: dict) -> None:
+    resp = requests.post(
+        f"{SUPABASE_URL}/rest/v1/cafc_documents?on_conflict=source_file_path",
+        headers={**_SUPABASE_HEADERS, "Prefer": "resolution=merge-duplicates,return=minimal"},
+        json=record,
+    )
+    resp.raise_for_status()
+
+
+def trigger_itc_digest(target_date: date) -> None:
+    if not SITE_URL or not DIGEST_SECRET:
+        print("  SKIP: SITE_URL or DIGEST_SECRET not set")
+        return
+    try:
+        resp = requests.post(
+            f"{SITE_URL}/api/admin/itc-digest",
+            headers={"Authorization": DIGEST_SECRET, "Content-Type": "application/json"},
+            json={"date": target_date.isoformat()},
+            timeout=30,
+        )
+        if resp.ok:
+            data = resp.json()
+            print(f"  ✓ ITC digest triggered: postId={data.get('postId')}")
+        else:
+            print(f"  ✗ ITC digest trigger failed: {resp.status_code} {resp.text[:200]}")
+    except Exception as exc:
+        print(f"  ✗ ITC digest trigger error: {exc}")
+
+
+# ── main ──────────────────────────────────────────────────────────────────────
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="USITC Section 337 daily pipeline")
+    parser.add_argument("--date", help="Target date (YYYY-MM-DD), defaults to today")
+    parser.add_argument("--no-ai", action="store_true", help="Skip Claude summarization")
+    parser.add_argument("--no-supabase", action="store_true", help="Dry run — skip DB writes")
+    args = parser.parse_args()
+
+    target_date = date.fromisoformat(args.date) if args.date else date.today()
+    print(f"[itc_daily] Starting for {target_date} at {datetime.now().isoformat()}")
+
+    documents = query_edis(target_date)
+    print(f"  Found {len(documents)} Section 337 documents from EDIS")
+
+    if not documents:
+        print("  No new ITC documents for today. Exiting.")
+        return
+
+    processed_dates: set[date] = set()
+
+    for doc in documents:
+        print(f"  [{doc.document_type_code}] {doc.investigation_number}: {doc.investigation_title[:60]}")
+
+        try:
+            pdf_bytes = download_pdf(doc.pdf_url)
+            text = extract_text(pdf_bytes)
+            print(f"    Downloaded PDF ({len(pdf_bytes):,} bytes, {len(text):,} chars)")
+        except Exception as exc:
+            print(f"    ✗ PDF error: {exc}")
+            text = ""
+
+        use_ai = not args.no_ai and bool(os.environ.get("ANTHROPIC_API_KEY"))
+        if use_ai:
+            try:
+                summary = summarize_with_claude(doc, text)
+                print(f"    ✓ Claude: {summary['holding'][:80]}…")
+            except Exception as exc:
+                print(f"    ✗ Claude error: {exc} — using fallback")
+                summary = fallback_summary(doc)
+        else:
+            summary = fallback_summary(doc)
+
+        record = build_record(doc, summary)
+
+        if args.no_supabase:
+            print(f"    [DRY RUN] Would upsert: {doc.source_file_path}")
+            print(f"    {json.dumps({k: v for k, v in record.items() if k not in ('summary_text',)}, default=str, indent=2)[:600]}")
+        else:
+            try:
+                sync_supabase(record)
+                print(f"    ✓ Upserted: {doc.source_file_path}")
+                processed_dates.add(doc.filing_date)
+            except Exception as exc:
+                print(f"    ✗ Supabase error: {exc}")
+
+    if processed_dates and not args.no_supabase:
+        trigger_itc_digest(max(processed_dates))
+
+    print(f"[itc_daily] Done — processed {len(documents)} document(s).")
+
+
+if __name__ == "__main__":
+    main()

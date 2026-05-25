@@ -13,6 +13,12 @@ from urllib.parse import urljoin
 import pdfplumber
 import requests
 from bs4 import BeautifulSoup
+
+try:
+    from curl_cffi import requests as cffi_requests
+    _CFFI = True
+except ImportError:
+    _CFFI = False
 from dotenv import load_dotenv
 from ftfy import fix_text
 
@@ -30,26 +36,49 @@ ORIGIN_TRIBUNALS = {
     "DCT": "District Court",
     "ITC": "International Trade Commission",
 }
-TAG_RULES = [
-    ("101", ["section 101", "35 u.s.c. 101", "patent eligibility", "patent-ineligible", "abstract idea", "inventive concept", "alice"]),
-    ("102", ["anticipation", "anticipated", "102"]),
-    ("103", ["obvious", "obviousness", "motivation to combine", "reasonable expectation", "objective indicia", "103"]),
-    ("112(a)", ["written description", "enablement", "112(a)"]),
-    ("112(b)", ["indefinite", "indefiniteness", "reasonable certainty", "112(b)"]),
-    ("112(f)", ["means-plus-function", "nonce term", "corresponding structure", "112(f)"]),
-    ("claim construction", ["claim construction", "construing", "construction", "plain meaning", "prosecution disclaimer"]),
-    ("infringement", ["infringement", "noninfringement", "accused product", "literal infringement"]),
-    ("summary judgment", ["summary judgment", "genuine issue", "factfinder"]),
-    ("PTAB", ["ptab", "board", "ipr", "inter partes review", "final written decision"]),
-    ("ITC", ["itc", "section 337", "commission", "domestic industry", "importation"]),
-    ("domestic industry", ["domestic industry", "technical prong", "economic prong"]),
-    ("waiver", ["waived", "waiver", "forfeited", "preservation"]),
-    ("substantial evidence", ["substantial evidence"]),
-    ("APA", ["apa", "agency", "reasonably discernible"]),
-    ("remand", ["remand", "remanded"]),
-    ("dismissal", ["dismiss", "dismissed", "rule 42"]),
-    ("software patents", ["software", "algorithm", "content id", "augmented-reality", "server", "processor"]),
+ALL_TAGS = [
+    "§ 101", "§ 102", "§ 103", "§ 112(a)", "§ 112(b)", "§ 112(f)",
+    "claim construction", "infringement", "damages", "attorney fees / sanctions",
+    "domestic industry", "exclusion order", "cease & desist",
+    "remand", "waiver / forfeiture", "claim preclusion", "Rule 36 affirmance",
+    "standing / jurisdiction", "injunction / stay", "Hatch-Waxman / ANDA",
+    "precedential", "non-precedential",
 ]
+
+TAG_RULES = [
+    ("§ 101",  ["section 101", "35 u.s.c. 101", "§ 101", "patent eligibility", "patent-ineligible", "abstract idea", "inventive concept", "alice"]),
+    ("§ 102",  ["anticipation", "anticipated", "§ 102", "35 u.s.c. 102"]),
+    ("§ 103",  ["obvious", "obviousness", "motivation to combine", "reasonable expectation", "objective indicia", "§ 103", "35 u.s.c. 103", "secondary considerations"]),
+    ("§ 112(a)", ["written description", "enablement", "§ 112(a)"]),
+    ("§ 112(b)", ["indefinite", "indefiniteness", "reasonable certainty", "§ 112(b)"]),
+    ("§ 112(f)", ["means-plus-function", "nonce term", "corresponding structure", "§ 112(f)"]),
+    ("claim construction", ["claim construction", "construing", "plain meaning", "prosecution disclaimer"]),
+    ("infringement", ["infringement", "noninfringement", "accused product", "literal infringement", "doctrine of equivalents"]),
+    ("damages", ["damages", "reasonable royalty", "lost profits", "royalty base", "apportionment"]),
+    ("attorney fees / sanctions", ["attorney fees", "attorneys' fees", "§ 285", "35 u.s.c. 285", "exceptional case", "rule 11", "sanctions", "inequitable conduct"]),
+    ("domestic industry", ["domestic industry", "technical prong", "economic prong"]),
+    ("exclusion order", ["exclusion order", "general exclusion", "limited exclusion"]),
+    ("cease & desist", ["cease and desist", "cease & desist"]),
+    ("remand", ["remand", "remanded"]),
+    ("waiver / forfeiture", ["waived", "waiver", "forfeited", "forfeiture", "preservation"]),
+    ("claim preclusion", ["claim preclusion", "res judicata", "issue preclusion", "collateral estoppel"]),
+    ("Rule 36 affirmance", ["rule 36", "affirmed without opinion", "r.36"]),
+    ("standing / jurisdiction", ["standing", "jurisdiction", "article iii", "ripeness", "mootness"]),
+    ("injunction / stay", ["injunction", "stay pending", "preliminary injunction", "permanent injunction"]),
+    ("Hatch-Waxman / ANDA", ["hatch-waxman", "anda", "abbreviated new drug", "paragraph iv", "biosimilar", "bpcia"]),
+]
+
+def _precedential_tag(status: str) -> str | None:
+    """Return 'precedential' or 'non-precedential' based on the CAFC status string."""
+    s = (status or "").lower()
+    if not s:
+        return None
+    if "non" in s or "r.36" in s or "rule 36" in s:
+        return "non-precedential"
+    if "prec" in s:
+        return "precedential"
+    return None
+
 
 load_dotenv(PROJECT_ROOT / ".env")
 
@@ -72,11 +101,13 @@ class OpinionRow:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Download CAFC patent-related PDFs and publish the daily blog.")
     parser.add_argument("--date", help="Release date to process, as YYYY-MM-DD. Defaults to today in local time.")
-    parser.add_argument("--no-openai", action="store_true", help="Do not call the OpenAI API; write fallback drafts.")
+    parser.add_argument("--no-ai", "--no-openai", dest="no_ai", action="store_true", help="Skip Claude summarization; write fallback drafts.")
     parser.add_argument("--rebuild-only", action="store_true", help="Only rebuild posts/public HTML from existing data.")
+    parser.add_argument("--resync", action="store_true", help="Re-summarize all existing dates using saved metadata and text files. Safe for historical dates not on the live CAFC page.")
     parser.add_argument("--force", action="store_true", help="Re-download PDFs and re-extract text even when local files exist.")
     parser.add_argument("--sync-supabase", action="store_true", help="Sync existing summaries to Supabase during rebuild-only runs.")
     parser.add_argument("--no-supabase", action="store_true", help="Skip Supabase sync even when credentials are configured.")
+    parser.add_argument("--no-trigger", action="store_true", help="Skip digest and Beehiiv post triggers after sync (used by orchestration script).")
     return parser.parse_args()
 
 
@@ -97,11 +128,14 @@ def slugify(value: str) -> str:
 
 
 def fetch_page() -> str:
-    response = requests.get(
-        OPINIONS_URL,
-        timeout=TIMEOUT,
-        headers={"User-Agent": "PatentLawCaseSummarizer/1.0 (+local research blog)"},
-    )
+    if _CFFI:
+        response = cffi_requests.get(OPINIONS_URL, impersonate="chrome", timeout=TIMEOUT)
+    else:
+        response = requests.get(
+            OPINIONS_URL,
+            timeout=TIMEOUT,
+            headers={"User-Agent": "PatentLawCaseSummarizer/1.0 (+local research blog)"},
+        )
     response.raise_for_status()
     return response.text
 
@@ -149,7 +183,10 @@ def download_pdf(row: OpinionRow, pdf_dir: Path, force: bool = False) -> Path:
     if target.exists() and target.stat().st_size > 0 and not force:
         return target
 
-    response = requests.get(row.pdf_url, timeout=TIMEOUT, headers={"User-Agent": "PatentLawCaseSummarizer/1.0"})
+    if _CFFI:
+        response = cffi_requests.get(row.pdf_url, impersonate="chrome", timeout=TIMEOUT)
+    else:
+        response = requests.get(row.pdf_url, timeout=TIMEOUT, headers={"User-Agent": "PatentLawCaseSummarizer/1.0"})
     response.raise_for_status()
     content_type = response.headers.get("content-type", "").lower()
     if "pdf" not in content_type and not response.content.startswith(b"%PDF"):
@@ -204,11 +241,9 @@ def normalize_tags(values: list[str] | tuple[str, ...] | None) -> list[str]:
     return tags
 
 
-def infer_tags(*parts: str, origin: str = "") -> list[str]:
+def infer_tags(*parts: str) -> list[str]:
     text = " ".join(part for part in parts if part).lower()
-    tags = [origin] if origin in ALLOWED_ORIGINS else []
-    if origin in ORIGIN_TRIBUNALS:
-        tags.append(ORIGIN_TRIBUNALS[origin])
+    tags = []
     for tag, needles in TAG_RULES:
         if any(needle in text for needle in needles):
             tags.append(tag)
@@ -232,9 +267,9 @@ def conclusion_excerpt(text: str) -> str:
 
 
 def fallback_summary(row: OpinionRow, text: str) -> dict:
-    holding = "Fallback draft only: no OpenAI API key was available, so this entry was not model-summarized."
+    holding = "Fallback draft only: ANTHROPIC_API_KEY is not set, so this entry was not model-summarized."
     key_points = [conclusion_excerpt(text)[:900]]
-    tags = infer_tags(row.case_name, holding, " ".join(key_points), origin=row.origin)
+    tags = infer_tags(row.case_name, holding, " ".join(key_points))
     return {
         "case_name": row.case_name,
         "appeal_number": row.appeal_number,
@@ -257,11 +292,11 @@ def fallback_summary(row: OpinionRow, text: str) -> dict:
     }
 
 
-def summarize_with_openai(row: OpinionRow, text: str) -> dict:
-    from openai import OpenAI
+def summarize_with_claude(row: OpinionRow, text: str) -> dict:
+    import anthropic
 
-    model = os.environ.get("CAFC_SUMMARY_MODEL", "gpt-5.5")
-    client = OpenAI()
+    model = os.environ.get("CAFC_SUMMARY_MODEL", "claude-sonnet-4-6")
+    client = anthropic.Anthropic()
     trimmed_text = text[:180000]
     prompt = f"""
 You are a senior patent litigator writing a concise Federal Circuit update for in-house counsel and patent lawyers who need to keep up with patent-related developments across the PTAB, district courts, and ITC.
@@ -272,6 +307,7 @@ Return valid JSON with these keys:
 case_name, appeal_number, origin, source_tribunal, document_type, status, technology_area, procedural_posture, holding, disposition, why_it_matters, key_points, tags, issue_tags, holding_tags.
 
 Rules:
+- origin MUST be exactly one of: PTO, DCT, or ITC (three-letter code only, no extra text).
 - Focus first on the court's holding and disposition.
 - Include only the relevant facts needed to understand the holding.
 - Separate what the court held from procedural background and party arguments.
@@ -282,9 +318,11 @@ Rules:
 - Keep holding to 1-2 crisp sentences.
 - Keep why_it_matters to 1 practical sentence.
 - key_points must be 3-5 concise bullets covering relevant facts, issue, reasoning, and result.
-- tags must be 5-10 concise classifier tags suitable for filtering a database.
-- issue_tags must track patent-litigation issues using labels like 101, 102, 103, 112(a), 112(b), 112(f), claim construction, infringement, domestic industry, PTAB, ITC, waiver, summary judgment, substantial evidence, APA, remand.
-- holding_tags must be 2-5 tags directed specifically to the holding, not merely the technology background.
+- tags and issue_tags MUST use ONLY tags from this exact list (pick 3–8 that apply):
+  § 101, § 102, § 103, § 112(a), § 112(b), § 112(f), claim construction, infringement, damages, attorney fees / sanctions, domestic industry, exclusion order, cease & desist, remand, waiver / forfeiture, claim preclusion, Rule 36 affirmance, standing / jurisdiction, injunction / stay, Hatch-Waxman / ANDA, precedential, non-precedential
+- Always include exactly one of "precedential" or "non-precedential" in tags and issue_tags based on the opinion's precedential status.
+- Do not invent tags outside this list. Only include tags that directly apply to the case.
+- holding_tags must be 2-5 tags from the same list, directed specifically to the holding outcome.
 - Do not provide legal advice or recommendations to take action.
 
 Metadata:
@@ -298,12 +336,13 @@ status: {row.status}
 Extracted PDF text:
 {trimmed_text}
 """
-    response = client.responses.create(
+    response = client.messages.create(
         model=model,
-        input=prompt,
+        max_tokens=2048,
         temperature=0.1,
+        messages=[{"role": "user", "content": prompt}],
     )
-    output = response.output_text.strip()
+    output = response.content[0].text.strip()
     try:
         data = json.loads(output)
     except json.JSONDecodeError:
@@ -313,14 +352,27 @@ Extracted PDF text:
         data = json.loads(match.group(0))
     data["source_pdf"] = row.local_pdf
     data["source_url"] = row.pdf_url
-    data["summary_mode"] = f"openai:{model}"
+    data["summary_mode"] = f"claude:{model}"
     return enrich_summary(data, row)
 
 
 def enrich_summary(summary: dict, row: OpinionRow | None = None) -> dict:
-    origin = str(summary.get("origin") or (row.origin if row else "")).upper()
-    summary["origin"] = origin
-    summary.setdefault("source_tribunal", ORIGIN_TRIBUNALS.get(origin, origin))
+    origin_raw = str(summary.get("origin") or (row.origin if row else "")).upper()
+    # Claude sometimes returns verbose origin strings; normalise to the 3-letter token the DB requires.
+    for prefix, token in (
+        ("USPTO", "PTO"), ("PTO", "PTO"), ("PATENT TRIAL", "PTO"), ("PATENT", "PTO"),
+        ("DCT", "DCT"), ("DISTRICT", "DCT"),
+        ("N.D.", "DCT"), ("S.D.", "DCT"), ("E.D.", "DCT"), ("W.D.", "DCT"), ("C.D.", "DCT"),
+        ("ITC", "ITC"), ("INTERNATIONAL TRADE", "ITC"),
+    ):
+        if origin_raw.startswith(prefix):
+            origin_raw = token
+            break
+    # Final safety net: if still not a valid token, trust the row's authoritative origin.
+    if origin_raw not in ALLOWED_ORIGINS and row and row.origin in ALLOWED_ORIGINS:
+        origin_raw = row.origin
+    summary["origin"] = origin_raw
+    summary.setdefault("source_tribunal", ORIGIN_TRIBUNALS.get(origin_raw, origin_raw))
     summary.setdefault("technology_area", "")
     summary.setdefault("procedural_posture", summary.get("document_type", ""))
     text_parts = [
@@ -330,10 +382,20 @@ def enrich_summary(summary: dict, row: OpinionRow | None = None) -> dict:
         " ".join(str(point) for point in summary.get("key_points", [])),
         str(summary.get("disposition", "")),
     ]
-    inferred = infer_tags(*text_parts, origin=origin)
+    inferred = infer_tags(*text_parts)
     summary["tags"] = normalize_tags(list(summary.get("tags", [])) + inferred)
     summary["issue_tags"] = normalize_tags(list(summary.get("issue_tags", [])) + inferred)
-    summary["holding_tags"] = normalize_tags(list(summary.get("holding_tags", [])) + infer_tags(str(summary.get("holding", "")), origin=origin))
+    summary["holding_tags"] = normalize_tags(list(summary.get("holding_tags", [])) + infer_tags(str(summary.get("holding", ""))))
+
+    prec_tag = _precedential_tag(
+        str(summary.get("status") or "") or (row.status if row else "")
+    )
+    if prec_tag:
+        if prec_tag not in summary["tags"]:
+            summary["tags"].append(prec_tag)
+        if prec_tag not in summary["issue_tags"]:
+            summary["issue_tags"].append(prec_tag)
+
     return summary
 
 
@@ -355,9 +417,9 @@ def process_day(day: dt.date, use_openai: bool, force: bool = False) -> list[dic
         row.local_pdf = str(pdf_path.relative_to(PROJECT_ROOT)).replace("\\", "/")
         row.local_text = str(text_path.relative_to(PROJECT_ROOT)).replace("\\", "/")
         text = text_path.read_text(encoding="utf-8", errors="replace")
-        if use_openai and os.environ.get("OPENAI_API_KEY"):
+        if use_openai and os.environ.get("ANTHROPIC_API_KEY"):
             try:
-                summaries.append(summarize_with_openai(row, text))
+                summaries.append(summarize_with_claude(row, text))
             except Exception as exc:
                 draft = fallback_summary(row, text)
                 draft["summary_error"] = str(exc)
@@ -366,6 +428,42 @@ def process_day(day: dt.date, use_openai: bool, force: bool = False) -> list[dic
             summaries.append(fallback_summary(row, text))
 
     write_json(day_dir / "metadata.json", [asdict(row) for row in rows])
+    write_json(day_dir / "summaries.json", summaries)
+    write_post(day, summaries)
+    return summaries
+
+
+def resync_day(day: dt.date, use_ai: bool) -> list[dict]:
+    """Re-summarize a day from existing metadata.json + text files without scraping CAFC."""
+    day_dir = DATA_DIR / day.isoformat()
+    metadata_path = day_dir / "metadata.json"
+    if not metadata_path.exists():
+        print(f"  No metadata.json for {day.isoformat()}, skipping.")
+        return []
+    rows_data = json.loads(metadata_path.read_text(encoding="utf-8"))
+    if not rows_data:
+        print(f"  {day.isoformat()} has no cases in metadata.json, skipping.")
+        return []
+    summaries: list[dict] = []
+    for row_dict in rows_data:
+        row = OpinionRow(**row_dict)
+        text_path = PROJECT_ROOT / row.local_text if row.local_text else None
+        if not text_path or not text_path.exists():
+            print(f"  No text file for {row.case_name}, using fallback.")
+            summaries.append(fallback_summary(row, ""))
+            continue
+        text = text_path.read_text(encoding="utf-8", errors="replace")
+        if use_ai and os.environ.get("ANTHROPIC_API_KEY"):
+            try:
+                summaries.append(summarize_with_claude(row, text))
+                print(f"  Summarized: {row.case_name}")
+            except Exception as exc:
+                draft = fallback_summary(row, text)
+                draft["summary_error"] = str(exc)
+                summaries.append(draft)
+                print(f"  Error summarizing {row.case_name}: {exc}")
+        else:
+            summaries.append(fallback_summary(row, text))
     write_json(day_dir / "summaries.json", summaries)
     write_post(day, summaries)
     return summaries
@@ -630,17 +728,63 @@ def rebuild_posts_from_summaries() -> None:
         write_post(dt.date.fromisoformat(day), summaries)
 
 
+def _trigger_case_digest(day: dt.date) -> None:
+    site = os.environ.get("NEXT_PUBLIC_SITE_URL", "https://patentlawprofessor.com")
+    secret = os.environ.get("DIGEST_SECRET", "")
+    if not secret:
+        print("DIGEST_SECRET not set — skipping digest trigger.")
+        return
+    try:
+        resp = requests.post(
+            f"{site}/api/admin/send-digest",
+            headers={"Authorization": secret, "Content-Type": "application/json"},
+            json={"date": day.isoformat()},
+            timeout=30,
+        )
+        print(f"Digest trigger: {resp.status_code} {resp.text[:120]}")
+    except Exception as exc:
+        print(f"Digest trigger failed (non-fatal): {exc}")
+
+
+def _trigger_beehiiv_post(day: dt.date) -> None:
+    site = os.environ.get("NEXT_PUBLIC_SITE_URL", "https://patentlawprofessor.com")
+    secret = os.environ.get("DIGEST_SECRET", "")
+    if not secret:
+        print("DIGEST_SECRET not set — skipping Beehiiv post trigger.")
+        return
+    try:
+        resp = requests.post(
+            f"{site}/api/admin/beehiiv-post",
+            headers={"Authorization": secret, "Content-Type": "application/json"},
+            json={"date": day.isoformat()},
+            timeout=30,
+        )
+        print(f"Beehiiv post trigger: {resp.status_code} {resp.text[:120]}")
+    except Exception as exc:
+        print(f"Beehiiv post trigger failed (non-fatal): {exc}")
+
+
 def main() -> int:
     args = parse_args()
     day = target_date(args.date)
-    if not args.rebuild_only:
-        summaries = process_day(day, use_openai=not args.no_openai, force=args.force)
+    if args.resync:
+        for day_dir in sorted(DATA_DIR.glob("????-??-??")):
+            if not (day_dir / "metadata.json").exists():
+                continue
+            d = dt.date.fromisoformat(day_dir.name)
+            summaries = resync_day(d, use_ai=not args.no_ai)
+            print(f"Resynced {len(summaries)} case(s) for {d.isoformat()}.")
+    elif not args.rebuild_only:
+        summaries = process_day(day, use_openai=not args.no_ai, force=args.force)
         print(f"Processed {len(summaries)} matching CAFC PDF(s) for {day.isoformat()}.")
     else:
         rebuild_posts_from_summaries()
     render_index()
     if not args.no_supabase and (args.sync_supabase or not args.rebuild_only):
         sync_supabase(all_document_records())
+        if not args.no_trigger:
+            _trigger_case_digest(day)
+            _trigger_beehiiv_post(day)
     print(f"Blog rebuilt at {PUBLIC_DIR / 'index.html'}.")
     return 0
 

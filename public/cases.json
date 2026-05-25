@@ -1,61 +1,1320 @@
 [
   {
-    "opinion_date": "2026-04-23",
-    "release_date": "04/23/2026",
-    "appeal_number": "24-1856",
-    "origin": "PTO",
-    "source_tribunal": "Patent Trial and Appeal Board",
-    "document_type": "ORDER",
-    "case_name": "UNIVERSAL ELECTRONICS, INC. v. ROKU, INC. [ORDER]",
-    "status": "Nonprecedential",
-    "disposition": "DISMISSED AS TO APPEAL NO. 24-1916 ONLY",
-    "holding": "The Federal Circuit dismissed Appeal No. 24-1916 under Federal Rule of Appellate Procedure 42(b) based on the parties' stipulation, with each side bearing its own costs. The dismissal issued as the mandate for that appeal only, while the related caption was modified to reflect the remaining posture.",
-    "why_it_matters": "For counsel tracking the related PTAB appeal, this is a procedural termination of one appeal, not a merits ruling on the underlying IPR issues.",
+    "opinion_date": "2026-05-22",
+    "release_date": "2026-05-22",
+    "appeal_number": "2024-1140, 2024-1206, 2024-1234",
+    "origin": "DCT",
+    "source_tribunal": "U.S. District Court for the Eastern District of Michigan",
+    "document_type": "Opinion",
+    "case_name": "Versata Software, LLC v. Ford Motor Company",
+    "status": "Precedential",
+    "disposition": "Affirmed-in-part (trade secret liability), reversed-in-part (breach-of-contract damages reinstated at $82.26M), vacated-in-part and remanded (trade secret damages for new trial with instruction to reconsider previously excluded unjust enrichment and value-based royalty models).",
+    "holding": "The Federal Circuit held that the district court legally erred by categorically precluding Versata from seeking unjust enrichment damages under the DTSA and MUTSA, which expressly authorize such recovery, and vacated the trade secret damages judgment for a new trial; the court also reversed the JMOL reduction of the breach-of-contract jury award from $82.26M to $3, reinstating the full verdict as supported by sufficient evidence. The court affirmed denial of Ford's JMOL on trade secret liability, holding that neither the DTSA nor MUTSA requires a plaintiff to prove a defendant's specific knowledge of each element of a combination trade secret.",
+    "why_it_matters": "Counsel litigating trade secret misappropriation under the DTSA or state uniform trade secrets acts should note that unjust enrichment damages are a statutory right that cannot be categorically foreclosed by a court simply because the parties have a licensing history, and that combination trade secret claims do not require proof of a defendant's granular knowledge of each component of the combination.",
     "key_points": [
-      "The order concerns appeals from PTAB IPR2022-01289 involving Universal Electronics and Roku.",
-      "The parties stipulated to voluntary dismissal of Appeal No. 24-1916.",
-      "The court dismissed that appeal under Rule 42(b), with each side to bear its own costs.",
-      "The order expressly issued as the mandate only for Appeal No. 24-1916."
+      "The DTSA and MUTSA expressly permit unjust enrichment damages as an alternative or supplement to actual loss; the district court abused its discretion by confining Versata solely to a reasonable-royalty model tied to the parties' licensing history, which the Federal Circuit found was not compelled by Sixth Circuit precedent (Vitro Corp. or Mid-Michigan).",
+      "On trade secret liability, neither the DTSA nor MUTSA imposes a heightened knowledge requirement that a defendant specifically knew the precise combination elements of a combination trade secret—consistent with the Sixth Circuit's rejection of a similar argument in Caudill Seed.",
+      "The $82.26M breach-of-contract jury award was reinstated because Versata presented three licensing-history-based damages figures, expert testimony distinguishing base license fees from support fees, and the MSSA and its 2011 addendum—sufficient for the jury to calculate damages with reasonable (not mathematical) certainty under Michigan law.",
+      "The Federal Circuit vacated the trade secret damages judgment and remanded for a new trial, instructing the district court to reconsider the two previously excluded reasonable-royalty models that incorporated value-to-Ford components beyond the parties' licensing history.",
+      "Federal Circuit jurisdiction was proper notwithstanding dismissal of the patent claims, because the appeal arose from a final judgment in a case that originated with patent claims under 28 U.S.C. § 1295(a)(1)."
     ],
     "tags": [
-      "PTO",
-      "Patent Trial and Appeal Board",
-      "PTAB",
-      "dismissal"
+      "damages",
+      "remand",
+      "precedential",
+      "standing / jurisdiction"
     ],
     "issue_tags": [
-      "PTO",
-      "Patent Trial and Appeal Board",
-      "PTAB",
-      "dismissal"
+      "damages",
+      "remand",
+      "precedential",
+      "standing / jurisdiction"
     ],
     "holding_tags": [
-      "PTO",
-      "Patent Trial and Appeal Board",
-      "dismissal"
+      "damages",
+      "remand",
+      "precedential"
     ],
-    "technology_area": "",
-    "procedural_posture": "ORDER",
-    "summary_text": "UNIVERSAL ELECTRONICS, INC. v. ROKU, INC. [ORDER]\nThe Federal Circuit dismissed Appeal No. 24-1916 under Federal Rule of Appellate Procedure 42(b) based on the parties' stipulation, with each side bearing its own costs. The dismissal issued as the mandate for that appeal only, while the related caption was modified to reflect the remaining posture.\nFor counsel tracking the related PTAB appeal, this is a procedural termination of one appeal, not a merits ruling on the underlying IPR issues.\nDISMISSED AS TO APPEAL NO. 24-1916 ONLY\nThe order concerns appeals from PTAB IPR2022-01289 involving Universal Electronics and Roku.\nThe parties stipulated to voluntary dismissal of Appeal No. 24-1916.\nThe court dismissed that appeal under Rule 42(b), with each side to bear its own costs.\nThe order expressly issued as the mandate only for Appeal No. 24-1916.\nPTO Patent Trial and Appeal Board PTAB dismissal\nPTO Patent Trial and Appeal Board PTAB dismissal\nPTO Patent Trial and Appeal Board dismissal",
-    "summary_mode": "codex-refresh:gpt-5.5-style",
+    "technology_area": "Software (vehicle configuration and materials cost analytics)",
+    "procedural_posture": "Appeal and cross-appeal from post-trial JMOL rulings following jury verdict finding trade secret misappropriation and breach of contract; district court had zeroed out the $22.4M trade secret damages award and reduced the $82.26M breach-of-contract award to $3.",
+    "summary_text": "Versata Software, LLC v. Ford Motor Company\nThe Federal Circuit held that the district court legally erred by categorically precluding Versata from seeking unjust enrichment damages under the DTSA and MUTSA, which expressly authorize such recovery, and vacated the trade secret damages judgment for a new trial; the court also reversed the JMOL reduction of the breach-of-contract jury award from $82.26M to $3, reinstating the full verdict as supported by sufficient evidence. The court affirmed denial of Ford's JMOL on trade secret liability, holding that neither the DTSA nor MUTSA requires a plaintiff to prove a defendant's specific knowledge of each element of a combination trade secret.\nCounsel litigating trade secret misappropriation under the DTSA or state uniform trade secrets acts should note that unjust enrichment damages are a statutory right that cannot be categorically foreclosed by a court simply because the parties have a licensing history, and that combination trade secret claims do not require proof of a defendant's granular knowledge of each component of the combination.\nAffirmed-in-part (trade secret liability), reversed-in-part (breach-of-contract damages reinstated at $82.26M), vacated-in-part and remanded (trade secret damages for new trial with instruction to reconsider previously excluded unjust enrichment and value-based royalty models).\nThe DTSA and MUTSA expressly permit unjust enrichment damages as an alternative or supplement to actual loss; the district court abused its discretion by confining Versata solely to a reasonable-royalty model tied to the parties' licensing history, which the Federal Circuit found was not compelled by Sixth Circuit precedent (Vitro Corp. or Mid-Michigan).\nOn trade secret liability, neither the DTSA nor MUTSA imposes a heightened knowledge requirement that a defendant specifically knew the precise combination elements of a combination trade secret—consistent with the Sixth Circuit's rejection of a similar argument in Caudill Seed.\nThe $82.26M breach-of-contract jury award was reinstated because Versata presented three licensing-history-based damages figures, expert testimony distinguishing base license fees from support fees, and the MSSA and its 2011 addendum—sufficient for the jury to calculate damages with reasonable (not mathematical) certainty under Michigan law.\nThe Federal Circuit vacated the trade secret damages judgment and remanded for a new trial, instructing the district court to reconsider the two previously excluded reasonable-royalty models that incorporated value-to-Ford components beyond the parties' licensing history.\nFederal Circuit jurisdiction was proper notwithstanding dismissal of the patent claims, because the appeal arose from a final judgment in a case that originated with patent claims under 28 U.S.C. § 1295(a)(1).\ndamages remand precedential standing / jurisdiction\ndamages remand precedential standing / jurisdiction\ndamages remand precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-1140.OPINION.5-22-2026_2698249.pdf",
+    "source_file_path": "https://www.cafc.uscourts.gov/opinions-orders/24-1140.OPINION.5-22-2026_2698249.pdf",
+    "local_pdf": "data/2026-05-22/pdfs/24-1140-DCT-versata-software-llc-v-ford-motor-company.pdf",
+    "local_text": "",
+    "cafc_metadata": {}
+  },
+  {
+    "opinion_date": "2026-05-22",
+    "release_date": "05/22/2026",
+    "appeal_number": "24-2321",
+    "origin": "PTO",
+    "source_tribunal": "Patent Trial and Appeal Board",
+    "document_type": "Opinion",
+    "case_name": "Pictometry International Corporation v. Roofr Inc.",
+    "status": "Nonprecedential",
+    "disposition": "Affirmed",
+    "holding": "The Federal Circuit affirmed the PTAB's finding that all claims of the '538 patent are unpatentable for obviousness, holding that substantial evidence supported the Board's conclusion that Bailey's 'predominant slope' discloses the claimed 'predominant pitch,' and that using a weighted average to calculate predominant pitch would have been the application of a known technique yielding a predictable result.",
+    "why_it_matters": "Confirms that a patentee's failure to squarely present a claim-construction position before the PTAB after institution can doom a claim-construction argument on appeal, and that the Board may rely on a skilled artisan's background knowledge—including known mathematical techniques like weighted averages—to supply an obviousness gap even when the prior art does not expressly disclose the limitation.",
+    "key_points": [
+      "U.S. Patent No. 9,183,538 claims a computer-implemented method for estimating roof area from aerial imagery using a roof's 'footprint' and 'predominant pitch'; Roofr petitioned for IPR on obviousness grounds relying primarily on the Bailey (Army Corps of Engineers) article and the Pershing patent application.",
+      "Pictometry failed to propose an express claim construction for 'predominant pitch' in its post-institution papers; its attempt to raise a claim-construction argument at oral argument before the Board—and again on appeal—was therefore at risk of waiver, though the Federal Circuit resolved the issue on the merits regardless.",
+      "The court held that 'predominant pitch' is not facially limited to a weighted average of all roof sections; Bailey's 'predominant slope' falls within the ordinary meaning of the term, and the Board's implied construction was supported by substantial evidence including expert testimony and a construction-industry dictionary.",
+      "For dependent claims 11 and 18 (which require a weighted average), the Board permissibly found it would have been obvious to use a weighted average—a known technique—to calculate predominant pitch, consistent with KSR's teaching that courts may account for the inferences and creative steps a skilled artisan would employ.",
+      "The Board's citation to Bailey's slope-factor chart in the claim 18 analysis was not erroneous because the Board relied on a combination of references, not Bailey alone, for that determination."
+    ],
+    "tags": [
+      "§ 103",
+      "claim construction",
+      "remand",
+      "non-precedential",
+      "waiver / forfeiture"
+    ],
+    "issue_tags": [
+      "§ 103",
+      "claim construction",
+      "waiver / forfeiture",
+      "non-precedential"
+    ],
+    "holding_tags": [
+      "§ 103",
+      "claim construction",
+      "non-precedential"
+    ],
+    "technology_area": "Aerial imagery / roofing estimation software",
+    "procedural_posture": "Appeal from PTAB final written decision in IPR2023-00436 holding all claims of U.S. Patent No. 9,183,538 unpatentable for obviousness; Federal Circuit affirms.",
+    "summary_text": "Pictometry International Corporation v. Roofr Inc.\nThe Federal Circuit affirmed the PTAB's finding that all claims of the '538 patent are unpatentable for obviousness, holding that substantial evidence supported the Board's conclusion that Bailey's 'predominant slope' discloses the claimed 'predominant pitch,' and that using a weighted average to calculate predominant pitch would have been the application of a known technique yielding a predictable result.\nConfirms that a patentee's failure to squarely present a claim-construction position before the PTAB after institution can doom a claim-construction argument on appeal, and that the Board may rely on a skilled artisan's background knowledge—including known mathematical techniques like weighted averages—to supply an obviousness gap even when the prior art does not expressly disclose the limitation.\nAffirmed\nU.S. Patent No. 9,183,538 claims a computer-implemented method for estimating roof area from aerial imagery using a roof's 'footprint' and 'predominant pitch'; Roofr petitioned for IPR on obviousness grounds relying primarily on the Bailey (Army Corps of Engineers) article and the Pershing patent application.\nPictometry failed to propose an express claim construction for 'predominant pitch' in its post-institution papers; its attempt to raise a claim-construction argument at oral argument before the Board—and again on appeal—was therefore at risk of waiver, though the Federal Circuit resolved the issue on the merits regardless.\nThe court held that 'predominant pitch' is not facially limited to a weighted average of all roof sections; Bailey's 'predominant slope' falls within the ordinary meaning of the term, and the Board's implied construction was supported by substantial evidence including expert testimony and a construction-industry dictionary.\nFor dependent claims 11 and 18 (which require a weighted average), the Board permissibly found it would have been obvious to use a weighted average—a known technique—to calculate predominant pitch, consistent with KSR's teaching that courts may account for the inferences and creative steps a skilled artisan would employ.\nThe Board's citation to Bailey's slope-factor chart in the claim 18 analysis was not erroneous because the Board relied on a combination of references, not Bailey alone, for that determination.\n§ 103 claim construction remand non-precedential waiver / forfeiture\n§ 103 claim construction waiver / forfeiture non-precedential\n§ 103 claim construction non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2321.OPINION.5-22-2026_2698213.pdf",
+    "source_file_path": "opinions-orders/24-2321.OPINION.5-22-2026_2698213.pdf",
+    "local_pdf": "data/2026-05-22/pdfs/24-2321-PTO-pictometry-international-corporation-v-roofr-inc.pdf",
+    "local_text": "data/2026-05-22/text/24-2321-PTO-pictometry-international-corporation-v-roofr-inc.txt",
+    "cafc_metadata": {
+      "release_date": "05/22/2026",
+      "appeal_number": "24-2321",
+      "origin": "PTO",
+      "document_type": "OPINION",
+      "case_name": "PICTOMETRY INTERNATIONAL CORPORATION v. ROOFR INC. [OPINION]",
+      "status": "Nonprecedential",
+      "file_path": "opinions-orders/24-2321.OPINION.5-22-2026_2698213.pdf",
+      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2321.OPINION.5-22-2026_2698213.pdf",
+      "local_pdf": "data/2026-05-22/pdfs/24-2321-PTO-pictometry-international-corporation-v-roofr-inc.pdf",
+      "local_text": "data/2026-05-22/text/24-2321-PTO-pictometry-international-corporation-v-roofr-inc.txt"
+    }
+  },
+  {
+    "opinion_date": "2026-05-22",
+    "release_date": "05/22/2026",
+    "appeal_number": "24-2322",
+    "origin": "PTO",
+    "source_tribunal": "Patent Trial and Appeal Board",
+    "document_type": "Opinion",
+    "case_name": "Pictometry International Corporation v. Roofr Inc.",
+    "status": "Nonprecedential",
+    "disposition": "Affirmed",
+    "holding": "The Federal Circuit affirmed the Board's finding that all claims of the '800 patent are unpatentable for obviousness, holding that substantial evidence supported the Board's determination that a skilled artisan would have known to sequence Abhyanker's marker-locking feature after marker placement, satisfying the claimed 'user-acceptance' limitation even under Pictometry's narrower temporal interpretation.",
+    "why_it_matters": "Illustrates that a patent owner's proposed temporal claim construction will not save claims from obviousness where the prior art, with ordinary creativity, can be modified to satisfy the sequence—and where the patent's own figures undercut the proposed narrow construction.",
+    "key_points": [
+      "The '800 patent claims a roof-measurement process in which a user moves a marker on a satellite image to identify a roof location and then provides 'user-acceptance' (an affirmative confirmation step) of that location.",
+      "Pictometry argued Abhyanker's marker-locking feature did not satisfy the 'user-acceptance' limitation because the lock option was available before—not responsive to—the user's marker designation; the Board rejected this temporal argument and found the claims obvious even assuming Pictometry's narrower reading.",
+      "The Federal Circuit declined to resolve the claim-construction dispute, noting that Pictometry's own patent figures (Figs. 4A–4D) show the 'confirm selection' button present before the user enters an address, creating a significant obstacle to the proposed narrow construction under the principle that fundamental embodiments should not be read out of claims.",
+      "The court found no reversible error in the Board's conclusion that a skilled artisan with ordinary creativity would sequence Abhyanker's lock-pushpin option to operate after marker placement, satisfying the temporal requirement even under Pictometry's interpretation.",
+      "Claim 17 was disposed of summarily because Pictometry offered no independent argument distinguishing it from claims 1 and 11."
+    ],
+    "tags": [
+      "§ 103",
+      "claim construction",
+      "remand",
+      "non-precedential"
+    ],
+    "issue_tags": [
+      "§ 103",
+      "claim construction",
+      "non-precedential"
+    ],
+    "holding_tags": [
+      "§ 103",
+      "claim construction",
+      "non-precedential"
+    ],
+    "technology_area": "Aerial imagery / roofing measurement software",
+    "procedural_posture": "Appeal from PTAB final written decision in IPR2023-00435 finding all 17 claims of U.S. Patent No. 10,648,800 unpatentable for obviousness over Pershing and Abhyanker.",
+    "summary_text": "Pictometry International Corporation v. Roofr Inc.\nThe Federal Circuit affirmed the Board's finding that all claims of the '800 patent are unpatentable for obviousness, holding that substantial evidence supported the Board's determination that a skilled artisan would have known to sequence Abhyanker's marker-locking feature after marker placement, satisfying the claimed 'user-acceptance' limitation even under Pictometry's narrower temporal interpretation.\nIllustrates that a patent owner's proposed temporal claim construction will not save claims from obviousness where the prior art, with ordinary creativity, can be modified to satisfy the sequence—and where the patent's own figures undercut the proposed narrow construction.\nAffirmed\nThe '800 patent claims a roof-measurement process in which a user moves a marker on a satellite image to identify a roof location and then provides 'user-acceptance' (an affirmative confirmation step) of that location.\nPictometry argued Abhyanker's marker-locking feature did not satisfy the 'user-acceptance' limitation because the lock option was available before—not responsive to—the user's marker designation; the Board rejected this temporal argument and found the claims obvious even assuming Pictometry's narrower reading.\nThe Federal Circuit declined to resolve the claim-construction dispute, noting that Pictometry's own patent figures (Figs. 4A–4D) show the 'confirm selection' button present before the user enters an address, creating a significant obstacle to the proposed narrow construction under the principle that fundamental embodiments should not be read out of claims.\nThe court found no reversible error in the Board's conclusion that a skilled artisan with ordinary creativity would sequence Abhyanker's lock-pushpin option to operate after marker placement, satisfying the temporal requirement even under Pictometry's interpretation.\nClaim 17 was disposed of summarily because Pictometry offered no independent argument distinguishing it from claims 1 and 11.\n§ 103 claim construction remand non-precedential\n§ 103 claim construction non-precedential\n§ 103 claim construction non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2322.OPINION.5-22-2026_2698225.pdf",
+    "source_file_path": "opinions-orders/24-2322.OPINION.5-22-2026_2698225.pdf",
+    "local_pdf": "data/2026-05-22/pdfs/24-2322-PTO-pictometry-international-corporation-v-roofr-inc.pdf",
+    "local_text": "data/2026-05-22/text/24-2322-PTO-pictometry-international-corporation-v-roofr-inc.txt",
+    "cafc_metadata": {
+      "release_date": "05/22/2026",
+      "appeal_number": "24-2322",
+      "origin": "PTO",
+      "document_type": "OPINION",
+      "case_name": "PICTOMETRY INTERNATIONAL CORPORATION v. ROOFR INC. [OPINION]",
+      "status": "Nonprecedential",
+      "file_path": "opinions-orders/24-2322.OPINION.5-22-2026_2698225.pdf",
+      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2322.OPINION.5-22-2026_2698225.pdf",
+      "local_pdf": "data/2026-05-22/pdfs/24-2322-PTO-pictometry-international-corporation-v-roofr-inc.pdf",
+      "local_text": "data/2026-05-22/text/24-2322-PTO-pictometry-international-corporation-v-roofr-inc.txt"
+    }
+  },
+  {
+    "opinion_date": "2026-05-22",
+    "release_date": "05/22/2026",
+    "appeal_number": "26-1685",
+    "origin": "DCT",
+    "source_tribunal": "District Court (D.N.J.), appeal from Bankruptcy Court (D.N.J.)",
+    "document_type": "Order",
+    "case_name": "Arsenis v. United States Trustee",
+    "status": "Nonprecedential",
+    "disposition": "Granted motion to transfer; entire matter, including all pending motions, transferred to the U.S. Court of Appeals for the Third Circuit.",
+    "holding": "The Federal Circuit lacks jurisdiction over appeals originating from bankruptcy court decisions and transferred the case to the Third Circuit under 28 U.S.C. § 1631. Arsenis failed to demonstrate any basis for Federal Circuit jurisdiction.",
+    "why_it_matters": "A straightforward reminder that the Federal Circuit's jurisdiction does not extend to bankruptcy appeals, which follow the regional circuit path under 28 U.S.C. §§ 158 and 1295.",
+    "key_points": [
+      "Arsenis appealed a D.N.J. district court mootness dismissal of her bankruptcy appeal to the Federal Circuit rather than the Third Circuit.",
+      "The Federal Circuit's jurisdiction is limited and does not generally encompass appeals from bankruptcy court decisions; the proper appellate path runs through the regional circuit under 28 U.S.C. §§ 158(a) and 158(d).",
+      "Arsenis offered no basis to bring the case within the Federal Circuit's limited jurisdiction, and the court cited In re Cambridge Biotech Corp. as illustrative of the narrow exceptions.",
+      "Pursuant to 28 U.S.C. § 1631, the court transferred rather than dismissed, finding transfer in the interest of justice.",
+      "All pending motions, including Arsenis's emergency stay motion, were transferred along with the merits and will be resolved by the Third Circuit."
+    ],
+    "tags": [
+      "standing / jurisdiction",
+      "remand",
+      "non-precedential"
+    ],
+    "issue_tags": [
+      "standing / jurisdiction",
+      "remand",
+      "non-precedential"
+    ],
+    "holding_tags": [
+      "standing / jurisdiction",
+      "remand",
+      "non-precedential"
+    ],
+    "technology_area": "N/A (bankruptcy/jurisdictional)",
+    "procedural_posture": "Appellant Arsenis appealed a District of New Jersey district court order dismissing her bankruptcy appeal as moot. She then filed a notice of appeal to the Federal Circuit, along with an emergency motion for stay and to retain jurisdiction. The United States Trustee moved to transfer to the Third Circuit.",
+    "summary_text": "Arsenis v. United States Trustee\nThe Federal Circuit lacks jurisdiction over appeals originating from bankruptcy court decisions and transferred the case to the Third Circuit under 28 U.S.C. § 1631. Arsenis failed to demonstrate any basis for Federal Circuit jurisdiction.\nA straightforward reminder that the Federal Circuit's jurisdiction does not extend to bankruptcy appeals, which follow the regional circuit path under 28 U.S.C. §§ 158 and 1295.\nGranted motion to transfer; entire matter, including all pending motions, transferred to the U.S. Court of Appeals for the Third Circuit.\nArsenis appealed a D.N.J. district court mootness dismissal of her bankruptcy appeal to the Federal Circuit rather than the Third Circuit.\nThe Federal Circuit's jurisdiction is limited and does not generally encompass appeals from bankruptcy court decisions; the proper appellate path runs through the regional circuit under 28 U.S.C. §§ 158(a) and 158(d).\nArsenis offered no basis to bring the case within the Federal Circuit's limited jurisdiction, and the court cited In re Cambridge Biotech Corp. as illustrative of the narrow exceptions.\nPursuant to 28 U.S.C. § 1631, the court transferred rather than dismissed, finding transfer in the interest of justice.\nAll pending motions, including Arsenis's emergency stay motion, were transferred along with the merits and will be resolved by the Third Circuit.\nstanding / jurisdiction remand non-precedential\nstanding / jurisdiction remand non-precedential\nstanding / jurisdiction remand non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/26-1685.ORDER.5-22-2026_2698274.pdf",
+    "source_file_path": "opinions-orders/26-1685.ORDER.5-22-2026_2698274.pdf",
+    "local_pdf": "data/2026-05-22/pdfs/26-1685-DCT-arsenis-v-united-states-trustee.pdf",
+    "local_text": "data/2026-05-22/text/26-1685-DCT-arsenis-v-united-states-trustee.txt",
+    "cafc_metadata": {
+      "release_date": "05/22/2026",
+      "appeal_number": "26-1685",
+      "origin": "DCT",
+      "document_type": "ORDER",
+      "case_name": "ARSENIS v. UNITED STATES TRUSTEE [ORDER]",
+      "status": "Nonprecedential",
+      "file_path": "opinions-orders/26-1685.ORDER.5-22-2026_2698274.pdf",
+      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/26-1685.ORDER.5-22-2026_2698274.pdf",
+      "local_pdf": "data/2026-05-22/pdfs/26-1685-DCT-arsenis-v-united-states-trustee.pdf",
+      "local_text": "data/2026-05-22/text/26-1685-DCT-arsenis-v-united-states-trustee.txt"
+    }
+  },
+  {
+    "opinion_date": "2026-05-21",
+    "release_date": "05/21/2026",
+    "appeal_number": "24-2297",
+    "origin": "DCT",
+    "source_tribunal": "U.S. District Court for the District of Delaware (Judge Richard G. Andrews)",
+    "document_type": "Opinion",
+    "case_name": "Otsuka Pharmaceutical Co., Ltd. v. Lupin Ltd.",
+    "status": "Nonprecedential",
+    "disposition": "Affirmed",
+    "holding": "The Federal Circuit affirmed non-infringement of both patents because Otsuka failed to prove by a preponderance that Lupin's DMF process reaches practical completion of the reduction reaction before more than one molar equivalent of sodium borohydride is added. The court also affirmed invalidity of the asserted '735 patent claims for obviousness, finding no clear error in the district court's motivation-to-combine and secondary-considerations analyses, and upheld forfeiture of Otsuka's challenge to Lupin's expert's qualifications.",
+    "why_it_matters": "In Hatch-Waxman cases involving process and product-by-process claims with quantitative reagent limitations, patentees bear the evidentiary burden of proving that the accused ANDA process actually operates within the claimed range — general expert experience and flawed experimental data will not carry that burden at the clear-error standard.",
+    "key_points": [
+      "Non-infringement (both patents): The asserted claims require a hydrogenating agent in an amount of 0.25–1 (or 0.25–0.5) molar equivalents; Lupin's DMF process adds at least 1.2 molar equivalents of sodium borohydride. The district court construed 'amount' as the quantity present while the reaction is 'taking place' until practical completion — a construction Otsuka itself advocated. Even accepting that construction, Otsuka's only evidence (Experiments 109/115 and Dr. Roush's expert testimony) was undermined by data anomalies, different reaction conditions, and reliance on the same flawed experiments, so the Federal Circuit found no clear error in the non-infringement finding.",
+      "Forfeiture of expert-qualification challenge: Otsuka failed to file a Daubert motion or timely object at trial to Lupin's expert Dr. Dichtel testifying as a person of ordinary skill in the art. Under Third Circuit law, that failure forfeited the challenge; the Federal Circuit reviewed for abuse of discretion and found none, declining to reach the merits.",
+      "Obviousness of '735 patent claims: The district court found clear and convincing evidence that a POSA would have started with Kondo (a known tolvaptan synthesis reference), been motivated to reduce the sodium borohydride amount in Kondo's reduction step for cost, safety, and process-simplification reasons, and had a reasonable expectation of success. The Federal Circuit found no clear error in crediting Dr. Dichtel's testimony over Dr. Roush's on motivation.",
+      "Secondary considerations: The Yukawa declaration compared the claimed process to a process using twice Kondo's reagent amount rather than Kondo itself, undermining the unexpected-purity argument. Although the district court apparently overlooked evidence of unexpected yield improvement (30% vs. 82–93%), the Federal Circuit held any error harmless because weak secondary considerations cannot overcome a strong prima facie obviousness case.",
+      "This is a nonprecedential disposition; it should not be cited as binding authority, though it illustrates the Federal Circuit's application of the clear-error standard to bench-trial infringement findings in quantitative-limitation cases and the importance of timely Daubert practice."
+    ],
+    "tags": [
+      "§ 103",
+      "infringement",
+      "claim construction",
+      "Hatch-Waxman / ANDA",
+      "waiver / forfeiture",
+      "non-precedential"
+    ],
+    "issue_tags": [
+      "§ 103",
+      "infringement",
+      "claim construction",
+      "Hatch-Waxman / ANDA",
+      "waiver / forfeiture",
+      "non-precedential"
+    ],
+    "holding_tags": [
+      "infringement",
+      "§ 103",
+      "waiver / forfeiture",
+      "non-precedential"
+    ],
+    "technology_area": "Pharmaceutical chemistry — tolvaptan synthesis (ADPKD treatment); U.S. Patent Nos. 8,273,735 and 8,501,730",
+    "procedural_posture": "Hatch-Waxman bench trial in D. Del. resulted in judgment of non-infringement of both patents-in-suit and invalidity for obviousness of asserted claims of the '735 patent. Otsuka appealed all three rulings. Federal Circuit affirms.",
+    "summary_text": "Otsuka Pharmaceutical Co., Ltd. v. Lupin Ltd.\nThe Federal Circuit affirmed non-infringement of both patents because Otsuka failed to prove by a preponderance that Lupin's DMF process reaches practical completion of the reduction reaction before more than one molar equivalent of sodium borohydride is added. The court also affirmed invalidity of the asserted '735 patent claims for obviousness, finding no clear error in the district court's motivation-to-combine and secondary-considerations analyses, and upheld forfeiture of Otsuka's challenge to Lupin's expert's qualifications.\nIn Hatch-Waxman cases involving process and product-by-process claims with quantitative reagent limitations, patentees bear the evidentiary burden of proving that the accused ANDA process actually operates within the claimed range — general expert experience and flawed experimental data will not carry that burden at the clear-error standard.\nAffirmed\nNon-infringement (both patents): The asserted claims require a hydrogenating agent in an amount of 0.25–1 (or 0.25–0.5) molar equivalents; Lupin's DMF process adds at least 1.2 molar equivalents of sodium borohydride. The district court construed 'amount' as the quantity present while the reaction is 'taking place' until practical completion — a construction Otsuka itself advocated. Even accepting that construction, Otsuka's only evidence (Experiments 109/115 and Dr. Roush's expert testimony) was undermined by data anomalies, different reaction conditions, and reliance on the same flawed experiments, so the Federal Circuit found no clear error in the non-infringement finding.\nForfeiture of expert-qualification challenge: Otsuka failed to file a Daubert motion or timely object at trial to Lupin's expert Dr. Dichtel testifying as a person of ordinary skill in the art. Under Third Circuit law, that failure forfeited the challenge; the Federal Circuit reviewed for abuse of discretion and found none, declining to reach the merits.\nObviousness of '735 patent claims: The district court found clear and convincing evidence that a POSA would have started with Kondo (a known tolvaptan synthesis reference), been motivated to reduce the sodium borohydride amount in Kondo's reduction step for cost, safety, and process-simplification reasons, and had a reasonable expectation of success. The Federal Circuit found no clear error in crediting Dr. Dichtel's testimony over Dr. Roush's on motivation.\nSecondary considerations: The Yukawa declaration compared the claimed process to a process using twice Kondo's reagent amount rather than Kondo itself, undermining the unexpected-purity argument. Although the district court apparently overlooked evidence of unexpected yield improvement (30% vs. 82–93%), the Federal Circuit held any error harmless because weak secondary considerations cannot overcome a strong prima facie obviousness case.\nThis is a nonprecedential disposition; it should not be cited as binding authority, though it illustrates the Federal Circuit's application of the clear-error standard to bench-trial infringement findings in quantitative-limitation cases and the importance of timely Daubert practice.\n§ 103 infringement claim construction Hatch-Waxman / ANDA waiver / forfeiture non-precedential\n§ 103 infringement claim construction Hatch-Waxman / ANDA waiver / forfeiture non-precedential\ninfringement § 103 waiver / forfeiture non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2297.OPINION.5-21-2026_2697380.pdf",
+    "source_file_path": "opinions-orders/24-2297.OPINION.5-21-2026_2697380.pdf",
+    "local_pdf": "data/2026-05-21/pdfs/24-2297-DCT-otsuka-pharmaceutical-co-ltd-v-lupin-ltd.pdf",
+    "local_text": "data/2026-05-21/text/24-2297-DCT-otsuka-pharmaceutical-co-ltd-v-lupin-ltd.txt",
+    "cafc_metadata": {
+      "release_date": "05/21/2026",
+      "appeal_number": "24-2297",
+      "origin": "DCT",
+      "document_type": "OPINION",
+      "case_name": "OTSUKA PHARMACEUTICAL CO., LTD. v. LUPIN LTD. [OPINION]",
+      "status": "Nonprecedential",
+      "file_path": "opinions-orders/24-2297.OPINION.5-21-2026_2697380.pdf",
+      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2297.OPINION.5-21-2026_2697380.pdf",
+      "local_pdf": "data/2026-05-21/pdfs/24-2297-DCT-otsuka-pharmaceutical-co-ltd-v-lupin-ltd.pdf",
+      "local_text": "data/2026-05-21/text/24-2297-DCT-otsuka-pharmaceutical-co-ltd-v-lupin-ltd.txt"
+    }
+  },
+  {
+    "opinion_date": "2026-05-21",
+    "release_date": "2026-05-21",
+    "appeal_number": "24-2268, 24-2269",
+    "origin": "PTO",
+    "source_tribunal": "Patent Trial and Appeal Board",
+    "document_type": "Opinion",
+    "case_name": "SameSurf, Inc. v. Intuit Inc.",
+    "status": "Nonprecedential",
+    "disposition": "Affirmed",
+    "holding": "The Federal Circuit affirmed the Board's construction of 'web browsing interaction data' as 'data related to web browsing interactions'—broad enough to encompass partially filled webpages—and therefore affirmed the Board's finding that all claims of the '145 patent are unpatentable for obviousness.",
+    "why_it_matters": "Reinforces that absent lexicography or clear disclaimer, broad claim terms receive their full plain-and-ordinary-meaning scope, and a patentee cannot narrow a term post hoc by pointing to a single embodiment in the specification.",
+    "key_points": [
+      "The '145 patent claims a method for a guest device to join a synchronized browsing session; the key disputed term was 'web browsing interaction data,' which Samesurf argued was limited to data describing host-device interactions, excluding partially filled webpages.",
+      "The Board construed the term broadly as 'data related to web browsing interactions,' encompassing partially filled webpages, which led directly to the conclusion that prior art reference Lebrun disclosed the limitation.",
+      "The Federal Circuit reviewed claim construction de novo and found no lexicography, disclaimer, or claim language requiring the narrower construction Samesurf urged; the specification's reference to a single embodiment was expressly labeled exemplary.",
+      "The court rejected Samesurf's 'inoperability' argument, noting the claims require only that an application operate 'based on' the web browsing interaction data to access a website server, and Samesurf offered no evidence that partially filled webpages could not satisfy that requirement.",
+      "This is a nonprecedential disposition and should be cited accordingly."
+    ],
+    "tags": [
+      "claim construction",
+      "§ 103",
+      "remand",
+      "non-precedential"
+    ],
+    "issue_tags": [
+      "claim construction",
+      "§ 103",
+      "non-precedential"
+    ],
+    "holding_tags": [
+      "claim construction",
+      "§ 103",
+      "non-precedential"
+    ],
+    "technology_area": "Internet / Synchronized Web Browsing",
+    "procedural_posture": "Appeal from PTAB final written decisions in IPR2023-00339 and IPR2023-00342 finding all claims of U.S. Patent No. 9,185,145 unpatentable as obvious over Lebrun in view of Wang. The sole dispute on appeal was claim construction of 'web browsing interaction data.'",
+    "summary_text": "SameSurf, Inc. v. Intuit Inc.\nThe Federal Circuit affirmed the Board's construction of 'web browsing interaction data' as 'data related to web browsing interactions'—broad enough to encompass partially filled webpages—and therefore affirmed the Board's finding that all claims of the '145 patent are unpatentable for obviousness.\nReinforces that absent lexicography or clear disclaimer, broad claim terms receive their full plain-and-ordinary-meaning scope, and a patentee cannot narrow a term post hoc by pointing to a single embodiment in the specification.\nAffirmed\nThe '145 patent claims a method for a guest device to join a synchronized browsing session; the key disputed term was 'web browsing interaction data,' which Samesurf argued was limited to data describing host-device interactions, excluding partially filled webpages.\nThe Board construed the term broadly as 'data related to web browsing interactions,' encompassing partially filled webpages, which led directly to the conclusion that prior art reference Lebrun disclosed the limitation.\nThe Federal Circuit reviewed claim construction de novo and found no lexicography, disclaimer, or claim language requiring the narrower construction Samesurf urged; the specification's reference to a single embodiment was expressly labeled exemplary.\nThe court rejected Samesurf's 'inoperability' argument, noting the claims require only that an application operate 'based on' the web browsing interaction data to access a website server, and Samesurf offered no evidence that partially filled webpages could not satisfy that requirement.\nThis is a nonprecedential disposition and should be cited accordingly.\nclaim construction § 103 remand non-precedential\nclaim construction § 103 non-precedential\nclaim construction § 103 non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2268.OPINION.5-21-2026_2697370.pdf",
+    "source_file_path": "https://www.cafc.uscourts.gov/opinions-orders/24-2268.OPINION.5-21-2026_2697370.pdf",
+    "local_pdf": "data/2026-05-21/pdfs/24-2268-PTO-samesurf-inc-v-intuit-inc.pdf",
+    "local_text": "",
+    "cafc_metadata": {}
+  },
+  {
+    "opinion_date": "2026-05-20",
+    "release_date": "2026-05-20",
+    "appeal_number": "2026-1603",
+    "origin": "DCT",
+    "source_tribunal": "U.S. District Court for the Eastern District of Louisiana (No. 2:20-cv-03135-CJB-JVM, Judge Carl J. Barbier)",
+    "document_type": "Order",
+    "case_name": "Wilco Marsh Buggies and Draglines, Inc. v. Weeks Marine, Inc.",
+    "status": "Nonprecedential",
+    "disposition": "Appeal dismissed; each party bears its own costs; mandate issued May 20, 2026.",
+    "holding": "The Federal Circuit dismissed the appeal pursuant to the parties' joint stipulation under FRAP 42(b), with each party bearing its own costs. The court declined to characterize the dismissal as with or without prejudice, consistent with its general practice.",
+    "why_it_matters": "Routine voluntary dismissal with no substantive ruling; the court's footnote reaffirms its standard practice of not designating appeal dismissals as with or without prejudice absent a specific basis to do so.",
+    "key_points": [
+      "Both parties filed a joint stipulation of dismissal under Fed. R. App. P. 42(b), prompting the Federal Circuit to dismiss the appeal.",
+      "The court declined to dismiss with or without prejudice, noting that parties provided no basis to deviate from its general practice on that point.",
+      "Each party bears its own costs — no fee or cost award to either side.",
+      "The mandate issued on the same date as the order (May 20, 2026), making the dismissal immediately final.",
+      "The order is nonprecedential and contains no substantive patent-law ruling; the underlying merits from the district court remain unreviewed by the Federal Circuit."
+    ],
+    "tags": [
+      "non-precedential",
+      "standing / jurisdiction",
+      "waiver / forfeiture",
+      "Hatch-Waxman / ANDA"
+    ],
+    "issue_tags": [
+      "non-precedential",
+      "standing / jurisdiction",
+      "waiver / forfeiture",
+      "Hatch-Waxman / ANDA"
+    ],
+    "holding_tags": [
+      "non-precedential",
+      "standing / jurisdiction"
+    ],
+    "technology_area": "Unknown — not discernible from the order",
+    "procedural_posture": "Appeal from the Eastern District of Louisiana; dismissed pursuant to a joint stipulation of dismissal filed by both parties under Fed. R. App. P. 42(b). Mandate issued simultaneously with the order.",
+    "summary_text": "Wilco Marsh Buggies and Draglines, Inc. v. Weeks Marine, Inc.\nThe Federal Circuit dismissed the appeal pursuant to the parties' joint stipulation under FRAP 42(b), with each party bearing its own costs. The court declined to characterize the dismissal as with or without prejudice, consistent with its general practice.\nRoutine voluntary dismissal with no substantive ruling; the court's footnote reaffirms its standard practice of not designating appeal dismissals as with or without prejudice absent a specific basis to do so.\nAppeal dismissed; each party bears its own costs; mandate issued May 20, 2026.\nBoth parties filed a joint stipulation of dismissal under Fed. R. App. P. 42(b), prompting the Federal Circuit to dismiss the appeal.\nThe court declined to dismiss with or without prejudice, noting that parties provided no basis to deviate from its general practice on that point.\nEach party bears its own costs — no fee or cost award to either side.\nThe mandate issued on the same date as the order (May 20, 2026), making the dismissal immediately final.\nThe order is nonprecedential and contains no substantive patent-law ruling; the underlying merits from the district court remain unreviewed by the Federal Circuit.\nnon-precedential standing / jurisdiction waiver / forfeiture Hatch-Waxman / ANDA\nnon-precedential standing / jurisdiction waiver / forfeiture Hatch-Waxman / ANDA\nnon-precedential standing / jurisdiction",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/26-1603.ORDER.5-20-2026_2696739.pdf",
+    "source_file_path": "https://www.cafc.uscourts.gov/opinions-orders/26-1603.ORDER.5-20-2026_2696739.pdf",
+    "local_pdf": "data/2026-05-20/pdfs/26-1603-DCT-wilco-marsh-buggies-and-draglines-inc-v-weeks-marine-inc.pdf",
+    "local_text": "",
+    "cafc_metadata": {}
+  },
+  {
+    "opinion_date": "2026-05-19",
+    "release_date": "05/19/2026",
+    "appeal_number": "25-1998",
+    "origin": "DCT",
+    "source_tribunal": "U.S. District Court for the Northern District of California",
+    "document_type": "Opinion",
+    "case_name": "Recor Medical, Inc. v. Medtronic Ireland Manufacturing Unlimited Co.",
+    "status": "Nonprecedential",
+    "disposition": "Reversed and remanded. Costs to appellant Medtronic Ireland.",
+    "holding": "A patent owner that retains a secondary right to sue, royalty interests, and veto authority over sublicenses under an exclusive license agreement retains a non-illusory exclusionary right sufficient to satisfy the Article III constitutional minimum for standing. Because Medtronic Ireland's retained rights were materially identical to those found sufficient in the companion precedential decision A.L.M. Holding Co. v. Zydex Industries Private Ltd. (No. 25-1317), the district court's dismissal for lack of constitutional standing was reversed.",
+    "why_it_matters": "Patent owners who have granted exclusive licenses but retained a secondary right to sue, sublicense veto rights, and royalty interests should have constitutional standing to assert their patents directly—even without joining the exclusive licensee—so long as those retained rights are not rendered illusory by the licensee's granted rights.",
+    "key_points": [
+      "Medtronic Ireland, as patent owner of the '629 and '085 renal neuromodulation patents, granted Medtronic Galway an exclusive license to make, use, and sell designated 'Products,' but retained: (1) a secondary right to sue for infringement if Galway declines to act; (2) royalty interests including on sublicensee sales; and (3) veto authority over any sublicenses.",
+      "The district court relied on Morrow v. Microsoft Corp. to hold that a contractual right to sue, standing alone and separated from all other patent rights, does not confer constitutional standing—but the Federal Circuit distinguished Morrow because Medtronic Ireland's right to sue was not illusory: Galway could not unilaterally grant a royalty-free sublicense to an accused infringer without Medtronic Ireland's consent.",
+      "The court applied its same-day precedential ruling in A.L.M. Holding Co. v. Zydex Industries Private Ltd. (No. 25-1317), holding that a patent owner's retained right to sue is not illusory where the licensee cannot nullify it through unilateral, royalty-free sublicensing—and that this principle controls here because Medtronic Ireland's retained rights are materially the same.",
+      "The court also noted that the exclusive license grant is limited to 'Products' specifically designated by Medtronic Ireland, meaning Medtronic Ireland retains full exclusionary rights over any non-designated finished devices and all unfinished medical products.",
+      "The appeal was not moot despite Medtronic's amendment of the ELA and filing of a new lawsuit (Recor II), because reversal would have concrete legal consequences—including undermining Recor's unclean hands defense in Recor II, which depends on the premise that Medtronic Ireland lacked sufficient rights to sue in Recor I."
+    ],
+    "tags": [
+      "standing / jurisdiction",
+      "remand",
+      "non-precedential",
+      "infringement"
+    ],
+    "issue_tags": [
+      "standing / jurisdiction",
+      "remand",
+      "non-precedential",
+      "infringement"
+    ],
+    "holding_tags": [
+      "standing / jurisdiction",
+      "remand",
+      "non-precedential"
+    ],
+    "technology_area": "Medical Devices – Renal Neuromodulation / Denervation",
+    "procedural_posture": "Medtronic Ireland appealed the district court's dismissal of its patent infringement counterclaims for lack of Article III standing after the court found that Medtronic Ireland's transfer of rights to exclusive licensee Medtronic Galway stripped it of the exclusionary rights necessary to sue. The Federal Circuit reversed and remanded.",
+    "summary_text": "Recor Medical, Inc. v. Medtronic Ireland Manufacturing Unlimited Co.\nA patent owner that retains a secondary right to sue, royalty interests, and veto authority over sublicenses under an exclusive license agreement retains a non-illusory exclusionary right sufficient to satisfy the Article III constitutional minimum for standing. Because Medtronic Ireland's retained rights were materially identical to those found sufficient in the companion precedential decision A.L.M. Holding Co. v. Zydex Industries Private Ltd. (No. 25-1317), the district court's dismissal for lack of constitutional standing was reversed.\nPatent owners who have granted exclusive licenses but retained a secondary right to sue, sublicense veto rights, and royalty interests should have constitutional standing to assert their patents directly—even without joining the exclusive licensee—so long as those retained rights are not rendered illusory by the licensee's granted rights.\nReversed and remanded. Costs to appellant Medtronic Ireland.\nMedtronic Ireland, as patent owner of the '629 and '085 renal neuromodulation patents, granted Medtronic Galway an exclusive license to make, use, and sell designated 'Products,' but retained: (1) a secondary right to sue for infringement if Galway declines to act; (2) royalty interests including on sublicensee sales; and (3) veto authority over any sublicenses.\nThe district court relied on Morrow v. Microsoft Corp. to hold that a contractual right to sue, standing alone and separated from all other patent rights, does not confer constitutional standing—but the Federal Circuit distinguished Morrow because Medtronic Ireland's right to sue was not illusory: Galway could not unilaterally grant a royalty-free sublicense to an accused infringer without Medtronic Ireland's consent.\nThe court applied its same-day precedential ruling in A.L.M. Holding Co. v. Zydex Industries Private Ltd. (No. 25-1317), holding that a patent owner's retained right to sue is not illusory where the licensee cannot nullify it through unilateral, royalty-free sublicensing—and that this principle controls here because Medtronic Ireland's retained rights are materially the same.\nThe court also noted that the exclusive license grant is limited to 'Products' specifically designated by Medtronic Ireland, meaning Medtronic Ireland retains full exclusionary rights over any non-designated finished devices and all unfinished medical products.\nThe appeal was not moot despite Medtronic's amendment of the ELA and filing of a new lawsuit (Recor II), because reversal would have concrete legal consequences—including undermining Recor's unclean hands defense in Recor II, which depends on the premise that Medtronic Ireland lacked sufficient rights to sue in Recor I.\nstanding / jurisdiction remand non-precedential infringement\nstanding / jurisdiction remand non-precedential infringement\nstanding / jurisdiction remand non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/25-1998.OPINION.5-19-2026_2695895.pdf",
+    "source_file_path": "opinions-orders/25-1998.OPINION.5-19-2026_2695895.pdf",
+    "local_pdf": "data/2026-05-19/pdfs/25-1998-DCT-recor-medical-inc-v-medtronic-ireland-manufacturing-unlimited-co.pdf",
+    "local_text": "data/2026-05-19/text/25-1998-DCT-recor-medical-inc-v-medtronic-ireland-manufacturing-unlimited-co.txt",
+    "cafc_metadata": {
+      "release_date": "05/19/2026",
+      "appeal_number": "25-1998",
+      "origin": "DCT",
+      "document_type": "OPINION",
+      "case_name": "RECOR MEDICAL, INC. v. MEDTRONIC IRELAND MANUFACTURING UNLIMITED CO. [OPINION]",
+      "status": "Nonprecedential",
+      "file_path": "opinions-orders/25-1998.OPINION.5-19-2026_2695895.pdf",
+      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/25-1998.OPINION.5-19-2026_2695895.pdf",
+      "local_pdf": "data/2026-05-19/pdfs/25-1998-DCT-recor-medical-inc-v-medtronic-ireland-manufacturing-unlimited-co.pdf",
+      "local_text": "data/2026-05-19/text/25-1998-DCT-recor-medical-inc-v-medtronic-ireland-manufacturing-unlimited-co.txt"
+    }
+  },
+  {
+    "opinion_date": "2026-05-19",
+    "release_date": "05/19/2026",
+    "appeal_number": "25-1317",
+    "origin": "DCT",
+    "source_tribunal": "U.S. District Court for the District of Delaware",
+    "document_type": "Opinion",
+    "case_name": "A.L.M. Holding Company v. Zydex Industries Private Ltd.",
+    "status": "Precedential",
+    "disposition": "Reversed and remanded; costs to appellant.",
+    "holding": "A patent owner that retains a right to sue, a sublicensing veto (with pass-through royalties), and royalty interests retains a non-illusory exclusionary right sufficient for Article III constitutional standing, even after granting an exclusive license to commercialize the patents. The district court applied too demanding a threshold by treating the retained right to sue as insufficient standing alone, without accounting for the combined effect of the sublicensing veto and royalty interests that prevented the licensee from unilaterally extinguishing the owner's enforcement right.",
+    "why_it_matters": "Patent owners who retain a right to sue paired with sublicensing veto rights and royalty interests have Article III standing even under a broad exclusive license—and statutory standing cases like Mann remain instructive on the constitutional standing inquiry, contrary to the approach some district courts had taken of treating the two analyses as entirely separate.",
+    "key_points": [
+      "Patent owner A.L.M./Ergon licensed exclusive commercialization rights to Ingevity but retained: (1) the right to sue third-party infringers (with shared or sole control depending on whether Ingevity elects to join), (2) a veto over Ingevity's sublicenses (not to be unreasonably withheld, but requiring consent and pass-through royalties), and (3) royalty interests including from sublicensees.",
+      "The Federal Circuit held these retained rights collectively constitute a non-illusory exclusionary right for Article III purposes because Ingevity cannot unilaterally grant a royalty-free sublicense to an accused infringer and thereby moot the patent owner's suit—the key distinction from Morrow, where the plaintiff held only a bare contractual right to sue stripped of all other patent rights.",
+      "The court clarified that statutory standing cases (particularly Mann) are instructive—though not controlling—on the constitutional standing inquiry: the factual question of whether a licensee's powers render the patent owner's enforcement right illusory arises under both analyses, and Zebra Technologies had already cited Mann approvingly in a constitutional standing context.",
+      "The court rejected the district court's bright-line separation of constitutional and statutory standing precedents, holding that the same facts bearing on 'all substantial rights' can also bear on whether the owner retained a concrete exclusionary interest, though the two legal standards remain distinct.",
+      "Morrow distinguished: Morrow involved a non-owner licensee holding only a bare right to sue, where the patent owner could moot any suit by granting a royalty-free sublicense; here, the plaintiff is the patent owner and Ingevity's sublicensing right is constrained by consent and royalty obligations that preserve the owner's enforcement interest."
+    ],
+    "tags": [
+      "standing / jurisdiction",
+      "infringement",
+      "remand",
+      "precedential",
+      "Hatch-Waxman / ANDA"
+    ],
+    "issue_tags": [
+      "standing / jurisdiction",
+      "infringement",
+      "remand",
+      "precedential",
+      "Hatch-Waxman / ANDA"
+    ],
+    "holding_tags": [
+      "standing / jurisdiction",
+      "remand",
+      "precedential"
+    ],
+    "technology_area": "Warm-mix asphalt paving methods and compositions",
+    "procedural_posture": "Appeal from district court dismissal without prejudice for lack of Article III standing on motion to dismiss; Federal Circuit reviews de novo.",
+    "summary_text": "A.L.M. Holding Company v. Zydex Industries Private Ltd.\nA patent owner that retains a right to sue, a sublicensing veto (with pass-through royalties), and royalty interests retains a non-illusory exclusionary right sufficient for Article III constitutional standing, even after granting an exclusive license to commercialize the patents. The district court applied too demanding a threshold by treating the retained right to sue as insufficient standing alone, without accounting for the combined effect of the sublicensing veto and royalty interests that prevented the licensee from unilaterally extinguishing the owner's enforcement right.\nPatent owners who retain a right to sue paired with sublicensing veto rights and royalty interests have Article III standing even under a broad exclusive license—and statutory standing cases like Mann remain instructive on the constitutional standing inquiry, contrary to the approach some district courts had taken of treating the two analyses as entirely separate.\nReversed and remanded; costs to appellant.\nPatent owner A.L.M./Ergon licensed exclusive commercialization rights to Ingevity but retained: (1) the right to sue third-party infringers (with shared or sole control depending on whether Ingevity elects to join), (2) a veto over Ingevity's sublicenses (not to be unreasonably withheld, but requiring consent and pass-through royalties), and (3) royalty interests including from sublicensees.\nThe Federal Circuit held these retained rights collectively constitute a non-illusory exclusionary right for Article III purposes because Ingevity cannot unilaterally grant a royalty-free sublicense to an accused infringer and thereby moot the patent owner's suit—the key distinction from Morrow, where the plaintiff held only a bare contractual right to sue stripped of all other patent rights.\nThe court clarified that statutory standing cases (particularly Mann) are instructive—though not controlling—on the constitutional standing inquiry: the factual question of whether a licensee's powers render the patent owner's enforcement right illusory arises under both analyses, and Zebra Technologies had already cited Mann approvingly in a constitutional standing context.\nThe court rejected the district court's bright-line separation of constitutional and statutory standing precedents, holding that the same facts bearing on 'all substantial rights' can also bear on whether the owner retained a concrete exclusionary interest, though the two legal standards remain distinct.\nMorrow distinguished: Morrow involved a non-owner licensee holding only a bare right to sue, where the patent owner could moot any suit by granting a royalty-free sublicense; here, the plaintiff is the patent owner and Ingevity's sublicensing right is constrained by consent and royalty obligations that preserve the owner's enforcement interest.\nstanding / jurisdiction infringement remand precedential Hatch-Waxman / ANDA\nstanding / jurisdiction infringement remand precedential Hatch-Waxman / ANDA\nstanding / jurisdiction remand precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/25-1317.OPINION.5-19-2026_2695934.pdf",
+    "source_file_path": "opinions-orders/25-1317.OPINION.5-19-2026_2695934.pdf",
+    "local_pdf": "data/2026-05-19/pdfs/25-1317-DCT-a-l-m-holding-company-v-zydex-industries-private-ltd.pdf",
+    "local_text": "data/2026-05-19/text/25-1317-DCT-a-l-m-holding-company-v-zydex-industries-private-ltd.txt",
+    "cafc_metadata": {
+      "release_date": "05/19/2026",
+      "appeal_number": "25-1317",
+      "origin": "DCT",
+      "document_type": "OPINION",
+      "case_name": "A.L.M. HOLDING COMPANY v. ZYDEX INDUSTRIES PRIVATE LTD. [OPINION]",
+      "status": "Precedential",
+      "file_path": "opinions-orders/25-1317.OPINION.5-19-2026_2695934.pdf",
+      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/25-1317.OPINION.5-19-2026_2695934.pdf",
+      "local_pdf": "data/2026-05-19/pdfs/25-1317-DCT-a-l-m-holding-company-v-zydex-industries-private-ltd.pdf",
+      "local_text": "data/2026-05-19/text/25-1317-DCT-a-l-m-holding-company-v-zydex-industries-private-ltd.txt"
+    }
+  },
+  {
+    "opinion_date": "2026-05-07",
+    "release_date": "05/07/2026",
+    "appeal_number": "24-2132",
+    "origin": "PTO",
+    "source_tribunal": "Patent Trial and Appeal Board",
+    "document_type": "Rule 36 Judgment",
+    "case_name": "Slingshot Printing LLC v. Canon U.S.A., Inc.",
+    "status": "Nonprecedential",
+    "disposition": "Affirmed",
+    "holding": "The Federal Circuit summarily affirmed the PTAB's decision without opinion under Federal Circuit Rule 36. No reasoning was provided.",
+    "why_it_matters": "A clean Rule 36 affirmance of the PTAB's IPR decision, carrying no precedential weight and providing no guidance on the underlying merits or claim validity issues.",
+    "key_points": [
+      "The Federal Circuit affirmed the PTAB's final written decision in IPR2022-01416 via a one-word Rule 36 judgment with no accompanying opinion.",
+      "The appeal was fully briefed and argued before Chief Judge Moore and Judges Stoll and Stark before the summary affirmance issued.",
+      "Because the disposition is nonprecedential and contains no reasoning, it cannot be cited for any legal proposition and offers no insight into the PTAB's underlying invalidity analysis.",
+      "The specific patent(s) at issue, the claims challenged, and the grounds of invalidity decided by the PTAB are not detailed in the extracted text.",
+      "Slingshot Printing was represented by MoloLamken LLP and Fitch Even; Canon was represented by Morgan Lewis."
+    ],
+    "tags": [
+      "Rule 36 affirmance",
+      "non-precedential",
+      "remand"
+    ],
+    "issue_tags": [
+      "Rule 36 affirmance",
+      "non-precedential"
+    ],
+    "holding_tags": [
+      "Rule 36 affirmance",
+      "non-precedential"
+    ],
+    "technology_area": "Printing (IPR2022-01416; specific technology not detailed in extracted text)",
+    "procedural_posture": "Slingshot Printing appealed a PTAB final written decision in IPR2022-01416 to the Federal Circuit. The court heard oral argument before a panel of Chief Judge Moore, Judge Stoll, and Judge Stark.",
+    "summary_text": "Slingshot Printing LLC v. Canon U.S.A., Inc.\nThe Federal Circuit summarily affirmed the PTAB's decision without opinion under Federal Circuit Rule 36. No reasoning was provided.\nA clean Rule 36 affirmance of the PTAB's IPR decision, carrying no precedential weight and providing no guidance on the underlying merits or claim validity issues.\nAffirmed\nThe Federal Circuit affirmed the PTAB's final written decision in IPR2022-01416 via a one-word Rule 36 judgment with no accompanying opinion.\nThe appeal was fully briefed and argued before Chief Judge Moore and Judges Stoll and Stark before the summary affirmance issued.\nBecause the disposition is nonprecedential and contains no reasoning, it cannot be cited for any legal proposition and offers no insight into the PTAB's underlying invalidity analysis.\nThe specific patent(s) at issue, the claims challenged, and the grounds of invalidity decided by the PTAB are not detailed in the extracted text.\nSlingshot Printing was represented by MoloLamken LLP and Fitch Even; Canon was represented by Morgan Lewis.\nRule 36 affirmance non-precedential remand\nRule 36 affirmance non-precedential\nRule 36 affirmance non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2132.RULE_36_JUDGMENT.5-7-2026_2690104.pdf",
+    "source_file_path": "opinions-orders/24-2132.RULE_36_JUDGMENT.5-7-2026_2690104.pdf",
+    "local_pdf": "data/2026-05-07/pdfs/24-2132-PTO-slingshot-printing-llc-v-canon-u-s-a-inc.pdf",
+    "local_text": "data/2026-05-07/text/24-2132-PTO-slingshot-printing-llc-v-canon-u-s-a-inc.txt",
+    "cafc_metadata": {
+      "release_date": "05/07/2026",
+      "appeal_number": "24-2132",
+      "origin": "PTO",
+      "document_type": "RULE 36 JUDGMENT",
+      "case_name": "SLINGSHOT PRINTING LLC v. CANON U.S.A., INC. [RULE 36 JUDGMENT]",
+      "status": "Nonprecedential",
+      "file_path": "opinions-orders/24-2132.RULE_36_JUDGMENT.5-7-2026_2690104.pdf",
+      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2132.RULE_36_JUDGMENT.5-7-2026_2690104.pdf",
+      "local_pdf": "data/2026-05-07/pdfs/24-2132-PTO-slingshot-printing-llc-v-canon-u-s-a-inc.pdf",
+      "local_text": "data/2026-05-07/text/24-2132-PTO-slingshot-printing-llc-v-canon-u-s-a-inc.txt"
+    }
+  },
+  {
+    "opinion_date": "2026-05-06",
+    "release_date": "05/06/2026",
+    "appeal_number": "24-2078",
+    "origin": "PTO",
+    "source_tribunal": "Patent Trial and Appeal Board",
+    "document_type": "Opinion",
+    "case_name": "DK Crown Holdings Inc. v. AG 18, LLC",
+    "status": "Nonprecedential",
+    "disposition": "Affirmed",
+    "holding": "The Federal Circuit affirmed, holding that the Board did not abuse its discretion in refusing to consider DK's reply-footnote request to apply Ground 3 (Bryson + Schlottmann) against claim 18 when the petition never asserted Schlottmann against that claim. The court also rejected DK's collateral estoppel argument that invalidation of claims collectively containing all limitations of claim 18 rendered claim 18 invalid.",
+    "why_it_matters": "Reinforces that IPR petitioners are strictly bound by the grounds asserted in the petition—post-institution attempts to add new prior art references against a claim, even via footnote, will not be entertained, and collateral estoppel cannot be manufactured by aggregating limitations from separately invalidated claims.",
+    "key_points": [
+      "DK's IPR petition challenged claim 18 only under Grounds 1 and 2 (Bryson alone); Ground 3 (Bryson + Schlottmann) was directed solely at claims 15–17 in the petition's own summary scorecard.",
+      "After institution, DK sought in a reply footnote to have the Board analyze claim 18 under Ground 3 'instead of Grounds 1/2'—the Board refused, finding this exceeded proper reply scope by adding a new prior art reference to fill a gap in the petition.",
+      "The Federal Circuit found no abuse of discretion: the petition contained no cross-reference or indication that Ground 3 or Schlottmann was intended to apply to claim 18, distinguishing Voice Tech Corp. v. Unified Patents (typographical error with substantive cross-reference) on its facts.",
+      "DK's collateral estoppel theory—that invalidation of claims 10, 12, 15, 16, and 17 collectively covering all limitations of claim 18 estops AG 18 from defending claim 18—was rejected; the Federal Circuit has never applied collateral estoppel by 'cobbling together limitations from disparate claims' to replicate another claim.",
+      "Opinion is nonprecedential but consistent with and citing precedential authority (Netflix, Inc. v. DivX, LLC; Yita LLC v. MacNeil IP LLC) on the strict petition-scope rule."
+    ],
+    "tags": [
+      "§ 103",
+      "§ 102",
+      "waiver / forfeiture",
+      "claim preclusion",
+      "remand",
+      "non-precedential"
+    ],
+    "issue_tags": [
+      "§ 103",
+      "§ 102",
+      "waiver / forfeiture",
+      "claim preclusion",
+      "non-precedential"
+    ],
+    "holding_tags": [
+      "waiver / forfeiture",
+      "claim preclusion",
+      "non-precedential"
+    ],
+    "technology_area": "Online/networked gaming; location-based wagering restrictions",
+    "procedural_posture": "Appeal from IPR final written decision (IPR2022-01446). PTAB found claims 1–17 and 19–30 of U.S. Patent No. 9,978,205 unpatentable but declined to find claim 18 unpatentable, rejecting DK's attempt via a reply footnote to add a new prior art reference (Schlottmann) to its claim 18 challenge. DK appealed as to claim 18 only.",
+    "summary_text": "DK Crown Holdings Inc. v. AG 18, LLC\nThe Federal Circuit affirmed, holding that the Board did not abuse its discretion in refusing to consider DK's reply-footnote request to apply Ground 3 (Bryson + Schlottmann) against claim 18 when the petition never asserted Schlottmann against that claim. The court also rejected DK's collateral estoppel argument that invalidation of claims collectively containing all limitations of claim 18 rendered claim 18 invalid.\nReinforces that IPR petitioners are strictly bound by the grounds asserted in the petition—post-institution attempts to add new prior art references against a claim, even via footnote, will not be entertained, and collateral estoppel cannot be manufactured by aggregating limitations from separately invalidated claims.\nAffirmed\nDK's IPR petition challenged claim 18 only under Grounds 1 and 2 (Bryson alone); Ground 3 (Bryson + Schlottmann) was directed solely at claims 15–17 in the petition's own summary scorecard.\nAfter institution, DK sought in a reply footnote to have the Board analyze claim 18 under Ground 3 'instead of Grounds 1/2'—the Board refused, finding this exceeded proper reply scope by adding a new prior art reference to fill a gap in the petition.\nThe Federal Circuit found no abuse of discretion: the petition contained no cross-reference or indication that Ground 3 or Schlottmann was intended to apply to claim 18, distinguishing Voice Tech Corp. v. Unified Patents (typographical error with substantive cross-reference) on its facts.\nDK's collateral estoppel theory—that invalidation of claims 10, 12, 15, 16, and 17 collectively covering all limitations of claim 18 estops AG 18 from defending claim 18—was rejected; the Federal Circuit has never applied collateral estoppel by 'cobbling together limitations from disparate claims' to replicate another claim.\nOpinion is nonprecedential but consistent with and citing precedential authority (Netflix, Inc. v. DivX, LLC; Yita LLC v. MacNeil IP LLC) on the strict petition-scope rule.\n§ 103 § 102 waiver / forfeiture claim preclusion remand non-precedential\n§ 103 § 102 waiver / forfeiture claim preclusion non-precedential\nwaiver / forfeiture claim preclusion non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2078.OPINION.5-6-2026_2689273.pdf",
+    "source_file_path": "opinions-orders/24-2078.OPINION.5-6-2026_2689273.pdf",
+    "local_pdf": "data/2026-05-06/pdfs/24-2078-PTO-dk-crown-holdings-inc-v-ag-18-llc.pdf",
+    "local_text": "data/2026-05-06/text/24-2078-PTO-dk-crown-holdings-inc-v-ag-18-llc.txt",
+    "cafc_metadata": {
+      "release_date": "05/06/2026",
+      "appeal_number": "24-2078",
+      "origin": "PTO",
+      "document_type": "OPINION",
+      "case_name": "DK CROWN HOLDINGS INC. v. AG 18, LLC [OPINION]",
+      "status": "Nonprecedential",
+      "file_path": "opinions-orders/24-2078.OPINION.5-6-2026_2689273.pdf",
+      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2078.OPINION.5-6-2026_2689273.pdf",
+      "local_pdf": "data/2026-05-06/pdfs/24-2078-PTO-dk-crown-holdings-inc-v-ag-18-llc.pdf",
+      "local_text": "data/2026-05-06/text/24-2078-PTO-dk-crown-holdings-inc-v-ag-18-llc.txt"
+    }
+  },
+  {
+    "opinion_date": "2026-05-06",
+    "release_date": "05/06/2026",
+    "appeal_number": "25-1709",
+    "origin": "DCT",
+    "source_tribunal": "District Court",
+    "document_type": "Order",
+    "case_name": "Nike, Inc. v. Lululemon USA Inc.",
+    "status": "Nonprecedential",
+    "disposition": "Dismissed; mandate issued May 6, 2026.",
+    "holding": "The Federal Circuit dismissed the appeal by stipulation of the parties under Fed. R. App. P. 42(b), with each side bearing its own costs.",
+    "why_it_matters": "This is a routine stipulated dismissal with no substantive ruling; it signals the parties likely reached a settlement, but the underlying merits and any district court outcome remain unreviewed by the Federal Circuit.",
+    "key_points": [
+      "Appeal arose from S.D.N.Y. Case No. 1:23-cv-00771-AS, Nike v. Lululemon.",
+      "Both parties agreed to dismissal under Fed. R. App. P. 42(b); no contested merits ruling was issued.",
+      "Each side bears its own appellate costs — a common feature of negotiated resolutions.",
+      "Order is nonprecedential and has no doctrinal significance.",
+      "Mandate issued the same day as the order, May 6, 2026, closing the Federal Circuit proceeding."
+    ],
+    "tags": [
+      "non-precedential",
+      "Hatch-Waxman / ANDA"
+    ],
+    "issue_tags": [
+      "non-precedential",
+      "Hatch-Waxman / ANDA"
+    ],
+    "holding_tags": [
+      "non-precedential"
+    ],
+    "technology_area": "Apparel / Footwear (specific technology area not discernible from order)",
+    "procedural_posture": "Appeal from the U.S. District Court for the Southern District of New York (Judge Arun S. Subramanian, No. 1:23-cv-00771-AS). The parties jointly agreed to dismiss the appeal under Fed. R. App. P. 42(b).",
+    "summary_text": "Nike, Inc. v. Lululemon USA Inc.\nThe Federal Circuit dismissed the appeal by stipulation of the parties under Fed. R. App. P. 42(b), with each side bearing its own costs.\nThis is a routine stipulated dismissal with no substantive ruling; it signals the parties likely reached a settlement, but the underlying merits and any district court outcome remain unreviewed by the Federal Circuit.\nDismissed; mandate issued May 6, 2026.\nAppeal arose from S.D.N.Y. Case No. 1:23-cv-00771-AS, Nike v. Lululemon.\nBoth parties agreed to dismissal under Fed. R. App. P. 42(b); no contested merits ruling was issued.\nEach side bears its own appellate costs — a common feature of negotiated resolutions.\nOrder is nonprecedential and has no doctrinal significance.\nMandate issued the same day as the order, May 6, 2026, closing the Federal Circuit proceeding.\nnon-precedential Hatch-Waxman / ANDA\nnon-precedential Hatch-Waxman / ANDA\nnon-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/25-1709.ORDER.5-6-2026_2689578.pdf",
+    "source_file_path": "opinions-orders/25-1709.ORDER.5-6-2026_2689578.pdf",
+    "local_pdf": "data/2026-05-06/pdfs/25-1709-DCT-nike-inc-v-lululemon-usa-inc.pdf",
+    "local_text": "data/2026-05-06/text/25-1709-DCT-nike-inc-v-lululemon-usa-inc.txt",
+    "cafc_metadata": {
+      "release_date": "05/06/2026",
+      "appeal_number": "25-1709",
+      "origin": "DCT",
+      "document_type": "ORDER",
+      "case_name": "NIKE, INC. v. LULULEMON USA INC. [ORDER]",
+      "status": "Nonprecedential",
+      "file_path": "opinions-orders/25-1709.ORDER.5-6-2026_2689578.pdf",
+      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/25-1709.ORDER.5-6-2026_2689578.pdf",
+      "local_pdf": "data/2026-05-06/pdfs/25-1709-DCT-nike-inc-v-lululemon-usa-inc.pdf",
+      "local_text": "data/2026-05-06/text/25-1709-DCT-nike-inc-v-lululemon-usa-inc.txt"
+    }
+  },
+  {
+    "opinion_date": "2026-05-06",
+    "release_date": "2026-05-06",
+    "appeal_number": "2026-1609",
+    "origin": "DCT",
+    "source_tribunal": "District Court",
+    "document_type": "Order",
+    "case_name": "Starlight Entertainment Enterprises, Inc. v. Central District of California",
+    "status": "Nonprecedential",
+    "disposition": "Appeal dismissed; all other motions denied; show-cause order issued to appellant within 21 days regarding potential sanctions including monetary fine and/or anti-filing injunction.",
+    "holding": "The Federal Circuit dismissed the appeal for lack of subject matter jurisdiction and untimeliness, and issued an order to show cause why sanctions—including an anti-filing injunction—should not be imposed, given Calderon Lopez's repeated disregard of prior warnings.",
+    "why_it_matters": "Illustrates the Federal Circuit's willingness to move toward affirmative filing restrictions against serial vexatious appellants who repeatedly ignore jurisdictional warnings, a tool patent counsel should be aware of when dealing with abusive filers.",
+    "key_points": [
+      "The Federal Circuit has no jurisdiction over Ninth Circuit decisions and has told Calderon Lopez so repeatedly across more than a dozen prior appeals.",
+      "The appeal was also independently defective as untimely, filed well outside the 30-day jurisdictional deadline from any cognizable district court order.",
+      "The underlying dispute—a filing-fee refund request arising from a landlord-tenant case—falls entirely outside the Federal Circuit's limited subject matter jurisdiction.",
+      "The court had previously warned Calderon Lopez in September 2025 (Appeal No. 2025-1943) that further improper filings could result in sanctions; he filed this appeal anyway.",
+      "Potential sanctions identified include a monetary fine, a payment-conditioned filing restriction, and/or an anti-filing injunction requiring pre-approval of any future notices of appeal to this court."
+    ],
+    "tags": [
+      "standing / jurisdiction",
+      "attorney fees / sanctions",
+      "non-precedential",
+      "injunction / stay"
+    ],
+    "issue_tags": [
+      "standing / jurisdiction",
+      "attorney fees / sanctions",
+      "non-precedential",
+      "injunction / stay"
+    ],
+    "holding_tags": [
+      "standing / jurisdiction",
+      "attorney fees / sanctions",
+      "non-precedential",
+      "injunction / stay"
+    ],
+    "technology_area": "N/A – no patent or technology issues presented",
+    "procedural_posture": "Appellant Ricardo J. Calderon Lopez, proceeding under the Starlight Entertainment banner, appealed to the Federal Circuit purportedly seeking review of a May 28, 2025 Ninth Circuit order dismissing his earlier appeal for nonpayment of docketing fees. The underlying district court action sought a refund of a filing fee from a landlord-tenant matter. The government moved to dismiss; Calderon Lopez moved for IFP status.",
+    "summary_text": "Starlight Entertainment Enterprises, Inc. v. Central District of California\nThe Federal Circuit dismissed the appeal for lack of subject matter jurisdiction and untimeliness, and issued an order to show cause why sanctions—including an anti-filing injunction—should not be imposed, given Calderon Lopez's repeated disregard of prior warnings.\nIllustrates the Federal Circuit's willingness to move toward affirmative filing restrictions against serial vexatious appellants who repeatedly ignore jurisdictional warnings, a tool patent counsel should be aware of when dealing with abusive filers.\nAppeal dismissed; all other motions denied; show-cause order issued to appellant within 21 days regarding potential sanctions including monetary fine and/or anti-filing injunction.\nThe Federal Circuit has no jurisdiction over Ninth Circuit decisions and has told Calderon Lopez so repeatedly across more than a dozen prior appeals.\nThe appeal was also independently defective as untimely, filed well outside the 30-day jurisdictional deadline from any cognizable district court order.\nThe underlying dispute—a filing-fee refund request arising from a landlord-tenant case—falls entirely outside the Federal Circuit's limited subject matter jurisdiction.\nThe court had previously warned Calderon Lopez in September 2025 (Appeal No. 2025-1943) that further improper filings could result in sanctions; he filed this appeal anyway.\nPotential sanctions identified include a monetary fine, a payment-conditioned filing restriction, and/or an anti-filing injunction requiring pre-approval of any future notices of appeal to this court.\nstanding / jurisdiction attorney fees / sanctions non-precedential injunction / stay\nstanding / jurisdiction attorney fees / sanctions non-precedential injunction / stay\nstanding / jurisdiction attorney fees / sanctions non-precedential injunction / stay",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/26-1609.ORDER.5-6-2026_2689301.pdf",
+    "source_file_path": "https://www.cafc.uscourts.gov/opinions-orders/26-1609.ORDER.5-6-2026_2689301.pdf",
+    "local_pdf": "data/2026-05-06/pdfs/26-1609-DCT-starlight-entertainment-enterprises-inc-v-central-district-of-california.pdf",
+    "local_text": "",
+    "cafc_metadata": {}
+  },
+  {
+    "opinion_date": "2026-05-06",
+    "release_date": "05/06/2026",
+    "appeal_number": "25-1110",
+    "origin": "DCT",
+    "source_tribunal": "U.S. District Court for the District of Massachusetts",
+    "document_type": "Opinion",
+    "case_name": "Lu v. Hyper Bicycles, Inc.",
+    "status": "Nonprecedential",
+    "disposition": "Affirmed",
+    "holding": "The Federal Circuit affirmed the district court's § 285 exceptional-case finding and attorney fee award, holding that the district court did not abuse its discretion where the record showed plaintiff failed to conduct any meaningful discovery, submitted cursory summary judgment briefing, violated local rules, and possessed no evidence of infringing sales from at least January 3, 2022 onward.",
+    "why_it_matters": "Reinforces that a plaintiff's failure to conduct discovery, absence of evidence of infringement, and dilatory litigation conduct can independently support an exceptional-case finding and a fee award cut off from the date counsel should have known the claims were meritless.",
+    "key_points": [
+      "Plaintiff filed a patent infringement suit in 2020, lost on summary judgment, and had that loss affirmed; defendant then moved for § 285 fees.",
+      "District court found the case exceptional based on bad-faith prosecution and unnecessary cost inflation: plaintiff sought four discovery extensions but never propounded written discovery, took no depositions, and designated no experts.",
+      "Plaintiff's own discovery responses admitted he had no knowledge of actual infringing sales and no records identifying infringing products from at least January 3, 2022—the date the court used as the fee-award cutoff.",
+      "Federal Circuit reviewed all aspects of the § 285 determination for abuse of discretion and found none, deferring to the district court's prolonged familiarity with the case under Highmark.",
+      "Arguments raised for the first time in plaintiff's reply brief were not considered, consistent with Federal Circuit practice."
+    ],
+    "tags": [
+      "attorney fees / sanctions",
+      "non-precedential",
+      "infringement",
+      "waiver / forfeiture"
+    ],
+    "issue_tags": [
+      "attorney fees / sanctions",
+      "non-precedential",
+      "infringement",
+      "waiver / forfeiture"
+    ],
+    "holding_tags": [
+      "attorney fees / sanctions",
+      "non-precedential",
+      "infringement"
+    ],
+    "technology_area": "Bicycles / Mechanical",
+    "procedural_posture": "Appeal from district court's award of attorney fees under 35 U.S.C. § 285 following summary judgment for defendant, which was previously affirmed on appeal. Plaintiff-appellant challenged the exceptional-case finding.",
+    "summary_text": "Lu v. Hyper Bicycles, Inc.\nThe Federal Circuit affirmed the district court's § 285 exceptional-case finding and attorney fee award, holding that the district court did not abuse its discretion where the record showed plaintiff failed to conduct any meaningful discovery, submitted cursory summary judgment briefing, violated local rules, and possessed no evidence of infringing sales from at least January 3, 2022 onward.\nReinforces that a plaintiff's failure to conduct discovery, absence of evidence of infringement, and dilatory litigation conduct can independently support an exceptional-case finding and a fee award cut off from the date counsel should have known the claims were meritless.\nAffirmed\nPlaintiff filed a patent infringement suit in 2020, lost on summary judgment, and had that loss affirmed; defendant then moved for § 285 fees.\nDistrict court found the case exceptional based on bad-faith prosecution and unnecessary cost inflation: plaintiff sought four discovery extensions but never propounded written discovery, took no depositions, and designated no experts.\nPlaintiff's own discovery responses admitted he had no knowledge of actual infringing sales and no records identifying infringing products from at least January 3, 2022—the date the court used as the fee-award cutoff.\nFederal Circuit reviewed all aspects of the § 285 determination for abuse of discretion and found none, deferring to the district court's prolonged familiarity with the case under Highmark.\nArguments raised for the first time in plaintiff's reply brief were not considered, consistent with Federal Circuit practice.\nattorney fees / sanctions non-precedential infringement waiver / forfeiture\nattorney fees / sanctions non-precedential infringement waiver / forfeiture\nattorney fees / sanctions non-precedential infringement",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/25-1110.OPINION.5-6-2026_2689312.pdf",
+    "source_file_path": "opinions-orders/25-1110.OPINION.5-6-2026_2689312.pdf",
+    "local_pdf": "data/2026-05-06/pdfs/25-1110-DCT-lu-v-hyper-bicycles-inc.pdf",
+    "local_text": "data/2026-05-06/text/25-1110-DCT-lu-v-hyper-bicycles-inc.txt",
+    "cafc_metadata": {
+      "release_date": "05/06/2026",
+      "appeal_number": "25-1110",
+      "origin": "DCT",
+      "document_type": "OPINION",
+      "case_name": "LU v. HYPER BICYCLES, INC. [OPINION]",
+      "status": "Nonprecedential",
+      "file_path": "opinions-orders/25-1110.OPINION.5-6-2026_2689312.pdf",
+      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/25-1110.OPINION.5-6-2026_2689312.pdf",
+      "local_pdf": "data/2026-05-06/pdfs/25-1110-DCT-lu-v-hyper-bicycles-inc.pdf",
+      "local_text": "data/2026-05-06/text/25-1110-DCT-lu-v-hyper-bicycles-inc.txt"
+    }
+  },
+  {
+    "opinion_date": "2026-05-05",
+    "release_date": "2026-05-05",
+    "appeal_number": "2024-1699, 2024-1700, 2024-1980, 2024-2020",
+    "origin": "DCT",
+    "source_tribunal": "U.S. District Court for the District of Delaware (Judge William C. Bryson, sitting by designation)",
+    "document_type": "Order",
+    "case_name": "Janssen Pharmaceuticals, Inc. v. Tolmar, Inc.",
+    "status": "Nonprecedential",
+    "disposition": "Remanded; mandate issued May 5, 2026.",
+    "holding": "The Federal Circuit granted the joint motion to remand so the district court can act on its indicative ruling, but expressly took no position on whether vacatur of the final judgment is appropriate under Bancorp. Each side bears its own costs.",
+    "why_it_matters": "Counsel handling settled appeals should note that the Federal Circuit will facilitate a remand for an indicative-ruling consent judgment but will leave the Bancorp vacatur analysis entirely to the district court—meaning vacatur of the underlying merits judgment is not guaranteed even after settlement.",
+    "key_points": [
+      "Parties settled all claims and jointly moved to remand in light of the district court's April 3, 2026 indicative ruling under Fed. R. Civ. P. 62.1 that it would vacate the March 13, 2024 final judgment and enter a consent judgment if remanded.",
+      "The Federal Circuit granted the remand but explicitly reserved the Bancorp question, directing the district court to apply United States Bancorp Mortgage Co. v. Bonner Mall Partnership, 513 U.S. 18 (1994), when deciding whether to vacate its prior judgment.",
+      "Under Bancorp, vacatur on mootness caused by settlement is disfavored absent exceptional circumstances—the district court retains discretion to deny vacatur even with a consent judgment in hand.",
+      "The order is nonprecedential and resolves only the procedural remand; no merits issues were decided by the Federal Circuit.",
+      "Each side bears its own costs, consistent with a negotiated resolution."
+    ],
+    "tags": [
+      "remand",
+      "Hatch-Waxman / ANDA",
+      "non-precedential",
+      "standing / jurisdiction"
+    ],
+    "issue_tags": [
+      "remand",
+      "Hatch-Waxman / ANDA",
+      "non-precedential",
+      "standing / jurisdiction"
+    ],
+    "holding_tags": [
+      "remand",
+      "non-precedential"
+    ],
+    "technology_area": "Pharmaceuticals (specific drug/patent not identified in extracted text)",
+    "procedural_posture": "Cross-appeals from a March 13, 2024 final judgment in D. Del. No. 1:21-cv-01784. The district court issued an April 3, 2026 indicative ruling that it would vacate the final judgment and enter a consent judgment upon remand. The parties settled and jointly moved to remand.",
+    "summary_text": "Janssen Pharmaceuticals, Inc. v. Tolmar, Inc.\nThe Federal Circuit granted the joint motion to remand so the district court can act on its indicative ruling, but expressly took no position on whether vacatur of the final judgment is appropriate under Bancorp. Each side bears its own costs.\nCounsel handling settled appeals should note that the Federal Circuit will facilitate a remand for an indicative-ruling consent judgment but will leave the Bancorp vacatur analysis entirely to the district court—meaning vacatur of the underlying merits judgment is not guaranteed even after settlement.\nRemanded; mandate issued May 5, 2026.\nParties settled all claims and jointly moved to remand in light of the district court's April 3, 2026 indicative ruling under Fed. R. Civ. P. 62.1 that it would vacate the March 13, 2024 final judgment and enter a consent judgment if remanded.\nThe Federal Circuit granted the remand but explicitly reserved the Bancorp question, directing the district court to apply United States Bancorp Mortgage Co. v. Bonner Mall Partnership, 513 U.S. 18 (1994), when deciding whether to vacate its prior judgment.\nUnder Bancorp, vacatur on mootness caused by settlement is disfavored absent exceptional circumstances—the district court retains discretion to deny vacatur even with a consent judgment in hand.\nThe order is nonprecedential and resolves only the procedural remand; no merits issues were decided by the Federal Circuit.\nEach side bears its own costs, consistent with a negotiated resolution.\nremand Hatch-Waxman / ANDA non-precedential standing / jurisdiction\nremand Hatch-Waxman / ANDA non-precedential standing / jurisdiction\nremand non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-1699.ORDER.5-5-2026_2688218.pdf",
+    "source_file_path": "https://www.cafc.uscourts.gov/opinions-orders/24-1699.ORDER.5-5-2026_2688218.pdf",
+    "local_pdf": "data/2026-05-05/pdfs/24-1699-DCT-janssen-pharmaceuticals-inc-v-tolmar-inc.pdf",
+    "local_text": "",
+    "cafc_metadata": {}
+  },
+  {
+    "opinion_date": "2026-05-05",
+    "release_date": "2026-05-05",
+    "appeal_number": "2026-1275",
+    "origin": "PTO",
+    "source_tribunal": "Patent Trial and Appeal Board",
+    "document_type": "Order",
+    "case_name": "Nike, Inc. v. Lululemon USA Inc.",
+    "status": "Nonprecedential",
+    "disposition": "Dismissed with prejudice by stipulation; each party bears its own costs; mandate issued May 5, 2026.",
+    "holding": "The Federal Circuit dismissed the appeal by stipulation of the parties under Fed. R. App. P. 42(b). Each side bears its own costs.",
+    "why_it_matters": "Signals a likely settlement or license between Nike and Lululemon resolving the IPR challenge before the Federal Circuit reached the merits.",
+    "key_points": [
+      "Nike appealed a PTAB decision in IPR2024-00460 challenging a Lululemon patent; the underlying technology area is not specified in the extracted text.",
+      "Both parties jointly stipulated to dismissal under Fed. R. App. P. 42(b), indicating a voluntary resolution—likely a settlement or licensing agreement.",
+      "The Federal Circuit granted the stipulated dismissal and ordered each side to bear its own costs, with no fee-shifting.",
+      "The mandate issued the same day as the order (May 5, 2026), making the dismissal immediately final.",
+      "The order is nonprecedential and has no substantive legal holding on the merits of the IPR."
+    ],
+    "tags": [
+      "non-precedential",
+      "standing / jurisdiction",
+      "waiver / forfeiture",
+      "remand",
+      "Hatch-Waxman / ANDA"
+    ],
+    "issue_tags": [
+      "non-precedential",
+      "standing / jurisdiction",
+      "waiver / forfeiture",
+      "Hatch-Waxman / ANDA"
+    ],
+    "holding_tags": [
+      "non-precedential",
+      "waiver / forfeiture"
+    ],
+    "technology_area": "Unclear from extracted text",
+    "procedural_posture": "Appeal from PTAB IPR2024-00460; dismissed by stipulation of the parties under Fed. R. App. P. 42(b), with mandate issuing same day.",
+    "summary_text": "Nike, Inc. v. Lululemon USA Inc.\nThe Federal Circuit dismissed the appeal by stipulation of the parties under Fed. R. App. P. 42(b). Each side bears its own costs.\nSignals a likely settlement or license between Nike and Lululemon resolving the IPR challenge before the Federal Circuit reached the merits.\nDismissed with prejudice by stipulation; each party bears its own costs; mandate issued May 5, 2026.\nNike appealed a PTAB decision in IPR2024-00460 challenging a Lululemon patent; the underlying technology area is not specified in the extracted text.\nBoth parties jointly stipulated to dismissal under Fed. R. App. P. 42(b), indicating a voluntary resolution—likely a settlement or licensing agreement.\nThe Federal Circuit granted the stipulated dismissal and ordered each side to bear its own costs, with no fee-shifting.\nThe mandate issued the same day as the order (May 5, 2026), making the dismissal immediately final.\nThe order is nonprecedential and has no substantive legal holding on the merits of the IPR.\nnon-precedential standing / jurisdiction waiver / forfeiture remand Hatch-Waxman / ANDA\nnon-precedential standing / jurisdiction waiver / forfeiture Hatch-Waxman / ANDA\nnon-precedential waiver / forfeiture",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/26-1275.ORDER.5-5-2026_2688630.pdf",
+    "source_file_path": "https://www.cafc.uscourts.gov/opinions-orders/26-1275.ORDER.5-5-2026_2688630.pdf",
+    "local_pdf": "data/2026-05-05/pdfs/26-1275-PTO-nike-inc-v-lululemon-usa-inc.pdf",
+    "local_text": "",
+    "cafc_metadata": {}
+  },
+  {
+    "opinion_date": "2026-05-05",
+    "release_date": "05/05/2026",
+    "appeal_number": "25-1218",
+    "origin": "DCT",
+    "source_tribunal": "U.S. District Court for the Northern District of California",
+    "document_type": "Opinion",
+    "case_name": "TJTM Technologies, LLC v. Google LLC",
+    "status": "Nonprecedential",
+    "disposition": "Affirmed",
+    "holding": "Representative claim 1 of U.S. Patent No. 8,958,853 is directed to the abstract idea of 'screening notifications' and recites only generic, well-known components arranged in a conventional manner, failing both steps of the Alice framework. The Federal Circuit affirmed dismissal under § 101.",
+    "why_it_matters": "Confirms that adding a user-benefit feature (auto-suppressing phone notifications when paired with a vehicle) to generic mobile hardware does not constitute a technological improvement sufficient to survive § 101 at the pleading stage, and that conclusory inventive-concept allegations cannot defeat a Rule 12(b)(6) motion.",
+    "key_points": [
+      "The '853 patent claims a mobile device that automatically enters 'inactive mode'—suppressing notifications and sending an away message—when paired with a vehicle; the district court and Federal Circuit both characterized this as the abstract idea of 'screening notifications.'",
+      "Under Alice step one, the court rejected TJTM's analogy to Contour IP and Enfish, holding that improving user experience through a different operational mode does not amount to a technological improvement to the underlying mobile phone technology.",
+      "Under Alice step two, the court found all claim components (wireless communication module, processor, memory, GUI, away message) generic and well-known, combined in conventional fashion; TJTM's amended complaint offered only conclusory assertions of an inventive concept.",
+      "At oral argument, TJTM effectively conceded that Bluetooth-style device pairing was known in the field and was not itself an inventive aspect of the claims, undermining its primary step-two argument.",
+      "This is a nonprecedential opinion, but it reinforces existing Federal Circuit doctrine—drawn from Trinity Info Media and Cellspin—that conclusory pleading allegations cannot rescue an abstract-idea claim from § 101 dismissal."
+    ],
+    "tags": [
+      "§ 101",
+      "claim construction",
+      "infringement",
+      "non-precedential"
+    ],
+    "issue_tags": [
+      "§ 101",
+      "infringement",
+      "non-precedential"
+    ],
+    "holding_tags": [
+      "§ 101",
+      "non-precedential"
+    ],
+    "technology_area": "Mobile devices / distracted driving / notification suppression",
+    "procedural_posture": "Appeal from Rule 12(b)(6) dismissal on § 101 grounds; district court granted Google's second motion to dismiss after allowing TJTM to amend its complaint to address Alice step two.",
+    "summary_text": "TJTM Technologies, LLC v. Google LLC\nRepresentative claim 1 of U.S. Patent No. 8,958,853 is directed to the abstract idea of 'screening notifications' and recites only generic, well-known components arranged in a conventional manner, failing both steps of the Alice framework. The Federal Circuit affirmed dismissal under § 101.\nConfirms that adding a user-benefit feature (auto-suppressing phone notifications when paired with a vehicle) to generic mobile hardware does not constitute a technological improvement sufficient to survive § 101 at the pleading stage, and that conclusory inventive-concept allegations cannot defeat a Rule 12(b)(6) motion.\nAffirmed\nThe '853 patent claims a mobile device that automatically enters 'inactive mode'—suppressing notifications and sending an away message—when paired with a vehicle; the district court and Federal Circuit both characterized this as the abstract idea of 'screening notifications.'\nUnder Alice step one, the court rejected TJTM's analogy to Contour IP and Enfish, holding that improving user experience through a different operational mode does not amount to a technological improvement to the underlying mobile phone technology.\nUnder Alice step two, the court found all claim components (wireless communication module, processor, memory, GUI, away message) generic and well-known, combined in conventional fashion; TJTM's amended complaint offered only conclusory assertions of an inventive concept.\nAt oral argument, TJTM effectively conceded that Bluetooth-style device pairing was known in the field and was not itself an inventive aspect of the claims, undermining its primary step-two argument.\nThis is a nonprecedential opinion, but it reinforces existing Federal Circuit doctrine—drawn from Trinity Info Media and Cellspin—that conclusory pleading allegations cannot rescue an abstract-idea claim from § 101 dismissal.\n§ 101 claim construction infringement non-precedential\n§ 101 infringement non-precedential\n§ 101 non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/25-1218.OPINION.5-5-2026_2688177.pdf",
+    "source_file_path": "opinions-orders/25-1218.OPINION.5-5-2026_2688177.pdf",
+    "local_pdf": "data/2026-05-05/pdfs/25-1218-DCT-tjtm-technologies-llc-v-google-llc.pdf",
+    "local_text": "data/2026-05-05/text/25-1218-DCT-tjtm-technologies-llc-v-google-llc.txt",
+    "cafc_metadata": {
+      "release_date": "05/05/2026",
+      "appeal_number": "25-1218",
+      "origin": "DCT",
+      "document_type": "OPINION",
+      "case_name": "TJTM TECHNOLOGIES, LLC v. GOOGLE LLC [OPINION]",
+      "status": "Nonprecedential",
+      "file_path": "opinions-orders/25-1218.OPINION.5-5-2026_2688177.pdf",
+      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/25-1218.OPINION.5-5-2026_2688177.pdf",
+      "local_pdf": "data/2026-05-05/pdfs/25-1218-DCT-tjtm-technologies-llc-v-google-llc.pdf",
+      "local_text": "data/2026-05-05/text/25-1218-DCT-tjtm-technologies-llc-v-google-llc.txt"
+    }
+  },
+  {
+    "opinion_date": "2026-05-04",
+    "release_date": "2026-05-04",
+    "appeal_number": "2026-1000",
+    "origin": "PTO",
+    "source_tribunal": "Patent Trial and Appeal Board",
+    "document_type": "Order",
+    "case_name": "In re BadgeCert, Inc.",
+    "status": "Nonprecedential",
+    "disposition": "Dismissed with prejudice by stipulation; each party bears its own costs; mandate issued May 4, 2026.",
+    "holding": "The Federal Circuit dismissed the appeal by stipulation of the parties under Fed. R. App. P. 42(b), with each side bearing its own costs. The mandate issued simultaneously.",
+    "why_it_matters": "Purely administrative dismissal with no substantive ruling; the underlying PTAB decision on Application No. 16/113,597 stands undisturbed.",
+    "key_points": [
+      "Appeal arose from a PTAB proceeding involving U.S. Patent Application No. 16/113,597 assigned to BadgeCert, Inc.",
+      "Both parties agreed to dismiss, triggering a routine stipulated dismissal under Fed. R. App. P. 42(b) — no merits briefing or argument occurred.",
+      "No costs were awarded to either side.",
+      "The mandate issued the same day as the order (May 4, 2026), immediately closing the Federal Circuit proceeding.",
+      "The order is nonprecedential and provides no guidance on the substantive patent issues that were before the PTAB."
+    ],
+    "tags": [
+      "non-precedential",
+      "standing / jurisdiction",
+      "waiver / forfeiture",
+      "Hatch-Waxman / ANDA"
+    ],
+    "issue_tags": [
+      "non-precedential",
+      "standing / jurisdiction",
+      "waiver / forfeiture",
+      "Hatch-Waxman / ANDA"
+    ],
+    "holding_tags": [
+      "non-precedential",
+      "waiver / forfeiture",
+      "Hatch-Waxman / ANDA"
+    ],
+    "technology_area": "Unknown — not disclosed in order",
+    "procedural_posture": "Appeal from PTAB decision concerning U.S. Patent Application No. 16/113,597. The parties jointly stipulated to dismissal under Fed. R. App. P. 42(b).",
+    "summary_text": "In re BadgeCert, Inc.\nThe Federal Circuit dismissed the appeal by stipulation of the parties under Fed. R. App. P. 42(b), with each side bearing its own costs. The mandate issued simultaneously.\nPurely administrative dismissal with no substantive ruling; the underlying PTAB decision on Application No. 16/113,597 stands undisturbed.\nDismissed with prejudice by stipulation; each party bears its own costs; mandate issued May 4, 2026.\nAppeal arose from a PTAB proceeding involving U.S. Patent Application No. 16/113,597 assigned to BadgeCert, Inc.\nBoth parties agreed to dismiss, triggering a routine stipulated dismissal under Fed. R. App. P. 42(b) — no merits briefing or argument occurred.\nNo costs were awarded to either side.\nThe mandate issued the same day as the order (May 4, 2026), immediately closing the Federal Circuit proceeding.\nThe order is nonprecedential and provides no guidance on the substantive patent issues that were before the PTAB.\nnon-precedential standing / jurisdiction waiver / forfeiture Hatch-Waxman / ANDA\nnon-precedential standing / jurisdiction waiver / forfeiture Hatch-Waxman / ANDA\nnon-precedential waiver / forfeiture Hatch-Waxman / ANDA",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/26-1000.ORDER.5-4-2026_2687297.pdf",
+    "source_file_path": "https://www.cafc.uscourts.gov/opinions-orders/26-1000.ORDER.5-4-2026_2687297.pdf",
+    "local_pdf": "data/2026-05-04/pdfs/26-1000-PTO-in-re-badgecert-inc.pdf",
+    "local_text": "",
+    "cafc_metadata": {}
+  },
+  {
+    "opinion_date": "2026-05-04",
+    "release_date": "2026-05-04",
+    "appeal_number": "2026-1555",
+    "origin": "DCT",
+    "source_tribunal": "U.S. District Court for the District of Columbia",
+    "document_type": "Order",
+    "case_name": "Calderon Lopez v. State of California",
+    "status": "Nonprecedential",
+    "disposition": "Dismissed",
+    "holding": "The Federal Circuit dismissed the appeal as clearly untimely and frivolous, noting it is identical to a prior appeal the court already dismissed as untimely. Each party bears its own costs.",
+    "why_it_matters": "This order is a routine dismissal of a duplicative, untimely pro se appeal and carries no substantive patent law significance; it is noted here only for docket completeness.",
+    "key_points": [
+      "The underlying district court judgment dates to 2019; appellant has now attempted to appeal it at least three times across two circuits.",
+      "The D.C. Circuit dismissed a prior appeal for failure to prosecute in October 2019.",
+      "The Federal Circuit previously dismissed an identical appeal (No. 2024-2133) as untimely in August 2024.",
+      "The court characterized the current appeal as both clearly untimely and frivolous, dismissing it per curiam without further analysis.",
+      "No patent claims, claim construction, or substantive IP issues are presented; the case does not appear to involve patent subject matter."
+    ],
+    "tags": [
+      "standing / jurisdiction",
+      "waiver / forfeiture",
+      "non-precedential",
+      "claim construction"
+    ],
+    "issue_tags": [
+      "standing / jurisdiction",
+      "waiver / forfeiture",
+      "non-precedential",
+      "claim construction"
+    ],
+    "holding_tags": [
+      "standing / jurisdiction",
+      "waiver / forfeiture",
+      "non-precedential"
+    ],
+    "technology_area": "Unknown / Not Patent-Related",
+    "procedural_posture": "Appeal from a 2019 district court judgment. Appellant previously appealed the same judgment to the D.C. Circuit, which dismissed for failure to prosecute in October 2019. Appellant then filed an identical appeal at the Federal Circuit, which was dismissed as untimely in August 2024 (No. 2024-2133). The current appeal is a second attempt to revive the same 2019 judgment.",
+    "summary_text": "Calderon Lopez v. State of California\nThe Federal Circuit dismissed the appeal as clearly untimely and frivolous, noting it is identical to a prior appeal the court already dismissed as untimely. Each party bears its own costs.\nThis order is a routine dismissal of a duplicative, untimely pro se appeal and carries no substantive patent law significance; it is noted here only for docket completeness.\nDismissed\nThe underlying district court judgment dates to 2019; appellant has now attempted to appeal it at least three times across two circuits.\nThe D.C. Circuit dismissed a prior appeal for failure to prosecute in October 2019.\nThe Federal Circuit previously dismissed an identical appeal (No. 2024-2133) as untimely in August 2024.\nThe court characterized the current appeal as both clearly untimely and frivolous, dismissing it per curiam without further analysis.\nNo patent claims, claim construction, or substantive IP issues are presented; the case does not appear to involve patent subject matter.\nstanding / jurisdiction waiver / forfeiture non-precedential claim construction\nstanding / jurisdiction waiver / forfeiture non-precedential claim construction\nstanding / jurisdiction waiver / forfeiture non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/26-1555.ORDER.5-4-2026_2687283.pdf",
+    "source_file_path": "https://www.cafc.uscourts.gov/opinions-orders/26-1555.ORDER.5-4-2026_2687283.pdf",
+    "local_pdf": "data/2026-05-04/pdfs/26-1555-DCT-calderon-lopez-v-state-of-california.pdf",
+    "local_text": "",
+    "cafc_metadata": {}
+  },
+  {
+    "opinion_date": "2026-05-04",
+    "release_date": "05/04/2026",
+    "appeal_number": "24-2160",
+    "origin": "DCT",
+    "source_tribunal": "U.S. District Court for the Eastern District of Arkansas",
+    "document_type": "Opinion",
+    "case_name": "Enviro Tech Chemical Services, Inc. v. Safe Foods Corp.",
+    "status": "Precedential",
+    "disposition": "Affirmed",
+    "holding": "The term 'about' as used in the pH range limitation ('about 7.6 to about 10') of the '321 patent is indefinite under § 112(b) because the claims, specification, and prosecution history collectively fail to inform a skilled artisan of the term's scope with reasonable certainty. All asserted claims are therefore invalid.",
+    "why_it_matters": "This precedential decision reinforces that 'about' and similar approximation terms are not inherently definite—when a patent's specification contains conflicting examples and prosecution history treats the term inconsistently, particularly where the claimed range was amended to clear prior art that sits close to the range boundary, the term will fail the Nautilus reasonable-certainty standard.",
+    "key_points": [
+      "The '321 patent claims a method of treating poultry carcasses with peracetic acid at a pH of 'about 7.6 to about 10'; the court found this range indefinite because neither the claims nor the specification established how far below 7.6 or above 10 the pH could deviate.",
+      "The specification was internally inconsistent: most experiments proceeded only when pH deviated ≤0.3 from target, but several—including a large commercial-scale trial involving 5.8 million chickens—proceeded with deviations of 0.35–0.5, undermining any fixed meaning for 'about.'",
+      "Prosecution history compounded the problem: Enviro Tech argued patentability in one response without using 'about' (treating the lower bound as exactly 7.6) and in the very next page used 'about' for a different claim range, never explaining what the term means.",
+      "Enviro Tech's argument that amending the lower bound from 'about 7.3' to 'about 7.6' implicitly disclaimed deviations greater than 0.3 was rejected because the amendment was unaccompanied by explanatory remarks defining 'about,' as required under Personalized Media.",
+      "The court emphasized that because the prior art reached as close as pH 7.0 and the specification disclosed pHs of 6–10, the proximity of prior art to the claimed range made clarity especially critical—the prior art was, as the court noted, almost 'about' a pH of 7.6."
+    ],
+    "tags": [
+      "§ 112(b)",
+      "claim construction",
+      "precedential",
+      "Hatch-Waxman / ANDA"
+    ],
+    "issue_tags": [
+      "§ 112(b)",
+      "claim construction",
+      "precedential",
+      "Hatch-Waxman / ANDA"
+    ],
+    "holding_tags": [
+      "§ 112(b)",
+      "claim construction",
+      "precedential"
+    ],
+    "technology_area": "Food/Agricultural Chemistry (poultry processing with peracetic acid)",
+    "procedural_posture": "Enviro Tech appealed a district court judgment invalidating asserted claims 1–3, 5–12, 14–19, 21–24, 26–29, and 31–33 of U.S. Patent 10,912,321 as indefinite following claim construction. The Federal Circuit reviewed indefiniteness de novo.",
+    "summary_text": "Enviro Tech Chemical Services, Inc. v. Safe Foods Corp.\nThe term 'about' as used in the pH range limitation ('about 7.6 to about 10') of the '321 patent is indefinite under § 112(b) because the claims, specification, and prosecution history collectively fail to inform a skilled artisan of the term's scope with reasonable certainty. All asserted claims are therefore invalid.\nThis precedential decision reinforces that 'about' and similar approximation terms are not inherently definite—when a patent's specification contains conflicting examples and prosecution history treats the term inconsistently, particularly where the claimed range was amended to clear prior art that sits close to the range boundary, the term will fail the Nautilus reasonable-certainty standard.\nAffirmed\nThe '321 patent claims a method of treating poultry carcasses with peracetic acid at a pH of 'about 7.6 to about 10'; the court found this range indefinite because neither the claims nor the specification established how far below 7.6 or above 10 the pH could deviate.\nThe specification was internally inconsistent: most experiments proceeded only when pH deviated ≤0.3 from target, but several—including a large commercial-scale trial involving 5.8 million chickens—proceeded with deviations of 0.35–0.5, undermining any fixed meaning for 'about.'\nProsecution history compounded the problem: Enviro Tech argued patentability in one response without using 'about' (treating the lower bound as exactly 7.6) and in the very next page used 'about' for a different claim range, never explaining what the term means.\nEnviro Tech's argument that amending the lower bound from 'about 7.3' to 'about 7.6' implicitly disclaimed deviations greater than 0.3 was rejected because the amendment was unaccompanied by explanatory remarks defining 'about,' as required under Personalized Media.\nThe court emphasized that because the prior art reached as close as pH 7.0 and the specification disclosed pHs of 6–10, the proximity of prior art to the claimed range made clarity especially critical—the prior art was, as the court noted, almost 'about' a pH of 7.6.\n§ 112(b) claim construction precedential Hatch-Waxman / ANDA\n§ 112(b) claim construction precedential Hatch-Waxman / ANDA\n§ 112(b) claim construction precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2160.OPINION.5-4-2026_2687268.pdf",
+    "source_file_path": "opinions-orders/24-2160.OPINION.5-4-2026_2687268.pdf",
+    "local_pdf": "data/2026-05-04/pdfs/24-2160-DCT-enviro-tech-chemical-services-inc-v-safe-foods-corp.pdf",
+    "local_text": "data/2026-05-04/text/24-2160-DCT-enviro-tech-chemical-services-inc-v-safe-foods-corp.txt",
+    "cafc_metadata": {
+      "release_date": "05/04/2026",
+      "appeal_number": "24-2160",
+      "origin": "DCT",
+      "document_type": "OPINION",
+      "case_name": "ENVIRO TECH CHEMICAL SERVICES, INC. v. SAFE FOODS CORP. [OPINION]",
+      "status": "Precedential",
+      "file_path": "opinions-orders/24-2160.OPINION.5-4-2026_2687268.pdf",
+      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2160.OPINION.5-4-2026_2687268.pdf",
+      "local_pdf": "data/2026-05-04/pdfs/24-2160-DCT-enviro-tech-chemical-services-inc-v-safe-foods-corp.pdf",
+      "local_text": "data/2026-05-04/text/24-2160-DCT-enviro-tech-chemical-services-inc-v-safe-foods-corp.txt"
+    }
+  },
+  {
+    "opinion_date": "2026-05-01",
+    "release_date": "2026-05-01",
+    "appeal_number": "25-1514 / 25-1566",
+    "origin": "PTO",
+    "source_tribunal": "Patent Trial and Appeal Board",
+    "document_type": "Order",
+    "case_name": "Meta Platforms, Inc. v. Eight KHz, LLC",
+    "status": "Nonprecedential",
+    "disposition": "Dismissed; mandate issued May 1, 2026.",
+    "holding": "The Federal Circuit dismissed both the appeal and cross-appeal by stipulation of the parties under Fed. R. App. P. 42(b), with each side bearing its own costs.",
+    "why_it_matters": "Signals a settlement or other resolution between Meta and Eight KHz following IPR proceedings, leaving the PTAB's underlying decision undisturbed and unreviewed.",
+    "key_points": [
+      "Both the appeal (25-1514) and cross-appeal (25-1566) arose from IPR2023-01023 at the PTAB.",
+      "Dismissal was by joint stipulation under Fed. R. App. P. 42(b), indicating the parties reached agreement—likely a settlement—before Federal Circuit merits review.",
+      "Each side bears its own costs; no fee-shifting ordered.",
+      "The mandate issued the same day as the order (May 1, 2026), making the dismissal immediately final.",
+      "As a nonprecedential order, this has no binding effect on future cases."
+    ],
+    "tags": [
+      "non-precedential",
+      "remand",
+      "standing / jurisdiction",
+      "Hatch-Waxman / ANDA"
+    ],
+    "issue_tags": [
+      "non-precedential",
+      "standing / jurisdiction",
+      "Hatch-Waxman / ANDA"
+    ],
+    "holding_tags": [
+      "non-precedential",
+      "remand"
+    ],
+    "technology_area": "Unclear from extracted text",
+    "procedural_posture": "Appeal and cross-appeal from PTAB IPR2023-01023; parties jointly moved to dismiss under Fed. R. App. P. 42(b).",
+    "summary_text": "Meta Platforms, Inc. v. Eight KHz, LLC\nThe Federal Circuit dismissed both the appeal and cross-appeal by stipulation of the parties under Fed. R. App. P. 42(b), with each side bearing its own costs.\nSignals a settlement or other resolution between Meta and Eight KHz following IPR proceedings, leaving the PTAB's underlying decision undisturbed and unreviewed.\nDismissed; mandate issued May 1, 2026.\nBoth the appeal (25-1514) and cross-appeal (25-1566) arose from IPR2023-01023 at the PTAB.\nDismissal was by joint stipulation under Fed. R. App. P. 42(b), indicating the parties reached agreement—likely a settlement—before Federal Circuit merits review.\nEach side bears its own costs; no fee-shifting ordered.\nThe mandate issued the same day as the order (May 1, 2026), making the dismissal immediately final.\nAs a nonprecedential order, this has no binding effect on future cases.\nnon-precedential remand standing / jurisdiction Hatch-Waxman / ANDA\nnon-precedential standing / jurisdiction Hatch-Waxman / ANDA\nnon-precedential remand",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/25-1514.ORDER.5-1-2026_2686636.pdf",
+    "source_file_path": "https://www.cafc.uscourts.gov/opinions-orders/25-1514.ORDER.5-1-2026_2686636.pdf",
+    "local_pdf": "data/2026-05-01/pdfs/25-1514-PTO-meta-platforms-inc-v-eight-khz-llc.pdf",
+    "local_text": "",
+    "cafc_metadata": {}
+  },
+  {
+    "opinion_date": "2026-04-30",
+    "release_date": "2026-04-30",
+    "appeal_number": "2026-1381",
+    "origin": "DCT",
+    "source_tribunal": "District Court",
+    "document_type": "Order",
+    "case_name": "Kamdem-Ouaffo v. Leblon",
+    "status": "Nonprecedential",
+    "disposition": "Transferred to the United States Court of Appeals for the Third Circuit.",
+    "holding": "The Federal Circuit lacks jurisdiction because the appeal does not arise under the patent laws or any other basis conferring Federal Circuit jurisdiction under 28 U.S.C. § 1295. The matter is transferred to the Third Circuit pursuant to 28 U.S.C. § 1631.",
+    "why_it_matters": "A reminder that the Federal Circuit's appellate jurisdiction is narrow—a case touching on trade secrets or other non-patent claims, even filed by a pro se litigant invoking patent-adjacent issues, will be transferred rather than dismissed if the wrong circuit is invoked.",
+    "key_points": [
+      "Appellant sued attorneys and a New Jersey state-court judge arising from a prior unsuccessful trade secret litigation; no patent claims were at issue.",
+      "The Third Circuit had already affirmed dismissal; this appeal concerned only the district court's subsequent denial of post-judgment relief and recusal motions.",
+      "Federal Circuit jurisdiction under § 1295(a)(1) requires the case to 'arise under' the patent laws—a threshold appellant failed to satisfy.",
+      "Rather than dismiss for lack of jurisdiction, the court transferred to the Third Circuit under 28 U.S.C. § 1631 as the proper circuit.",
+      "Nonprecedential order by Judges Lourie, Chen, and Stark, per curiam."
+    ],
+    "tags": [
+      "standing / jurisdiction",
+      "non-precedential"
+    ],
+    "issue_tags": [
+      "standing / jurisdiction",
+      "non-precedential"
+    ],
+    "holding_tags": [
+      "standing / jurisdiction",
+      "non-precedential"
+    ],
+    "technology_area": "Trade Secrets / No Patent Issue",
+    "procedural_posture": "Appellant appealed from the District of New Jersey's denial of his motions for relief from judgment and recusal, following a prior Third Circuit affirmance of dismissal of his complaint against attorneys and a state-court judge involved in an earlier trade secret case. The Federal Circuit issued a show cause order on jurisdiction.",
+    "summary_text": "Kamdem-Ouaffo v. Leblon\nThe Federal Circuit lacks jurisdiction because the appeal does not arise under the patent laws or any other basis conferring Federal Circuit jurisdiction under 28 U.S.C. § 1295. The matter is transferred to the Third Circuit pursuant to 28 U.S.C. § 1631.\nA reminder that the Federal Circuit's appellate jurisdiction is narrow—a case touching on trade secrets or other non-patent claims, even filed by a pro se litigant invoking patent-adjacent issues, will be transferred rather than dismissed if the wrong circuit is invoked.\nTransferred to the United States Court of Appeals for the Third Circuit.\nAppellant sued attorneys and a New Jersey state-court judge arising from a prior unsuccessful trade secret litigation; no patent claims were at issue.\nThe Third Circuit had already affirmed dismissal; this appeal concerned only the district court's subsequent denial of post-judgment relief and recusal motions.\nFederal Circuit jurisdiction under § 1295(a)(1) requires the case to 'arise under' the patent laws—a threshold appellant failed to satisfy.\nRather than dismiss for lack of jurisdiction, the court transferred to the Third Circuit under 28 U.S.C. § 1631 as the proper circuit.\nNonprecedential order by Judges Lourie, Chen, and Stark, per curiam.\nstanding / jurisdiction non-precedential\nstanding / jurisdiction non-precedential\nstanding / jurisdiction non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/26-1381.ORDER.4-30-2026_2685409.pdf",
+    "source_file_path": "https://www.cafc.uscourts.gov/opinions-orders/26-1381.ORDER.4-30-2026_2685409.pdf",
+    "local_pdf": "data/2026-04-30/pdfs/26-1381-DCT-kamdem-ouaffo-v-leblon.pdf",
+    "local_text": "",
+    "cafc_metadata": {}
+  },
+  {
+    "opinion_date": "2026-04-30",
+    "release_date": "04/30/2026",
+    "appeal_number": "24-1846",
+    "origin": "PTO",
+    "source_tribunal": "Patent Trial and Appeal Board",
+    "document_type": "Opinion",
+    "case_name": "Wildseed Mobile, LLC v. Google LLC",
+    "status": "Nonprecedential",
+    "disposition": "Affirmed",
+    "holding": "The Federal Circuit affirmed the Board's construction of 'taken … from a message' to include information generated or derived from message text—not merely verbatim extraction—and affirmed the Board's finding that all challenged claims are unpatentable as obvious. The court also rejected Wildseed's APA challenge to the Board's obviousness analysis of the dependent claims.",
+    "why_it_matters": "Patent owners cannot narrow 'taken from a message' to verbatim extraction absent clear lexicography or disclaimer; prosecution history that narrows only the source of information does not also limit the method of obtaining that information.",
+    "key_points": [
+      "Claim construction: 'taken … from a message' encompasses information derived or generated from message text (e.g., inferring 'golf' from a reference to 'Pebble Beach'), not just verbatim extraction; the claim language limits the source but not the method of obtaining information.",
+      "Prosecution history: The applicant's amendment adding the 'from a text message' limitation distinguished Owensby only on the source of information and the absence of an affirmative user act—it said nothing about verbatim-only extraction, so no disclaimer of derived information.",
+      "Specification: Multiple modules in the preferred embodiments are described as 'generating,' 'analyzing,' and 'determining' information; the court declined to import a verbatim-extraction limitation from Figure 8 into the claims.",
+      "Dependent claims: Because claim 1 is not limited to a single source or verbatim extraction, dependent claims requiring that 'provided information additionally includes' other data types are not so limited either; Wildseed conceded substantial evidence supported obviousness under the correct construction.",
+      "APA: The Board satisfied APA notice-and-comment requirements by quoting the parties' positions, citing intrinsic evidence, and explaining its agreement with Google's construction, providing a reasonably discernible path for appellate review."
+    ],
+    "tags": [
+      "§ 103",
+      "claim construction",
+      "non-precedential"
+    ],
+    "issue_tags": [
+      "§ 103",
+      "claim construction",
+      "non-precedential"
+    ],
+    "holding_tags": [
+      "§ 103",
+      "claim construction",
+      "non-precedential"
+    ],
+    "technology_area": "Mobile advertising / targeted ad insertion on cellular devices",
+    "procedural_posture": "Appeal from PTAB final written decision in IPR2023-00248 holding claims 1–7 and 9–14 of U.S. Patent No. 7,376,414 unpatentable as obvious over Frerichs, Kawasaki, and Kauffman.",
+    "summary_text": "Wildseed Mobile, LLC v. Google LLC\nThe Federal Circuit affirmed the Board's construction of 'taken … from a message' to include information generated or derived from message text—not merely verbatim extraction—and affirmed the Board's finding that all challenged claims are unpatentable as obvious. The court also rejected Wildseed's APA challenge to the Board's obviousness analysis of the dependent claims.\nPatent owners cannot narrow 'taken from a message' to verbatim extraction absent clear lexicography or disclaimer; prosecution history that narrows only the source of information does not also limit the method of obtaining that information.\nAffirmed\nClaim construction: 'taken … from a message' encompasses information derived or generated from message text (e.g., inferring 'golf' from a reference to 'Pebble Beach'), not just verbatim extraction; the claim language limits the source but not the method of obtaining information.\nProsecution history: The applicant's amendment adding the 'from a text message' limitation distinguished Owensby only on the source of information and the absence of an affirmative user act—it said nothing about verbatim-only extraction, so no disclaimer of derived information.\nSpecification: Multiple modules in the preferred embodiments are described as 'generating,' 'analyzing,' and 'determining' information; the court declined to import a verbatim-extraction limitation from Figure 8 into the claims.\nDependent claims: Because claim 1 is not limited to a single source or verbatim extraction, dependent claims requiring that 'provided information additionally includes' other data types are not so limited either; Wildseed conceded substantial evidence supported obviousness under the correct construction.\nAPA: The Board satisfied APA notice-and-comment requirements by quoting the parties' positions, citing intrinsic evidence, and explaining its agreement with Google's construction, providing a reasonably discernible path for appellate review.\n§ 103 claim construction non-precedential\n§ 103 claim construction non-precedential\n§ 103 claim construction non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-1846.OPINION.4-30-2026_2685384.pdf",
+    "source_file_path": "opinions-orders/24-1846.OPINION.4-30-2026_2685384.pdf",
+    "local_pdf": "data/2026-04-30/pdfs/24-1846-PTO-wildseed-mobile-llc-v-google-llc.pdf",
+    "local_text": "data/2026-04-30/text/24-1846-PTO-wildseed-mobile-llc-v-google-llc.txt",
+    "cafc_metadata": {
+      "release_date": "04/30/2026",
+      "appeal_number": "24-1846",
+      "origin": "PTO",
+      "document_type": "OPINION",
+      "case_name": "WILDSEED MOBILE, LLC v. GOOGLE LLC [OPINION]",
+      "status": "Nonprecedential",
+      "file_path": "opinions-orders/24-1846.OPINION.4-30-2026_2685384.pdf",
+      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-1846.OPINION.4-30-2026_2685384.pdf",
+      "local_pdf": "data/2026-04-30/pdfs/24-1846-PTO-wildseed-mobile-llc-v-google-llc.pdf",
+      "local_text": "data/2026-04-30/text/24-1846-PTO-wildseed-mobile-llc-v-google-llc.txt"
+    }
+  },
+  {
+    "opinion_date": "2026-04-30",
+    "release_date": "2026-04-30",
+    "appeal_number": "2026-1282",
+    "origin": "DCT",
+    "source_tribunal": "U.S. District Court for the Southern District of New York",
+    "document_type": "Order",
+    "case_name": "Kamdem-Ouaffo v. Baker Botts, LLP",
+    "status": "Nonprecedential",
+    "disposition": "Appeal dismissed; pending motions denied; each side to bear its own costs.",
+    "holding": "The Federal Circuit dismissed the appeal as clearly frivolous without resolving whether jurisdiction lay in the Federal Circuit or the Second Circuit, because appellant failed to make any cogent, non-frivolous argument for relief under Rule 60(b)(4)'s exacting 'void judgment' standard. Transfer to the Second Circuit under 28 U.S.C. § 1631 was declined as not in the interest of justice.",
+    "why_it_matters": "Illustrates that the Federal Circuit will dismiss a frivolous appeal outright—without deciding its own jurisdiction—rather than transfer it, when no non-frivolous argument for relief exists regardless of which circuit has jurisdiction.",
+    "key_points": [
+      "Appellant's underlying inventorship correction claim against PepsiCo was dismissed by the SDNY and affirmed by the Federal Circuit in 2016; a subsequent fraud-on-the-court action was dismissed and affirmed by the Second Circuit.",
+      "Appellant's Rule 60(b)(4) motion argued the prior dismissal was jurisdictionally defective because his state claims raised a substantial federal question; the district court denied it as an attempt to relitigate the prior dismissal.",
+      "The Federal Circuit expressly declined to resolve the jurisdictional question (Federal Circuit vs. Second Circuit under § 1295(a)(1)), invoking its authority to dismiss regardless of how that question would be answered.",
+      "Rule 60(b)(4) relief requires showing the judgment is void—i.e., the court lacked jurisdiction or violated due process—a standard appellant failed to meet with any cogent, non-frivolous argument.",
+      "Because the appeal was clearly frivolous, the court declined to transfer to the Second Circuit even assuming that court had jurisdiction, finding transfer not in the interest of justice under 28 U.S.C. § 1631."
+    ],
+    "tags": [
+      "standing / jurisdiction",
+      "waiver / forfeiture",
+      "non-precedential",
+      "Hatch-Waxman / ANDA"
+    ],
+    "issue_tags": [
+      "standing / jurisdiction",
+      "waiver / forfeiture",
+      "non-precedential",
+      "Hatch-Waxman / ANDA"
+    ],
+    "holding_tags": [
+      "standing / jurisdiction",
+      "non-precedential",
+      "Hatch-Waxman / ANDA"
+    ],
+    "technology_area": "Not applicable (procedural/jurisdictional dismissal; underlying dispute involved correction of inventorship of a PepsiCo patent)",
+    "procedural_posture": "Pro se appellant appealed district court's denial of a Rule 60(b)(4) motion and reconsideration, seeking to vacate a prior dismissal of claims—including fraud-on-the-court allegations against PepsiCo's lawyers—that had already been affirmed by the Second Circuit. The Federal Circuit issued a show cause order on jurisdiction; appellant argued Federal Circuit jurisdiction under 28 U.S.C. § 1295(a)(1) based on the connection to his earlier inventorship action.",
+    "summary_text": "Kamdem-Ouaffo v. Baker Botts, LLP\nThe Federal Circuit dismissed the appeal as clearly frivolous without resolving whether jurisdiction lay in the Federal Circuit or the Second Circuit, because appellant failed to make any cogent, non-frivolous argument for relief under Rule 60(b)(4)'s exacting 'void judgment' standard. Transfer to the Second Circuit under 28 U.S.C. § 1631 was declined as not in the interest of justice.\nIllustrates that the Federal Circuit will dismiss a frivolous appeal outright—without deciding its own jurisdiction—rather than transfer it, when no non-frivolous argument for relief exists regardless of which circuit has jurisdiction.\nAppeal dismissed; pending motions denied; each side to bear its own costs.\nAppellant's underlying inventorship correction claim against PepsiCo was dismissed by the SDNY and affirmed by the Federal Circuit in 2016; a subsequent fraud-on-the-court action was dismissed and affirmed by the Second Circuit.\nAppellant's Rule 60(b)(4) motion argued the prior dismissal was jurisdictionally defective because his state claims raised a substantial federal question; the district court denied it as an attempt to relitigate the prior dismissal.\nThe Federal Circuit expressly declined to resolve the jurisdictional question (Federal Circuit vs. Second Circuit under § 1295(a)(1)), invoking its authority to dismiss regardless of how that question would be answered.\nRule 60(b)(4) relief requires showing the judgment is void—i.e., the court lacked jurisdiction or violated due process—a standard appellant failed to meet with any cogent, non-frivolous argument.\nBecause the appeal was clearly frivolous, the court declined to transfer to the Second Circuit even assuming that court had jurisdiction, finding transfer not in the interest of justice under 28 U.S.C. § 1631.\nstanding / jurisdiction waiver / forfeiture non-precedential Hatch-Waxman / ANDA\nstanding / jurisdiction waiver / forfeiture non-precedential Hatch-Waxman / ANDA\nstanding / jurisdiction non-precedential Hatch-Waxman / ANDA",
+    "summary_mode": "claude:claude-sonnet-4-6",
+    "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
+    "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/26-1282.ORDER.4-30-2026_2685370.pdf",
+    "source_file_path": "https://www.cafc.uscourts.gov/opinions-orders/26-1282.ORDER.4-30-2026_2685370.pdf",
+    "local_pdf": "data/2026-04-30/pdfs/26-1282-DCT-kamdem-ouaffo-v-baker-botts-llp.pdf",
+    "local_text": "",
+    "cafc_metadata": {}
+  },
+  {
+    "opinion_date": "2026-04-23",
+    "release_date": "2026-04-23",
+    "appeal_number": "24-1856 / 24-1916",
+    "origin": "PTO",
+    "source_tribunal": "Patent Trial and Appeal Board",
+    "document_type": "Order",
+    "case_name": "Universal Electronics, Inc. v. Roku, Inc.",
+    "status": "Nonprecedential",
+    "disposition": "Appeal No. 24-1916 dismissed with prejudice by stipulation; mandate issued same day. Appeal No. 24-1856 remains active.",
+    "holding": "The Federal Circuit dismissed Appeal No. 24-1916 (Roku's cross-appeal) pursuant to Fed. R. App. P. 42(b) based on the parties' stipulation, with each side bearing its own costs. Appeal No. 24-1856 (Universal Electronics' appeal) is unaffected and continues.",
+    "why_it_matters": "Roku's cross-appeal is off the table, narrowing the Federal Circuit proceedings to Universal Electronics' remaining challenge to the PTAB's IPR2022-01289 decision.",
+    "key_points": [
+      "Both Universal Electronics and Roku cross-appealed from PTAB IPR2022-01289; the two appeals were docketed separately as 24-1856 and 24-1916.",
+      "The parties stipulated to voluntary dismissal of Roku's appeal (24-1916) under Fed. R. App. P. 42(b), with each side bearing its own costs.",
+      "The Federal Circuit issued the mandate as to Appeal No. 24-1916 immediately on April 23, 2026.",
+      "Universal Electronics' appeal (24-1856) is unaffected and remains pending before the Federal Circuit.",
+      "This is a nonprecedential administrative order with no substantive ruling on the merits of the underlying IPR."
+    ],
+    "tags": [
+      "non-precedential",
+      "standing / jurisdiction",
+      "waiver / forfeiture",
+      "remand",
+      "Hatch-Waxman / ANDA"
+    ],
+    "issue_tags": [
+      "non-precedential",
+      "standing / jurisdiction",
+      "waiver / forfeiture",
+      "Hatch-Waxman / ANDA"
+    ],
+    "holding_tags": [
+      "non-precedential",
+      "standing / jurisdiction",
+      "waiver / forfeiture"
+    ],
+    "technology_area": "Consumer Electronics / Remote Control Technology",
+    "procedural_posture": "Cross-appeals from PTAB IPR2022-01289. Roku (Appeal No. 24-1916) stipulated to voluntary dismissal; Universal Electronics' appeal (No. 24-1856) remains pending.",
+    "summary_text": "Universal Electronics, Inc. v. Roku, Inc.\nThe Federal Circuit dismissed Appeal No. 24-1916 (Roku's cross-appeal) pursuant to Fed. R. App. P. 42(b) based on the parties' stipulation, with each side bearing its own costs. Appeal No. 24-1856 (Universal Electronics' appeal) is unaffected and continues.\nRoku's cross-appeal is off the table, narrowing the Federal Circuit proceedings to Universal Electronics' remaining challenge to the PTAB's IPR2022-01289 decision.\nAppeal No. 24-1916 dismissed with prejudice by stipulation; mandate issued same day. Appeal No. 24-1856 remains active.\nBoth Universal Electronics and Roku cross-appealed from PTAB IPR2022-01289; the two appeals were docketed separately as 24-1856 and 24-1916.\nThe parties stipulated to voluntary dismissal of Roku's appeal (24-1916) under Fed. R. App. P. 42(b), with each side bearing its own costs.\nThe Federal Circuit issued the mandate as to Appeal No. 24-1916 immediately on April 23, 2026.\nUniversal Electronics' appeal (24-1856) is unaffected and remains pending before the Federal Circuit.\nThis is a nonprecedential administrative order with no substantive ruling on the merits of the underlying IPR.\nnon-precedential standing / jurisdiction waiver / forfeiture remand Hatch-Waxman / ANDA\nnon-precedential standing / jurisdiction waiver / forfeiture Hatch-Waxman / ANDA\nnon-precedential standing / jurisdiction waiver / forfeiture",
+    "summary_mode": "claude:claude-sonnet-4-6",
     "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
     "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-1856.ORDER.4-23-2026_2681815.pdf",
-    "source_file_path": "opinions-orders/24-1856.ORDER.4-23-2026_2681815.pdf",
+    "source_file_path": "https://www.cafc.uscourts.gov/opinions-orders/24-1856.ORDER.4-23-2026_2681815.pdf",
     "local_pdf": "data/2026-04-23/pdfs/24-1856-PTO-universal-electronics-inc-v-roku-inc.pdf",
-    "local_text": "data/2026-04-23/text/24-1856-PTO-universal-electronics-inc-v-roku-inc.txt",
-    "cafc_metadata": {
-      "release_date": "04/23/2026",
-      "appeal_number": "24-1856",
-      "origin": "PTO",
-      "document_type": "ORDER",
-      "case_name": "UNIVERSAL ELECTRONICS, INC. v. ROKU, INC. [ORDER]",
-      "status": "Nonprecedential",
-      "file_path": "opinions-orders/24-1856.ORDER.4-23-2026_2681815.pdf",
-      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
-      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-1856.ORDER.4-23-2026_2681815.pdf",
-      "local_pdf": "data/2026-04-23/pdfs/24-1856-PTO-universal-electronics-inc-v-roku-inc.pdf",
-      "local_text": "data/2026-04-23/text/24-1856-PTO-universal-electronics-inc-v-roku-inc.txt"
-    }
+    "local_text": "",
+    "cafc_metadata": {}
   },
   {
     "opinion_date": "2026-04-23",
@@ -63,46 +1322,40 @@
     "appeal_number": "24-1956",
     "origin": "PTO",
     "source_tribunal": "Patent Trial and Appeal Board",
-    "document_type": "OPINION",
-    "case_name": "SLINGSHOT PRINTING LLC v. CANON U.S.A., INC. [OPINION]",
+    "document_type": "Opinion",
+    "case_name": "Slingshot Printing LLC v. Canon U.S.A., Inc.",
     "status": "Nonprecedential",
-    "disposition": "AFFIRMED",
-    "holding": "The Federal Circuit affirmed the PTAB's final written decision that claims 1-5 and 8 of Slingshot's U.S. Patent No. 7,195,341 were unpatentable as obvious. The court held that substantial evidence supported the Board's findings on the Torgerson/Bruce combination and that the Board's reasoning path was sufficiently discernible under the APA.",
-    "why_it_matters": "The decision is a useful reminder that a finite-number-of-predictable-solutions rationale can survive Federal Circuit review when backed by record evidence of design needs and expert testimony.",
+    "disposition": "Affirmed",
+    "holding": "The Federal Circuit affirmed the Board's finding that claims 1–5 and 8 of the '341 patent are unpatentable as obvious over Torgerson and Bruce, holding that the Board's findings on the polysilicon conductor limitation, motivation to combine, and remaining claim limitations were each supported by substantial evidence and satisfied APA explanation requirements.",
+    "why_it_matters": "Confirms that a Board obviousness decision survives APA scrutiny even where the written decision incorporates portions of the petition by reference with citations, so long as the Board's reasoning path is reasonably discernible—and distinguishes Virtek by emphasizing that finite-solutions and design-need evidence can supply the motivation-to-combine showing Virtek found lacking.",
     "key_points": [
-      "The patent concerns semiconductor substrate layouts for micro-fluid ejection devices, such as ink-jet printheads.",
-      "Slingshot challenged the Board's obviousness findings, including the motivation to combine Torgerson and Bruce.",
-      "The court distinguished Virtek because Canon had developed evidence of known design needs, market pressures, and predictable layout options.",
-      "The court also rejected Slingshot's APA challenge, finding the Board's explanation reasonably discernible from its citations and analysis."
+      "Polysilicon conductor limitation: The Board credited Canon's expert that a skilled artisan would understand Torgerson's polysilicon gate fingers necessarily extend to its logic circuits; the Federal Circuit found substantial evidence supported that reading and rejected Slingshot's argument that Canon improperly recharacterized the Board's decision or relied on an undisclosed inherency theory.",
+      "Motivation to combine: Both Torgerson and Bruce are in the same field (inkjet printhead semiconductor substrates); the Board credited evidence of design needs (substrate size reduction), market pressures, and a finite number of known, predictable solutions—distinguishing Virtek, where the record lacked any such evidence.",
+      "APA adequacy: The Board's decision on remaining limitations satisfied the APA because it identified the arguments and evidence reviewed, cited the relevant petition sections, and stated its conclusion; the Federal Circuit found the reasoning path reasonably discernible under Bowman Transport.",
+      "Standard of review: Obviousness legal conclusion reviewed de novo; underlying factual findings—including prior-art teachings and motivation to combine—reviewed for substantial evidence.",
+      "Nonprecedential: The opinion should not be cited as binding authority, though its application of Virtek and the APA-adequacy analysis is instructive for IPR practitioners."
     ],
     "tags": [
-      "PTO",
-      "Patent Trial and Appeal Board",
-      "103",
-      "PTAB",
-      "substantial evidence",
-      "APA"
+      "§ 103",
+      "claim construction",
+      "non-precedential",
+      "remand",
+      "Hatch-Waxman / ANDA"
     ],
     "issue_tags": [
-      "PTO",
-      "Patent Trial and Appeal Board",
-      "103",
-      "PTAB",
-      "substantial evidence",
-      "APA"
+      "§ 103",
+      "claim construction",
+      "non-precedential",
+      "Hatch-Waxman / ANDA"
     ],
     "holding_tags": [
-      "PTO",
-      "Patent Trial and Appeal Board",
-      "103",
-      "PTAB",
-      "substantial evidence",
-      "APA"
+      "§ 103",
+      "non-precedential"
     ],
-    "technology_area": "",
-    "procedural_posture": "OPINION",
-    "summary_text": "SLINGSHOT PRINTING LLC v. CANON U.S.A., INC. [OPINION]\nThe Federal Circuit affirmed the PTAB's final written decision that claims 1-5 and 8 of Slingshot's U.S. Patent No. 7,195,341 were unpatentable as obvious. The court held that substantial evidence supported the Board's findings on the Torgerson/Bruce combination and that the Board's reasoning path was sufficiently discernible under the APA.\nThe decision is a useful reminder that a finite-number-of-predictable-solutions rationale can survive Federal Circuit review when backed by record evidence of design needs and expert testimony.\nAFFIRMED\nThe patent concerns semiconductor substrate layouts for micro-fluid ejection devices, such as ink-jet printheads.\nSlingshot challenged the Board's obviousness findings, including the motivation to combine Torgerson and Bruce.\nThe court distinguished Virtek because Canon had developed evidence of known design needs, market pressures, and predictable layout options.\nThe court also rejected Slingshot's APA challenge, finding the Board's explanation reasonably discernible from its citations and analysis.\nPTO Patent Trial and Appeal Board 103 PTAB substantial evidence APA\nPTO Patent Trial and Appeal Board 103 PTAB substantial evidence APA\nPTO Patent Trial and Appeal Board 103 PTAB substantial evidence APA",
-    "summary_mode": "codex-refresh:gpt-5.5-style",
+    "technology_area": "Inkjet printing / semiconductor substrates for micro-fluid ejection devices",
+    "procedural_posture": "Appeal from PTAB final written decision in IPR2022-01414 finding claims 1–5 and 8 of U.S. Patent No. 7,195,341 unpatentable as obvious over Torgerson and Bruce.",
+    "summary_text": "Slingshot Printing LLC v. Canon U.S.A., Inc.\nThe Federal Circuit affirmed the Board's finding that claims 1–5 and 8 of the '341 patent are unpatentable as obvious over Torgerson and Bruce, holding that the Board's findings on the polysilicon conductor limitation, motivation to combine, and remaining claim limitations were each supported by substantial evidence and satisfied APA explanation requirements.\nConfirms that a Board obviousness decision survives APA scrutiny even where the written decision incorporates portions of the petition by reference with citations, so long as the Board's reasoning path is reasonably discernible—and distinguishes Virtek by emphasizing that finite-solutions and design-need evidence can supply the motivation-to-combine showing Virtek found lacking.\nAffirmed\nPolysilicon conductor limitation: The Board credited Canon's expert that a skilled artisan would understand Torgerson's polysilicon gate fingers necessarily extend to its logic circuits; the Federal Circuit found substantial evidence supported that reading and rejected Slingshot's argument that Canon improperly recharacterized the Board's decision or relied on an undisclosed inherency theory.\nMotivation to combine: Both Torgerson and Bruce are in the same field (inkjet printhead semiconductor substrates); the Board credited evidence of design needs (substrate size reduction), market pressures, and a finite number of known, predictable solutions—distinguishing Virtek, where the record lacked any such evidence.\nAPA adequacy: The Board's decision on remaining limitations satisfied the APA because it identified the arguments and evidence reviewed, cited the relevant petition sections, and stated its conclusion; the Federal Circuit found the reasoning path reasonably discernible under Bowman Transport.\nStandard of review: Obviousness legal conclusion reviewed de novo; underlying factual findings—including prior-art teachings and motivation to combine—reviewed for substantial evidence.\nNonprecedential: The opinion should not be cited as binding authority, though its application of Virtek and the APA-adequacy analysis is instructive for IPR practitioners.\n§ 103 claim construction non-precedential remand Hatch-Waxman / ANDA\n§ 103 claim construction non-precedential Hatch-Waxman / ANDA\n§ 103 non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
     "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
     "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-1956.OPINION.4-23-2026_2681303.pdf",
     "source_file_path": "opinions-orders/24-1956.OPINION.4-23-2026_2681303.pdf",
@@ -127,50 +1380,46 @@
     "release_date": "04/23/2026",
     "appeal_number": "24-1893",
     "origin": "DCT",
-    "source_tribunal": "District Court",
-    "document_type": "OPINION",
-    "case_name": "NETWORK-1 TECHNOLOGIES, INC. v. GOOGLE LLC [OPINION]",
+    "source_tribunal": "U.S. District Court for the Southern District of New York",
+    "document_type": "Opinion",
+    "case_name": "Network-1 Technologies, Inc. v. Google LLC",
     "status": "Nonprecedential",
-    "disposition": "AFFIRMED IN PART, REVERSED IN PART, AND REMANDED",
-    "holding": "The Federal Circuit affirmed indefiniteness of Network-1's '988 and '464 patents and affirmed summary judgment of noninfringement for one version of Google's Content ID system, but reversed and remanded as to the Siberia version of Content ID under the '237 patent. The court held that evidence about Siberia's tunable search parameters and Google's internal documents created a genuine fact dispute over whether that version met the claimed sublinear-search limitation.",
-    "why_it_matters": "For software-patent litigants, the opinion shows how system-design evidence and internal technical documents can defeat noninfringement summary judgment even when related invalidity rulings remain intact.",
+    "disposition": "Affirmed in part, reversed in part, and remanded.",
+    "holding": "The Federal Circuit affirmed indefiniteness of the '988 and '464 patent claims on the term 'non-exhaustive search' and affirmed summary judgment of noninfringement of the '237 patent as to the LSH version of Content ID, but reversed summary judgment of noninfringement as to the Siberia version of Content ID, finding a genuine issue of material fact on whether Siberia's 'tunable knobs' and an internal Google document stating it 'will need a sublinear search' satisfy the 'sublinear approximate nearest neighbor search' limitation.",
+    "why_it_matters": "The decision illustrates that claim terms added years after filing to overcome prior art—without clear definitional support in the specification—face serious indefiniteness risk, and that a single internal design document stating a system 'will need' a claimed feature can be enough to survive summary judgment of noninfringement.",
     "key_points": [
-      "Network-1 accused versions of Google's YouTube Content ID system of infringing patents directed to identifying works and linking traditional media to interactive media.",
-      "The district court held the '988 and '464 patent claims indefinite and granted Google summary judgment of noninfringement on the '237 patent.",
-      "The Federal Circuit affirmed noninfringement as to the LSH version of Content ID.",
-      "The court reversed as to the Siberia version because a factfinder could view the evidence as showing sublinear scaling, including tunable parameters and an internal Google document referring to a need for sublinear search."
+      "Indefiniteness ('988 and '464 patents): The term 'non-exhaustive search' was added to the claims nine years after the provisional filing and three years after the patent filing date to overcome prior art, but the specification never uses the phrase and does not draw a clear line between 'exhaustive' and 'non-exhaustive' searching in terms of how much data must be considered—neither intrinsic nor extrinsic evidence (including Network-1's expert declaration and academic papers) resolved the ambiguity.",
+      "Prior IPR analysis informative but not binding: The court noted that its earlier BRI-standard construction of 'non-exhaustive search' in the IPR appeal (vacating the Board) was instructive on the written-description analysis even though the Phillips standard applies in district court, because the specification's deficiency is standard-agnostic.",
+      "Summary judgment affirmed as to LSH version: Network-1's evidence—Baluja research papers, a 2010 Google draft document, and an expert report—all failed to connect to the actual implementation of the LSH Content ID system; the draft document contemplated both sublinear and non-sublinear LSH tables without evidence of which was built, and the expert report merely walked through the code without analyzing sublinearity.",
+      "Summary judgment reversed as to Siberia version: Two pieces of evidence created a triable issue—(1) evidence that Siberia's 'tunable knobs' allowed the system to adapt execution time to a growing dataset in less than a proportional relationship, and (2) an internal Google document stating Siberia 'will need a sublinear search,' which a factfinder could read as imposing a sublinear requirement on any Siberia implementation.",
+      "Practical takeaway on expert reports: The court reiterated that an expert opinion that merely describes how a system works without analyzing why it satisfies the disputed claim limitation is insufficient to defeat summary judgment."
     ],
     "tags": [
-      "DCT",
-      "District Court",
-      "112(b)",
+      "§ 112(b)",
+      "claim construction",
       "infringement",
-      "summary judgment",
       "remand",
-      "software patents"
+      "non-precedential",
+      "Hatch-Waxman / ANDA"
     ],
     "issue_tags": [
-      "DCT",
-      "District Court",
-      "112(b)",
+      "§ 112(b)",
+      "claim construction",
       "infringement",
-      "summary judgment",
       "remand",
-      "software patents"
+      "non-precedential",
+      "Hatch-Waxman / ANDA"
     ],
     "holding_tags": [
-      "DCT",
-      "District Court",
-      "112(b)",
+      "§ 112(b)",
       "infringement",
-      "summary judgment",
       "remand",
-      "software patents"
+      "non-precedential"
     ],
-    "technology_area": "",
-    "procedural_posture": "OPINION",
-    "summary_text": "NETWORK-1 TECHNOLOGIES, INC. v. GOOGLE LLC [OPINION]\nThe Federal Circuit affirmed indefiniteness of Network-1's '988 and '464 patents and affirmed summary judgment of noninfringement for one version of Google's Content ID system, but reversed and remanded as to the Siberia version of Content ID under the '237 patent. The court held that evidence about Siberia's tunable search parameters and Google's internal documents created a genuine fact dispute over whether that version met the claimed sublinear-search limitation.\nFor software-patent litigants, the opinion shows how system-design evidence and internal technical documents can defeat noninfringement summary judgment even when related invalidity rulings remain intact.\nAFFIRMED IN PART, REVERSED IN PART, AND REMANDED\nNetwork-1 accused versions of Google's YouTube Content ID system of infringing patents directed to identifying works and linking traditional media to interactive media.\nThe district court held the '988 and '464 patent claims indefinite and granted Google summary judgment of noninfringement on the '237 patent.\nThe Federal Circuit affirmed noninfringement as to the LSH version of Content ID.\nThe court reversed as to the Siberia version because a factfinder could view the evidence as showing sublinear scaling, including tunable parameters and an internal Google document referring to a need for sublinear search.\nDCT District Court 112(b) infringement summary judgment remand software patents\nDCT District Court 112(b) infringement summary judgment remand software patents\nDCT District Court 112(b) infringement summary judgment remand software patents",
-    "summary_mode": "codex-refresh:gpt-5.5-style",
+    "technology_area": "Digital media identification / content fingerprinting (YouTube Content ID system)",
+    "procedural_posture": "Appeal from combined claim construction and summary judgment order disposing of all asserted claims of three patents directed to media-work identification methods. District court held claims of the '988 and '464 patents indefinite and granted summary judgment of noninfringement as to both versions of Google's Content ID system for the '237 patent. Network-1 appealed all rulings.",
+    "summary_text": "Network-1 Technologies, Inc. v. Google LLC\nThe Federal Circuit affirmed indefiniteness of the '988 and '464 patent claims on the term 'non-exhaustive search' and affirmed summary judgment of noninfringement of the '237 patent as to the LSH version of Content ID, but reversed summary judgment of noninfringement as to the Siberia version of Content ID, finding a genuine issue of material fact on whether Siberia's 'tunable knobs' and an internal Google document stating it 'will need a sublinear search' satisfy the 'sublinear approximate nearest neighbor search' limitation.\nThe decision illustrates that claim terms added years after filing to overcome prior art—without clear definitional support in the specification—face serious indefiniteness risk, and that a single internal design document stating a system 'will need' a claimed feature can be enough to survive summary judgment of noninfringement.\nAffirmed in part, reversed in part, and remanded.\nIndefiniteness ('988 and '464 patents): The term 'non-exhaustive search' was added to the claims nine years after the provisional filing and three years after the patent filing date to overcome prior art, but the specification never uses the phrase and does not draw a clear line between 'exhaustive' and 'non-exhaustive' searching in terms of how much data must be considered—neither intrinsic nor extrinsic evidence (including Network-1's expert declaration and academic papers) resolved the ambiguity.\nPrior IPR analysis informative but not binding: The court noted that its earlier BRI-standard construction of 'non-exhaustive search' in the IPR appeal (vacating the Board) was instructive on the written-description analysis even though the Phillips standard applies in district court, because the specification's deficiency is standard-agnostic.\nSummary judgment affirmed as to LSH version: Network-1's evidence—Baluja research papers, a 2010 Google draft document, and an expert report—all failed to connect to the actual implementation of the LSH Content ID system; the draft document contemplated both sublinear and non-sublinear LSH tables without evidence of which was built, and the expert report merely walked through the code without analyzing sublinearity.\nSummary judgment reversed as to Siberia version: Two pieces of evidence created a triable issue—(1) evidence that Siberia's 'tunable knobs' allowed the system to adapt execution time to a growing dataset in less than a proportional relationship, and (2) an internal Google document stating Siberia 'will need a sublinear search,' which a factfinder could read as imposing a sublinear requirement on any Siberia implementation.\nPractical takeaway on expert reports: The court reiterated that an expert opinion that merely describes how a system works without analyzing why it satisfies the disputed claim limitation is insufficient to defeat summary judgment.\n§ 112(b) claim construction infringement remand non-precedential Hatch-Waxman / ANDA\n§ 112(b) claim construction infringement remand non-precedential Hatch-Waxman / ANDA\n§ 112(b) infringement remand non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
     "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
     "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-1893.OPINION.4-23-2026_2681375.pdf",
     "source_file_path": "opinions-orders/24-1893.OPINION.4-23-2026_2681375.pdf",
@@ -195,43 +1444,38 @@
     "release_date": "04/23/2026",
     "appeal_number": "24-2216",
     "origin": "DCT",
-    "source_tribunal": "District Court",
-    "document_type": "OPINION",
-    "case_name": "NANTWORKS, LLC v. NIANTIC, INC. [OPINION]",
+    "source_tribunal": "N.D. Cal. (Magistrate Judge Beeler)",
+    "document_type": "Opinion",
+    "case_name": "NantWorks, LLC v. Niantic, Inc.",
     "status": "Nonprecedential",
-    "disposition": "AFFIRMED",
-    "holding": "The Federal Circuit affirmed that asserted claims of NantWorks' U.S. Patent Nos. 10,664,518 and 10,403,051 were invalid under Section 101. The court agreed that the augmented-reality claims were directed to abstract ideas implemented with conventional components and that NantWorks failed to identify a claimed inventive concept.",
-    "why_it_matters": "The decision reinforces that AR and location-context claims remain vulnerable under Alice when the alleged improvement is functional or described in the specification but not captured as a concrete claimed technological advance.",
+    "disposition": "Affirmed",
+    "holding": "The Federal Circuit affirmed that asserted claims of both the '518 patent (directed to mapping and rendering AR objects based on device location using tessellated tile maps) and the '051 patent (directed to selecting and altering AR objects based on device location and context) are patent-ineligible under § 101 as directed to abstract ideas with no inventive concept. Under Alice/Mayo step one, the '518 claims are directed to 'providing information based on a location on a map' and the '051 claims to 'receiving information about a location and displaying materials based on that information'; under step two, neither patent's claims supply an inventive concept beyond those abstract ideas.",
+    "why_it_matters": "Reinforces that AR-specific claim language—tessellated tiles, virtual element attributes, altered AR object presence—does not rescue location-based information-display claims from § 101 invalidity when the underlying concept remains providing or filtering information based on location, and that unclaimed specification benefits cannot substitute for an inventive concept in the claims themselves.",
     "key_points": [
-      "NantWorks accused Niantic's augmented-reality games, including Pokemon Go and Harry Potter: Wizards Unite, of infringing AR-related patents.",
-      "The district court held asserted claims of the '518 patent invalid on the pleadings and asserted claims of the '051 patent invalid on summary judgment.",
-      "The Federal Circuit found the claims used generic computing components such as servers, repositories, processors, and devices to implement abstract AR concepts.",
-      "Expert assertions and specification benefits did not create a triable inventive-concept issue because they relied on unclaimed features or restated the abstract idea."
+      "Alice/Mayo step one: Both patents' claims reduce to location-based information filtering and display—an abstract idea—regardless of AR-specific terminology; limiting an abstract idea to the AR field of use does not confer eligibility.",
+      "Alice/Mayo step two: The court rejected NantWorks's 'selective memory population' argument for the '518 patent because the word 'selectively' does not appear in the claims; unclaimed specification advantages cannot supply an inventive concept.",
+      "For the '051 patent, the court found NantWorks's expert testimony (Dr. Turk) insufficient to create a genuine factual dispute at step two because the cited paragraphs were either conclusory, repeated unclaimed specification passages, or described abstract benefits rather than identifying an inventive concept within the claims.",
+      "The 'pencil and paper' test applied to '518 claim 7: each claimed step (locate on map, identify relevant area, display content as overlay) could be performed manually, confirming abstraction.",
+      "This is a nonprecedential disposition; readers should treat it as illustrative of how the court applies existing § 101 doctrine to AR/location-based patents rather than as binding authority."
     ],
     "tags": [
-      "DCT",
-      "District Court",
-      "101",
-      "summary judgment",
-      "software patents"
+      "§ 101",
+      "claim construction",
+      "non-precedential",
+      "remand"
     ],
     "issue_tags": [
-      "DCT",
-      "District Court",
-      "101",
-      "summary judgment",
-      "software patents"
+      "§ 101",
+      "non-precedential"
     ],
     "holding_tags": [
-      "DCT",
-      "District Court",
-      "101",
-      "software patents"
+      "§ 101",
+      "non-precedential"
     ],
-    "technology_area": "",
-    "procedural_posture": "OPINION",
-    "summary_text": "NANTWORKS, LLC v. NIANTIC, INC. [OPINION]\nThe Federal Circuit affirmed that asserted claims of NantWorks' U.S. Patent Nos. 10,664,518 and 10,403,051 were invalid under Section 101. The court agreed that the augmented-reality claims were directed to abstract ideas implemented with conventional components and that NantWorks failed to identify a claimed inventive concept.\nThe decision reinforces that AR and location-context claims remain vulnerable under Alice when the alleged improvement is functional or described in the specification but not captured as a concrete claimed technological advance.\nAFFIRMED\nNantWorks accused Niantic's augmented-reality games, including Pokemon Go and Harry Potter: Wizards Unite, of infringing AR-related patents.\nThe district court held asserted claims of the '518 patent invalid on the pleadings and asserted claims of the '051 patent invalid on summary judgment.\nThe Federal Circuit found the claims used generic computing components such as servers, repositories, processors, and devices to implement abstract AR concepts.\nExpert assertions and specification benefits did not create a triable inventive-concept issue because they relied on unclaimed features or restated the abstract idea.\nDCT District Court 101 summary judgment software patents\nDCT District Court 101 summary judgment software patents\nDCT District Court 101 software patents",
-    "summary_mode": "codex-refresh:gpt-5.5-style",
+    "technology_area": "Augmented Reality (AR) / Mobile / Location-Based Services",
+    "procedural_posture": "Appeal from (1) Rule 12(c) judgment on the pleadings invalidating asserted claims of U.S. Patent No. 10,664,518 and (2) summary judgment invalidating asserted claims of U.S. Patent No. 10,403,051, both under § 101. NantWorks accused Niantic's Pokémon Go and Harry Potter: Wizards Unite AR games of infringement.",
+    "summary_text": "NantWorks, LLC v. Niantic, Inc.\nThe Federal Circuit affirmed that asserted claims of both the '518 patent (directed to mapping and rendering AR objects based on device location using tessellated tile maps) and the '051 patent (directed to selecting and altering AR objects based on device location and context) are patent-ineligible under § 101 as directed to abstract ideas with no inventive concept. Under Alice/Mayo step one, the '518 claims are directed to 'providing information based on a location on a map' and the '051 claims to 'receiving information about a location and displaying materials based on that information'; under step two, neither patent's claims supply an inventive concept beyond those abstract ideas.\nReinforces that AR-specific claim language—tessellated tiles, virtual element attributes, altered AR object presence—does not rescue location-based information-display claims from § 101 invalidity when the underlying concept remains providing or filtering information based on location, and that unclaimed specification benefits cannot substitute for an inventive concept in the claims themselves.\nAffirmed\nAlice/Mayo step one: Both patents' claims reduce to location-based information filtering and display—an abstract idea—regardless of AR-specific terminology; limiting an abstract idea to the AR field of use does not confer eligibility.\nAlice/Mayo step two: The court rejected NantWorks's 'selective memory population' argument for the '518 patent because the word 'selectively' does not appear in the claims; unclaimed specification advantages cannot supply an inventive concept.\nFor the '051 patent, the court found NantWorks's expert testimony (Dr. Turk) insufficient to create a genuine factual dispute at step two because the cited paragraphs were either conclusory, repeated unclaimed specification passages, or described abstract benefits rather than identifying an inventive concept within the claims.\nThe 'pencil and paper' test applied to '518 claim 7: each claimed step (locate on map, identify relevant area, display content as overlay) could be performed manually, confirming abstraction.\nThis is a nonprecedential disposition; readers should treat it as illustrative of how the court applies existing § 101 doctrine to AR/location-based patents rather than as binding authority.\n§ 101 claim construction non-precedential remand\n§ 101 non-precedential\n§ 101 non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
     "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
     "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-2216.OPINION.4-23-2026_2681364.pdf",
     "source_file_path": "opinions-orders/24-2216.OPINION.4-23-2026_2681364.pdf",
@@ -257,52 +1501,43 @@
     "appeal_number": "24-1416",
     "origin": "ITC",
     "source_tribunal": "International Trade Commission",
-    "document_type": "OPINION",
-    "case_name": "CENTRIPETAL NETWORKS, LLC v. ITC [OPINION]",
+    "document_type": "Opinion",
+    "case_name": "Centripetal Networks, LLC v. ITC",
     "status": "Nonprecedential",
-    "disposition": "AFFIRMED",
-    "holding": "The Federal Circuit affirmed the ITC's no-violation determination in Centripetal's Section 337 investigation against Keysight. After a related PTAB affirmance mooted issues involving the '917 patent, the court held that substantial evidence supported the Commission's finding that Centripetal failed to establish the technical prong of domestic industry for the '370 patent, and that Centripetal waived multiple infringement arguments on appeal.",
-    "why_it_matters": "The opinion is a practical ITC reminder that domestic-industry proof and appeal preservation can independently decide a Section 337 case, even apart from validity issues.",
+    "disposition": "Affirmed",
+    "holding": "The Federal Circuit affirmed the ITC's finding of no Section 337 violation as to the '370 Patent, holding that substantial evidence supported the Commission's determination that Centripetal's domestic industry product failed to satisfy the technical prong of the domestic industry requirement, and that Centripetal waived its challenges to the Commission's non-infringement findings by failing to address key claim limitations in its opening brief.",
+    "why_it_matters": "Reinforces that ITC complainants must fully brief every appeal-dispositive infringement limitation in their opening brief or risk waiver, and that a domestic industry product must actually practice each claim limitation—not merely a functional approximation of the claimed 'device.'",
     "key_points": [
-      "Centripetal alleged Keysight violated Section 337 through imported products accused of infringing the '370, '917, and '526 patents.",
-      "The Commission found no violation, and the Federal Circuit affirmed.",
-      "Issues relating to the '917 patent were mooted by the companion affirmance of unpatentability in Centripetal v. Keysight.",
-      "For the '370 patent, substantial evidence supported the finding that Centripetal's domestic-industry product did not practice required claim limitations.",
-      "The court also held that Centripetal waived appeal-dispositive infringement challenges to several limitations."
+      "The '917 Patent issues were mooted by the Federal Circuit's same-day affirmance of unpatentability in No. 24-1406, leaving only the '370 Patent in dispute.",
+      "On the technical prong, the Commission found—and the Federal Circuit agreed on substantial evidence review—that Centripetal's RuleGATE ports are passive electrical interfaces that cannot be 'provisioned with rules' or 'generate log entries' as required by claim 22(b)–(f); the appliance itself, not the ports, stores and applies rules.",
+      "On infringement, Centripetal waived its challenge to the Commission's findings on the 'identify' and 'communicate' aspects of limitations (e) and (f) of claims 22 and 43 by failing to address those specific findings in its opening brief.",
+      "Centripetal also waived its limitation (h) 'communicate' argument on appeal by failing to address the Commission's own below-level waiver finding on that sub-element.",
+      "Because both the domestic industry technical prong failure and the infringement waivers independently supported affirmance, the court declined to reach the patent ineligibility ground."
     ],
     "tags": [
-      "ITC",
-      "International Trade Commission",
-      "infringement",
-      "PTAB",
       "domestic industry",
-      "waiver",
-      "substantial evidence",
-      "APA"
+      "infringement",
+      "waiver / forfeiture",
+      "claim construction",
+      "non-precedential"
     ],
     "issue_tags": [
-      "ITC",
-      "International Trade Commission",
-      "infringement",
-      "PTAB",
       "domestic industry",
-      "waiver",
-      "substantial evidence",
-      "APA"
+      "infringement",
+      "waiver / forfeiture",
+      "claim construction",
+      "non-precedential"
     ],
     "holding_tags": [
-      "ITC",
-      "International Trade Commission",
-      "infringement",
-      "PTAB",
       "domestic industry",
-      "waiver",
-      "substantial evidence"
+      "infringement",
+      "waiver / forfeiture",
+      "non-precedential"
     ],
-    "technology_area": "",
-    "procedural_posture": "OPINION",
-    "summary_text": "CENTRIPETAL NETWORKS, LLC v. ITC [OPINION]\nThe Federal Circuit affirmed the ITC's no-violation determination in Centripetal's Section 337 investigation against Keysight. After a related PTAB affirmance mooted issues involving the '917 patent, the court held that substantial evidence supported the Commission's finding that Centripetal failed to establish the technical prong of domestic industry for the '370 patent, and that Centripetal waived multiple infringement arguments on appeal.\nThe opinion is a practical ITC reminder that domestic-industry proof and appeal preservation can independently decide a Section 337 case, even apart from validity issues.\nAFFIRMED\nCentripetal alleged Keysight violated Section 337 through imported products accused of infringing the '370, '917, and '526 patents.\nThe Commission found no violation, and the Federal Circuit affirmed.\nIssues relating to the '917 patent were mooted by the companion affirmance of unpatentability in Centripetal v. Keysight.\nFor the '370 patent, substantial evidence supported the finding that Centripetal's domestic-industry product did not practice required claim limitations.\nThe court also held that Centripetal waived appeal-dispositive infringement challenges to several limitations.\nITC International Trade Commission infringement PTAB domestic industry waiver substantial evidence APA\nITC International Trade Commission infringement PTAB domestic industry waiver substantial evidence APA\nITC International Trade Commission infringement PTAB domestic industry waiver substantial evidence",
-    "summary_mode": "codex-refresh:gpt-5.5-style",
+    "technology_area": "Network security / packet-correlation systems",
+    "procedural_posture": "Appeal from ITC final determination finding no Section 337 violation as to U.S. Patent Nos. 9,264,370 and 10,193,917. The ALJ's Final ID (Aug. 8, 2023) found no violation on three independent grounds for the '370 Patent: failure to satisfy the technical prong of domestic industry, non-infringement, and patent ineligibility. The Commission affirmed. The '917 Patent issues were mooted by a same-day Federal Circuit affirmance of unpatentability in companion appeal No. 24-1406.",
+    "summary_text": "Centripetal Networks, LLC v. ITC\nThe Federal Circuit affirmed the ITC's finding of no Section 337 violation as to the '370 Patent, holding that substantial evidence supported the Commission's determination that Centripetal's domestic industry product failed to satisfy the technical prong of the domestic industry requirement, and that Centripetal waived its challenges to the Commission's non-infringement findings by failing to address key claim limitations in its opening brief.\nReinforces that ITC complainants must fully brief every appeal-dispositive infringement limitation in their opening brief or risk waiver, and that a domestic industry product must actually practice each claim limitation—not merely a functional approximation of the claimed 'device.'\nAffirmed\nThe '917 Patent issues were mooted by the Federal Circuit's same-day affirmance of unpatentability in No. 24-1406, leaving only the '370 Patent in dispute.\nOn the technical prong, the Commission found—and the Federal Circuit agreed on substantial evidence review—that Centripetal's RuleGATE ports are passive electrical interfaces that cannot be 'provisioned with rules' or 'generate log entries' as required by claim 22(b)–(f); the appliance itself, not the ports, stores and applies rules.\nOn infringement, Centripetal waived its challenge to the Commission's findings on the 'identify' and 'communicate' aspects of limitations (e) and (f) of claims 22 and 43 by failing to address those specific findings in its opening brief.\nCentripetal also waived its limitation (h) 'communicate' argument on appeal by failing to address the Commission's own below-level waiver finding on that sub-element.\nBecause both the domestic industry technical prong failure and the infringement waivers independently supported affirmance, the court declined to reach the patent ineligibility ground.\ndomestic industry infringement waiver / forfeiture claim construction non-precedential\ndomestic industry infringement waiver / forfeiture claim construction non-precedential\ndomestic industry infringement waiver / forfeiture non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
     "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
     "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-1416.OPINION.4-23-2026_2681340.pdf",
     "source_file_path": "opinions-orders/24-1416.OPINION.4-23-2026_2681340.pdf",
@@ -324,70 +1559,52 @@
   },
   {
     "opinion_date": "2026-04-23",
-    "release_date": "04/23/2026",
-    "appeal_number": "24-1406",
+    "release_date": "2026-04-23",
+    "appeal_number": "2024-1406, 2024-1473",
     "origin": "PTO",
     "source_tribunal": "Patent Trial and Appeal Board",
-    "document_type": "OPINION",
-    "case_name": "CENTRIPETAL NETWORKS, LLC v. KEYSIGHT TECHNOLOGIES, INC. [OPINION]",
+    "document_type": "Opinion",
+    "case_name": "Centripetal Networks, LLC v. Keysight Technologies, Inc.",
     "status": "Nonprecedential",
-    "disposition": "AFFIRMED IN PART, REVERSED IN PART",
-    "holding": "The Federal Circuit affirmed the PTAB's obviousness determination for claims 1-3, 5-13, and 15-20 of Centripetal's U.S. Patent No. 10,193,917, but reversed the Board's determination that claims 4 and 14 were not shown obvious. The court found no reversible error in the Board's claim-construction analysis and held that substantial evidence compelled obviousness of claims 4 and 14 based on Sourcefire's disclosures.",
-    "why_it_matters": "The companion PTAB decision narrows Centripetal's position in related enforcement activity and illustrates the Federal Circuit's willingness to reverse, rather than remand, when only one obviousness answer is supported by substantial evidence.",
+    "disposition": "Affirmed in part, reversed in part. Claims 1–3, 5–13, and 15–20 remain unpatentable; claims 4 and 14 are now also unpatentable for obviousness.",
+    "holding": "The Federal Circuit affirmed the Board's obviousness findings as to claims 1–3, 5–13, and 15–20, holding that substantial evidence supported the Board's claim construction of 'packet flow entry' and its finding that Sourcefire (alone or combined with Macaulay) disclosed the relevant limitations. The court reversed as to claims 4 and 14, holding that the Board's non-obviousness determination lacked substantial evidence support because the Board improperly read a 'continuous updating' requirement into the claims and its subsidiary factual findings regarding Sourcefire's disclosures were internally inconsistent and unsupported by the record.",
+    "why_it_matters": "The decision illustrates that PTAB factual findings on obviousness must be internally consistent across related claims—a Board cannot find that prior art discloses a feature sufficient for one claim while simultaneously finding the same feature absent for a dependent claim without a principled distinction, and importing a 'continuous' limitation from a specification example without clear claim support is reversible error.",
     "key_points": [
-      "The '917 patent is directed to rule-based network-threat detection using packet-filtering rules and packet flow log entries.",
-      "Centripetal appealed the Board's obviousness findings for most challenged claims, while Keysight cross-appealed the Board's finding that claims 4 and 14 had not been shown obvious.",
-      "The court affirmed obviousness of claims 1-3, 5-13, and 15-20, rejecting Centripetal's claim-construction and substantial-evidence challenges.",
-      "On the cross-appeal, the court held the Board's findings on claims 4 and 14 lacked substantial evidence and that Keysight's petition and expert evidence showed the relevant Sourcefire disclosures.",
-      "The court reversed as to claims 4 and 14 rather than remanding for a second record-making opportunity."
+      "Claim construction / notice: The Board did not violate APA notice requirements by construing 'packet flow entry' rather than 'packet flow' because Centripetal itself proffered a meaning for 'packet flow entry' in its briefing and was directly questioned on the term at the oral hearing; the Board may adopt a construction neither party proposes without running afoul of the APA.",
+      "Claim construction / substance: The Federal Circuit affirmed the Board's construction of 'packet flow entry' as an entry reflecting packets sharing a common feature (e.g., a common threat ID), not limited to packets from the same connection between two endpoints, because the '917 Patent's own specification (Figures 5G and 6G) shows a single entry aggregating packets from multiple distinct connections.",
+      "Obviousness / claims 1–3, 5–13, 15–20: Substantial evidence supported the Board's findings that Sourcefire discloses packet flow analysis data, a device that updates a packet flow entry based on packet log entries, and packet time data; Centripetal's arguments merely invited the court to draw a contrary inference from the same record, which is insufficient to overcome the substantial evidence standard.",
+      "Obviousness / claims 4 and 14 (cross-appeal): The Board erred on three independent grounds—(1) its finding that Sourcefire lacks an 'existing flow log entry' was internally inconsistent with its claim-1 finding that Sourcefire's refresh updates a flow log entry; (2) it improperly imported a 'continuous updating' requirement into claims 4 and 14 from a non-limiting specification example; and (3) it ignored Keysight's petition evidence (including expert testimony and annotated screenshots) showing Sourcefire discloses modification of a flow log entry to indicate corresponding packet-filtering rules and packet disposition.",
+      "Reversal standard: The court reversed outright (rather than remanding) on claims 4 and 14 because only one answer was supported by substantial evidence and there was no apparent reason to grant a second record-making opportunity, consistent with Corning v. Fast Felt Corp."
     ],
     "tags": [
-      "PTO",
-      "Patent Trial and Appeal Board",
-      "103",
+      "§ 103",
       "claim construction",
-      "PTAB",
-      "substantial evidence",
-      "remand"
+      "remand",
+      "non-precedential",
+      "Hatch-Waxman / ANDA"
     ],
     "issue_tags": [
-      "PTO",
-      "Patent Trial and Appeal Board",
-      "103",
+      "§ 103",
       "claim construction",
-      "PTAB",
-      "substantial evidence",
-      "remand"
+      "remand",
+      "non-precedential",
+      "Hatch-Waxman / ANDA"
     ],
     "holding_tags": [
-      "PTO",
-      "Patent Trial and Appeal Board",
-      "103",
+      "§ 103",
       "claim construction",
-      "PTAB",
-      "substantial evidence"
+      "remand",
+      "non-precedential"
     ],
-    "technology_area": "",
-    "procedural_posture": "OPINION",
-    "summary_text": "CENTRIPETAL NETWORKS, LLC v. KEYSIGHT TECHNOLOGIES, INC. [OPINION]\nThe Federal Circuit affirmed the PTAB's obviousness determination for claims 1-3, 5-13, and 15-20 of Centripetal's U.S. Patent No. 10,193,917, but reversed the Board's determination that claims 4 and 14 were not shown obvious. The court found no reversible error in the Board's claim-construction analysis and held that substantial evidence compelled obviousness of claims 4 and 14 based on Sourcefire's disclosures.\nThe companion PTAB decision narrows Centripetal's position in related enforcement activity and illustrates the Federal Circuit's willingness to reverse, rather than remand, when only one obviousness answer is supported by substantial evidence.\nAFFIRMED IN PART, REVERSED IN PART\nThe '917 patent is directed to rule-based network-threat detection using packet-filtering rules and packet flow log entries.\nCentripetal appealed the Board's obviousness findings for most challenged claims, while Keysight cross-appealed the Board's finding that claims 4 and 14 had not been shown obvious.\nThe court affirmed obviousness of claims 1-3, 5-13, and 15-20, rejecting Centripetal's claim-construction and substantial-evidence challenges.\nOn the cross-appeal, the court held the Board's findings on claims 4 and 14 lacked substantial evidence and that Keysight's petition and expert evidence showed the relevant Sourcefire disclosures.\nThe court reversed as to claims 4 and 14 rather than remanding for a second record-making opportunity.\nPTO Patent Trial and Appeal Board 103 claim construction PTAB substantial evidence remand\nPTO Patent Trial and Appeal Board 103 claim construction PTAB substantial evidence remand\nPTO Patent Trial and Appeal Board 103 claim construction PTAB substantial evidence",
-    "summary_mode": "codex-refresh:gpt-5.5-style",
+    "technology_area": "Network security / packet-filtering and threat detection",
+    "procedural_posture": "Appeal and cross-appeal from PTAB final written decision in IPR2022-01097 finding claims 1–3, 5–13, and 15–20 of U.S. Patent No. 10,193,917 unpatentable for obviousness and claims 4 and 14 not unpatentable.",
+    "summary_text": "Centripetal Networks, LLC v. Keysight Technologies, Inc.\nThe Federal Circuit affirmed the Board's obviousness findings as to claims 1–3, 5–13, and 15–20, holding that substantial evidence supported the Board's claim construction of 'packet flow entry' and its finding that Sourcefire (alone or combined with Macaulay) disclosed the relevant limitations. The court reversed as to claims 4 and 14, holding that the Board's non-obviousness determination lacked substantial evidence support because the Board improperly read a 'continuous updating' requirement into the claims and its subsidiary factual findings regarding Sourcefire's disclosures were internally inconsistent and unsupported by the record.\nThe decision illustrates that PTAB factual findings on obviousness must be internally consistent across related claims—a Board cannot find that prior art discloses a feature sufficient for one claim while simultaneously finding the same feature absent for a dependent claim without a principled distinction, and importing a 'continuous' limitation from a specification example without clear claim support is reversible error.\nAffirmed in part, reversed in part. Claims 1–3, 5–13, and 15–20 remain unpatentable; claims 4 and 14 are now also unpatentable for obviousness.\nClaim construction / notice: The Board did not violate APA notice requirements by construing 'packet flow entry' rather than 'packet flow' because Centripetal itself proffered a meaning for 'packet flow entry' in its briefing and was directly questioned on the term at the oral hearing; the Board may adopt a construction neither party proposes without running afoul of the APA.\nClaim construction / substance: The Federal Circuit affirmed the Board's construction of 'packet flow entry' as an entry reflecting packets sharing a common feature (e.g., a common threat ID), not limited to packets from the same connection between two endpoints, because the '917 Patent's own specification (Figures 5G and 6G) shows a single entry aggregating packets from multiple distinct connections.\nObviousness / claims 1–3, 5–13, 15–20: Substantial evidence supported the Board's findings that Sourcefire discloses packet flow analysis data, a device that updates a packet flow entry based on packet log entries, and packet time data; Centripetal's arguments merely invited the court to draw a contrary inference from the same record, which is insufficient to overcome the substantial evidence standard.\nObviousness / claims 4 and 14 (cross-appeal): The Board erred on three independent grounds—(1) its finding that Sourcefire lacks an 'existing flow log entry' was internally inconsistent with its claim-1 finding that Sourcefire's refresh updates a flow log entry; (2) it improperly imported a 'continuous updating' requirement into claims 4 and 14 from a non-limiting specification example; and (3) it ignored Keysight's petition evidence (including expert testimony and annotated screenshots) showing Sourcefire discloses modification of a flow log entry to indicate corresponding packet-filtering rules and packet disposition.\nReversal standard: The court reversed outright (rather than remanding) on claims 4 and 14 because only one answer was supported by substantial evidence and there was no apparent reason to grant a second record-making opportunity, consistent with Corning v. Fast Felt Corp.\n§ 103 claim construction remand non-precedential Hatch-Waxman / ANDA\n§ 103 claim construction remand non-precedential Hatch-Waxman / ANDA\n§ 103 claim construction remand non-precedential",
+    "summary_mode": "claude:claude-sonnet-4-6",
     "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
     "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-1406.OPINION.4-23-2026_2681317.pdf",
-    "source_file_path": "opinions-orders/24-1406.OPINION.4-23-2026_2681317.pdf",
+    "source_file_path": "https://www.cafc.uscourts.gov/opinions-orders/24-1406.OPINION.4-23-2026_2681317.pdf",
     "local_pdf": "data/2026-04-23/pdfs/24-1406-PTO-centripetal-networks-llc-v-keysight-technologies-inc.pdf",
-    "local_text": "data/2026-04-23/text/24-1406-PTO-centripetal-networks-llc-v-keysight-technologies-inc.txt",
-    "cafc_metadata": {
-      "release_date": "04/23/2026",
-      "appeal_number": "24-1406",
-      "origin": "PTO",
-      "document_type": "OPINION",
-      "case_name": "CENTRIPETAL NETWORKS, LLC v. KEYSIGHT TECHNOLOGIES, INC. [OPINION]",
-      "status": "Nonprecedential",
-      "file_path": "opinions-orders/24-1406.OPINION.4-23-2026_2681317.pdf",
-      "source_url": "https://www.cafc.uscourts.gov/home/case-information/opinions-orders/",
-      "pdf_url": "https://www.cafc.uscourts.gov/opinions-orders/24-1406.OPINION.4-23-2026_2681317.pdf",
-      "local_pdf": "data/2026-04-23/pdfs/24-1406-PTO-centripetal-networks-llc-v-keysight-technologies-inc.pdf",
-      "local_text": "data/2026-04-23/text/24-1406-PTO-centripetal-networks-llc-v-keysight-technologies-inc.txt"
-    }
+    "local_text": "",
+    "cafc_metadata": {}
   }
 ]

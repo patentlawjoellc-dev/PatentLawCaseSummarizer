@@ -7,3 +7,4 @@ pypdf>=6.0.0
 requests>=2.32.0
 lxml>=5.0.0
 xmltodict>=0.13.0
+curl-cffi>=0.7.0

@@ -27,6 +27,12 @@ import requests
 import xmltodict
 from dotenv import load_dotenv
 
+try:
+    from curl_cffi import requests as cffi_requests
+    _CFFI = True
+except ImportError:
+    _CFFI = False
+
 load_dotenv()
 
 # Ensure UTF-8 output on Windows consoles
@@ -92,11 +98,13 @@ class ItcDocument:
 # ── EDIS API query ────────────────────────────────────────────────────────────
 
 def _edis_headers() -> dict:
-    return {
+    h = {
         "Authorization": f"Bearer {EDIS_API_KEY}",
         "Accept": "application/xml",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
     }
+    if not _CFFI:
+        h["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+    return h
 
 
 def query_edis(target_date: date) -> list[ItcDocument]:
@@ -117,12 +125,21 @@ def query_edis(target_date: date) -> list[ItcDocument]:
 
     while True:
         try:
-            resp = requests.get(
-                EDIS_DOC_ENDPOINT,
-                headers=_edis_headers(),
-                params={"pageSize": "200", "pageNumber": str(page)},
-                timeout=30,
-            )
+            if _CFFI:
+                resp = cffi_requests.get(
+                    EDIS_DOC_ENDPOINT,
+                    headers=_edis_headers(),
+                    params={"pageSize": "200", "pageNumber": str(page)},
+                    impersonate="chrome",
+                    timeout=30,
+                )
+            else:
+                resp = requests.get(
+                    EDIS_DOC_ENDPOINT,
+                    headers=_edis_headers(),
+                    params={"pageSize": "200", "pageNumber": str(page)},
+                    timeout=30,
+                )
             resp.raise_for_status()
         except requests.HTTPError as exc:
             print(f"  EDIS API error: {exc}")
@@ -505,15 +522,4 @@ def main() -> None:
             try:
                 sync_supabase(record)
                 print(f"    ✓ Upserted: {doc.source_file_path}")
-                processed_dates.add(doc.filing_date)
-            except Exception as exc:
-                print(f"    ✗ Supabase error: {exc}")
-
-    if processed_dates and not args.no_supabase:
-        trigger_itc_digest(max(processed_dates))
-
-    print(f"[itc_daily] Done — processed {len(documents)} document(s).")
-
-
-if __name__ == "__main__":
-    main()
+      

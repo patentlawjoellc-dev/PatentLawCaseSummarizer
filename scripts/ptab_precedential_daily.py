@@ -214,30 +214,79 @@ def extract_text(pdf_bytes: bytes) -> str:
 # ── Claude summarization ──────────────────────────────────────────────────────
 
 _CLAUDE_PROMPT = """\
-You are an expert PTAB practitioner. This decision has been officially designated as \
-{designation_type_upper} by the USPTO Director.
+You are a senior patent litigator preparing a rapid-read briefing memo on an officially \
+designated PTAB decision. Your colleagues are experienced IPR/PGR practitioners who need \
+to know immediately how this decision changes their practice — they do not need background \
+on PTAB procedure, only what is NEW, DIFFERENT, or CONTROLLING after this decision.
 
 Decision: {title}
 Case: {case_number}, Paper {paper_number}
 Date: {decision_date}
+Designation: {designation_type_upper} (binding on all future PTAB panels)
 
-Full text (first 120,000 characters):
+Full decision text:
 {text}
 
 Analyze this decision and return ONLY a JSON object with exactly these keys:
+
 {{
-  "holding": "1-2 sentences: the specific legal rule or standard this decision establishes",
-  "why_it_matters": "2-3 sentences: practical impact for practitioners filing/defending IPR or PGR petitions",
-  "key_points": ["point 1", "point 2", "point 3", "point 4", "point 5"],
-  "tags": ["tag1", "tag2", "tag3"],
-  "technology_area": "brief tech area description or null",
-  "disposition": "{designation_type_upper}"
+  "holding": "State the precise legal rule this decision establishes as a rule of decision: \
+'When [specific condition], the Board must/may/cannot [specific action].' \
+If the decision applies or refines a multi-factor test (e.g., NHK-Fintiv, Advanced Bionics, \
+General Plastic), name the test and state which factor(s) it addresses. \
+Quote the operative statutory or regulatory language if it is central to the holding. \
+Maximum 3 sentences — be exact, not general.",
+
+  "why_it_matters": "4 sentences covering each of the following: \
+(1) What this overrules, modifies, or clarifies from prior PTAB practice or a prior \
+precedential/informative decision — name any prior decision by name if applicable, \
+or state 'No prior precedent directly addressed this issue' if so. \
+(2) Concrete impact for petitioners — does this make institution more or less likely, \
+and what must a petition now include or avoid? \
+(3) Concrete impact for patent owners — what arguments or evidence does this enable \
+or foreclose in a preliminary response or sur-reply? \
+(4) Any circuit-level or Supreme Court authority the Board relied on that binds this analysis.",
+
+  "key_points": [
+    "LEGAL TEST OR STANDARD: List every element or factor of the test the Board applied, \
+exactly as the Board stated them. If the Board applied a numbered or lettered list of \
+factors, reproduce each factor verbatim.",
+    "TRIGGERING FACTS: The specific fact pattern in this case that activated the rule — \
+what a future party must show to bring themselves inside or outside this precedent. \
+Be concrete: stage of parallel litigation, timing of filing, claim scope, prior art type, etc.",
+    "KEY QUOTE: One verbatim sentence copied exactly from the decision that best captures \
+the Board's central reasoning or holding. Format as: \\'[exact text]\\' (Paper [number], p. [X]).",
+    "PRIOR PRECEDENT AFFECTED: Name any prior PTAB precedential or informative decisions \
+this modifies, supersedes, or distinguishes (e.g., Apple Inc. v. Fintiv, IPR2020-00019; \
+Advanced Bionics, IPR2019-01469; Becton, Dickinson, IPR2017-01586). \
+If none, write: No prior precedential or informative decision is directly affected.",
+    "PRACTICE TIP: The single most important action a petitioner or patent owner should \
+take — or stop taking — in future IPR/PGR petitions or Patent Owner Preliminary Responses \
+based on this decision. Be specific: what to include in a petition, what to argue in a POPR, \
+what a discretionary denial motion must now address."
+  ],
+
+  "tags": ["tag1", "tag2"],
+  "technology_area": "Describe the technology at issue in the underlying patent \
+(e.g., \\'pharmaceutical method claims for treating diabetes\\', \
+\\'software-implemented bid management system\\', \\'mechanical valve assembly\\'). \
+Write null if the holding is purely procedural and the technology is irrelevant.",
+  "disposition": "{designation_type_upper}",
+  "proceeding_type": "IPR | PGR | CBM | ex parte | other",
+  "outcome_favors": "petitioner | patent_owner | neither | procedural_only"
 }}
 
-Choose tags ONLY from this list:
+Choose tags ONLY from this list (select 1–4 most on-point):
 {tags_list}
 
-Return ONLY valid JSON. No markdown fences, no explanation.
+Accuracy rules:
+- Quote text from the decision verbatim in the KEY QUOTE bullet — do not paraphrase.
+- Do not invent case citations. If you are not certain a prior case is named in this \
+decision, write 'none identified.'
+- If the decision is informative (not precedential), note in the holding that it is \
+persuasive authority only, not binding.
+
+Return ONLY valid JSON. No markdown fences, no explanation, no trailing commas.
 """
 
 

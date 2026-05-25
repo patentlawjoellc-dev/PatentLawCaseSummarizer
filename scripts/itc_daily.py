@@ -100,13 +100,19 @@ def _edis_headers() -> dict:
 
 
 def query_edis(target_date: date) -> list[ItcDocument]:
-    """Query EDIS for Section 337 documents filed on target_date."""
+    """
+    Fetch recent EDIS Section 337 documents and return those whose documentDate
+    matches target_date.
+
+    Note: The EDIS /data/document endpoint ignores filingDateFrom/filingDateTo
+    params and returns the most recent documents across all dates. We filter
+    client-side by the parsed documentDate field.
+    """
     if not EDIS_API_KEY:
         print("ERROR: EDIS_API_KEY not set. Register at https://edis.usitc.gov.")
         sys.exit(1)
 
     documents: list[ItcDocument] = []
-    date_str = target_date.strftime("%Y-%m-%d")
     page = 1
 
     while True:
@@ -114,8 +120,7 @@ def query_edis(target_date: date) -> list[ItcDocument]:
             resp = requests.get(
                 EDIS_DOC_ENDPOINT,
                 headers=_edis_headers(),
-                params={"filingDateFrom": date_str, "filingDateTo": date_str,
-                        "pageSize": "200", "pageNumber": str(page)},
+                params={"pageSize": "200", "pageNumber": str(page)},
                 timeout=30,
             )
             resp.raise_for_status()
@@ -131,6 +136,7 @@ def query_edis(target_date: date) -> list[ItcDocument]:
         if not items:
             break
 
+        found_older = False
         for item in items:
             if item.get("investigationType") != "Sec 337":
                 continue
@@ -138,11 +144,15 @@ def query_edis(target_date: date) -> list[ItcDocument]:
             if doc_type_str not in EDIS_DOC_TYPE_MAP:
                 continue
             doc = _parse_edis_item(item, target_date)
-            if doc:
+            if not doc:
+                continue
+            if doc.filing_date == target_date:
                 documents.append(doc)
+            elif doc.filing_date < target_date:
+                found_older = True
 
         total_pages = int(root.get("totalPages") or 1)
-        if page >= total_pages:
+        if found_older or page >= total_pages:
             break
         page += 1
 

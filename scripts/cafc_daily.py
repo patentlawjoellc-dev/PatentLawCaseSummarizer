@@ -8,7 +8,7 @@ import os
 import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import pdfplumber
 import requests
@@ -495,6 +495,23 @@ def load_day_metadata(day: str) -> dict[str, dict]:
     return {str(row.get("appeal_number", "")): row for row in rows}
 
 
+def _canonical_path(pdf_url: str) -> str:
+    """Return the canonical relative path for a CAFC PDF URL.
+
+    The source_file_path column is the unique upsert key on cafc_documents.
+    Earlier code fell back to the full pdf_url when metadata lookup failed
+    (e.g. when AI returned a comma-separated consolidated appeal_number that
+    didn't match the per-appeal metadata.json key), producing rows like
+        source_file_path = "https://www.cafc.uscourts.gov/opinions-orders/...pdf"
+    which then duplicated future syncs of the same PDF using the relative form
+        source_file_path = "opinions-orders/...pdf"
+    Always stripping to the URL path component keeps the two paths identical.
+    """
+    if not pdf_url:
+        return ""
+    return urlparse(pdf_url).path.lstrip("/")
+
+
 def summary_text(item: dict) -> str:
     return "\n".join(
         [
@@ -535,7 +552,7 @@ def document_record(day: str, item: dict, metadata: dict) -> dict:
         "summary_mode": enriched.get("summary_mode", ""),
         "source_url": metadata.get("source_url") or OPINIONS_URL,
         "pdf_url": pdf_url,
-        "source_file_path": metadata.get("file_path") or pdf_url or enriched.get("source_pdf", ""),
+        "source_file_path": metadata.get("file_path") or _canonical_path(pdf_url) or enriched.get("source_pdf", ""),
         "local_pdf": metadata.get("local_pdf") or enriched.get("source_pdf", ""),
         "local_text": metadata.get("local_text", ""),
         "cafc_metadata": metadata,

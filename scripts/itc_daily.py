@@ -61,11 +61,17 @@ EDIS_DOC_TYPE_MAP = {
 # Internal code → human-readable label
 EDIS_DOC_TYPES = {
     "COMPLAINT": "Complaint",
+    "DN":        "Pre-Institution Complaint",
     "NOI":       "Notice of Investigation",
     "ID":        "Initial Determination",
     "RD":        "Recommended Determination",
     "FCO":       "Final Commission Opinion",
 }
+
+# USITC Federal Register notices index (lists pre-institution DN # complaints
+# that don't yet appear in EDIS /data/document)
+USITC_INDEX_URL = "https://usitc.gov/secretary/fed_reg_notices/337.htm"
+USITC_BASE_URL = "https://www.usitc.gov"
 
 _SUPABASE_HEADERS = {
     "apikey": SUPABASE_KEY,
@@ -176,6 +182,83 @@ def query_edis(target_date: date) -> list[ItcDocument]:
     return documents
 
 
+# ── USITC Federal Register notices index (pre-institution complaints) ─────────
+
+def query_complaints_index(target_date: date) -> list[ItcDocument]:
+    """Scrape the USITC notices page for pre-institution (DN #) complaints filed on target_date.
+
+    Pre-institution complaints are docketed under DN # but don't yet appear in EDIS
+    /data/document until the Commission formally institutes the investigation (typically
+    30 days after filing). This catches them at filing-day from the public notices index.
+    """
+    if _CFFI:
+        resp = cffi_requests.get(USITC_INDEX_URL, impersonate="chrome", timeout=30)
+    else:
+        resp = requests.get(USITC_INDEX_URL, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}, timeout=30)
+    try:
+        resp.raise_for_status()
+    except Exception as exc:
+        print(f"  USITC index error: {exc}")
+        return []
+
+    html = resp.text
+    # Parse table rows — each row has 4 cells: title (with link), inv/docket#, action, date
+    row_re = re.compile(
+        r'<tr[^>]*>\s*'
+        r'<td[^>]*views-field-title-2[^>]*>\s*<a href="([^"]+)">([^<]+)</a>\s*</td>\s*'
+        r'<td[^>]*views-field-field-(?:investigation-num|docket-num)[^>]*>\s*([^<]+?)\s*</td>\s*'
+        r'<td[^>]*views-field-field-notice-action[^>]*>\s*([^<]+?)\s*</td>\s*'
+        r'<td[^>]*views-field-field-notice-issue-date[^>]*>\s*([^<]+?)\s*</td>',
+        re.DOTALL,
+    )
+    rows = row_re.findall(html)
+    print(f"  [USITC index] parsed {len(rows)} notice rows")
+
+    docs: list[ItcDocument] = []
+    for href, title, num_text, action, date_str in rows:
+        # Only true pre-institution complaints — filter by action text.
+        # Rows where the complaint was just instituted show BOTH 337-TA-XXXX and DN # XXXX
+        # in the num cell, but their action is "Institution of Investigation" — those are
+        # post-institution and handled by the EDIS query.
+        if "Receipt of Complaint" not in action:
+            continue
+        # Parse date (e.g., "May 26, 2026")
+        try:
+            notice_date = datetime.strptime(date_str.strip(), "%B %d, %Y").date()
+        except ValueError:
+            continue
+        if notice_date != target_date:
+            continue
+
+        # Extract the DN docket number specifically (avoid matching 337-TA-XXXX if both appear)
+        m = re.search(r"DN\s*#?\s*(\d+)", num_text)
+        if not m:
+            # Fallback: any numeric sequence
+            m = re.search(r"\d+", num_text)
+            if not m:
+                continue
+        docket = m.group(1) if m.lastindex else m.group(0)
+
+        pdf_url = href if href.startswith("http") else f"{USITC_BASE_URL}{href}"
+        slug = f"dn-{docket}"
+        source_file_path = f"itc/{notice_date.isoformat()}/{slug}/dn"
+
+        docs.append(ItcDocument(
+            investigation_number=f"DN-{docket}",
+            investigation_title=title.strip(),
+            document_type_code="DN",
+            document_type_label="Pre-Institution Complaint",
+            filing_date=notice_date,
+            complainant="Unknown Complainant",  # not in index; extracted from PDF text if Claude is enabled
+            respondents=[],
+            doc_id=f"dn-{docket}",
+            pdf_url=pdf_url,
+            source_file_path=source_file_path,
+        ))
+
+    return docs
+
+
 def _parse_edis_item(item: dict, fallback_date: date) -> Optional[ItcDocument]:
     doc_type_str = item.get("documentType", "")
     doc_type_code = EDIS_DOC_TYPE_MAP[doc_type_str]
@@ -222,7 +305,23 @@ def _parse_edis_item(item: dict, fallback_date: date) -> Optional[ItcDocument]:
 # ── PDF download + text extraction ───────────────────────────────────────────
 
 def download_pdf(attachment_url: str) -> bytes:
-    """Resolve attachment list URL → download first attachment with a valid downloadUri."""
+    """Download a PDF.
+
+    Two URL shapes are supported:
+    1. EDIS attachment list URL (XML listing) — resolves to first downloadable PDF.
+    2. Direct .pdf URL (USITC Federal Register notices) — fetched directly.
+    """
+    # Direct PDF URL (used by pre-institution DN complaints from USITC notices page)
+    if attachment_url.lower().endswith(".pdf"):
+        ua_headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)", "Accept": "application/pdf"}
+        if _CFFI:
+            resp = cffi_requests.get(attachment_url, headers=ua_headers, impersonate="chrome", timeout=60)
+        else:
+            resp = requests.get(attachment_url, headers=ua_headers, timeout=60)
+        resp.raise_for_status()
+        return resp.content
+
+    # EDIS attachment list URL — XML response containing attachment metadata
     if _CFFI:
         resp = cffi_requests.get(attachment_url, headers=_edis_headers(), impersonate="chrome", timeout=30)
     else:
@@ -257,6 +356,29 @@ def extract_text(pdf_bytes: bytes) -> str:
 # ── Claude summarization ──────────────────────────────────────────────────────
 
 _PROMPTS: dict[str, str] = {
+    "DN": """\
+You are a senior patent litigator reviewing a newly filed USITC Section 337 complaint
+that has been docketed (DN #) but not yet instituted as an investigation.
+
+Docket: {inv_number} — {inv_title}
+Filing Date: {filing_date}
+
+Federal Register notice text (first 60,000 characters):
+{text}
+
+Return ONLY a JSON object:
+{{
+  "holding": "1-2 sentences: complainant identity, products at issue, patents asserted, relief sought (exclusion order / cease & desist)",
+  "why_it_matters": "2-3 sentences: technology area, market significance, public-interest factors solicited by the Commission",
+  "key_points": ["complainant", "proposed respondents (if listed)", "products targeted", "asserted patents (if identified)", "relief sought"],
+  "tags": ["tag1", "tag2"],
+  "technology_area": "brief tech area",
+  "disposition": "PRE-INSTITUTION COMPLAINT FILED"
+}}
+
+Choose tags from: {tags_list}
+Return ONLY valid JSON. No markdown fences.""",
+
     "COMPLAINT": """\
 You are a senior patent litigator reviewing a newly filed USITC Section 337 complaint.
 
@@ -491,6 +613,11 @@ def main() -> None:
 
     documents = query_edis(target_date)
     print(f"  Found {len(documents)} Section 337 documents from EDIS")
+
+    pre_institution = query_complaints_index(target_date)
+    if pre_institution:
+        print(f"  Found {len(pre_institution)} pre-institution complaints from USITC notices index")
+        documents.extend(pre_institution)
 
     if not documents:
         print("  No new ITC documents for today. Exiting.")

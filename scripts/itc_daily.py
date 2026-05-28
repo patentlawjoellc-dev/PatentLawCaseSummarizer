@@ -182,7 +182,70 @@ def query_edis(target_date: date) -> list[ItcDocument]:
     return documents
 
 
-# ── USITC Federal Register notices index (pre-institution complaints) ─────────
+# ── USITC Federal Register notices index (pre-institution complaints + bridges) ──
+
+@dataclass
+class InstitutionBridge:
+    """An 'Institution of Investigation' row that maps DN # → 337-TA-XXXX.
+
+    This is the ONLY public signal that connects a pre-institution complaint
+    (docketed as DN # NNNN) to the formal investigation number assigned upon
+    institution. itc_daily.py uses it to create bidirectional related_documents
+    links between the DN complaint and any subsequent NOI/ID/RD/FCO records.
+    """
+    investigation_number: str    # e.g., "337-TA-1501"
+    docket_number: str           # e.g., "3900" (digits only, no DN prefix)
+    institution_date: date
+
+
+def _fetch_usitc_notices_html() -> str:
+    """Single fetch of the USITC notices page — reused by both bridge + complaints scrapers."""
+    if _CFFI:
+        resp = cffi_requests.get(USITC_INDEX_URL, impersonate="chrome", timeout=30)
+    else:
+        resp = requests.get(USITC_INDEX_URL, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}, timeout=30)
+    resp.raise_for_status()
+    return resp.text
+
+
+_NOTICE_ROW_RE = re.compile(
+    r'<tr[^>]*>\s*'
+    r'<td[^>]*views-field-title-2[^>]*>\s*<a href="([^"]+)">([^<]+)</a>\s*</td>\s*'
+    r'<td[^>]*views-field-field-(?:investigation-num|docket-num)[^>]*>\s*([^<]+?)\s*</td>\s*'
+    r'<td[^>]*views-field-field-notice-action[^>]*>\s*([^<]+?)\s*</td>\s*'
+    r'<td[^>]*views-field-field-notice-issue-date[^>]*>\s*([^<]+?)\s*</td>',
+    re.DOTALL,
+)
+
+
+def query_institution_bridges(html: Optional[str] = None) -> list[InstitutionBridge]:
+    """Return all DN→Investigation mappings visible on the current USITC notices index.
+
+    Each entry is sourced from a row whose action contains 'Institution of Investigation'
+    AND whose number cell contains both a 337-TA-XXXX and a DN # NNNN literal (which is
+    how USITC formats institution notices — see HTML structure documented in CLAUDE.md).
+    """
+    if html is None:
+        html = _fetch_usitc_notices_html()
+    bridges: list[InstitutionBridge] = []
+    for _href, _title, num_text, action, date_str in _NOTICE_ROW_RE.findall(html):
+        if "Institution" not in action:
+            continue
+        inv_match = re.search(r"337-TA-\d+", num_text)
+        dn_match = re.search(r"DN\s*#?\s*(\d+)", num_text)
+        if not (inv_match and dn_match):
+            continue
+        try:
+            inst_date = datetime.strptime(date_str.strip(), "%B %d, %Y").date()
+        except ValueError:
+            continue
+        bridges.append(InstitutionBridge(
+            investigation_number=inv_match.group(0),
+            docket_number=dn_match.group(1),
+            institution_date=inst_date,
+        ))
+    return bridges
+
 
 def query_complaints_index(target_date: date) -> list[ItcDocument]:
     """Scrape the USITC notices page for pre-institution (DN #) complaints filed on target_date.
@@ -191,27 +254,13 @@ def query_complaints_index(target_date: date) -> list[ItcDocument]:
     /data/document until the Commission formally institutes the investigation (typically
     30 days after filing). This catches them at filing-day from the public notices index.
     """
-    if _CFFI:
-        resp = cffi_requests.get(USITC_INDEX_URL, impersonate="chrome", timeout=30)
-    else:
-        resp = requests.get(USITC_INDEX_URL, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}, timeout=30)
     try:
-        resp.raise_for_status()
+        html = _fetch_usitc_notices_html()
     except Exception as exc:
         print(f"  USITC index error: {exc}")
         return []
 
-    html = resp.text
-    # Parse table rows — each row has 4 cells: title (with link), inv/docket#, action, date
-    row_re = re.compile(
-        r'<tr[^>]*>\s*'
-        r'<td[^>]*views-field-title-2[^>]*>\s*<a href="([^"]+)">([^<]+)</a>\s*</td>\s*'
-        r'<td[^>]*views-field-field-(?:investigation-num|docket-num)[^>]*>\s*([^<]+?)\s*</td>\s*'
-        r'<td[^>]*views-field-field-notice-action[^>]*>\s*([^<]+?)\s*</td>\s*'
-        r'<td[^>]*views-field-field-notice-issue-date[^>]*>\s*([^<]+?)\s*</td>',
-        re.DOTALL,
-    )
-    rows = row_re.findall(html)
+    rows = _NOTICE_ROW_RE.findall(html)
     print(f"  [USITC index] parsed {len(rows)} notice rows")
 
     docs: list[ItcDocument] = []
@@ -568,6 +617,8 @@ def build_record(doc: ItcDocument, summary: dict) -> dict:
             "respondents": doc.respondents,
             "edis_doc_id": doc.doc_id,
         },
+        # Populated by main() after upsert via find_and_apply_links()
+        "related_documents": [],
     }
 
 
@@ -578,6 +629,86 @@ def sync_supabase(record: dict) -> None:
         json=record,
     )
     resp.raise_for_status()
+
+
+# ── Related-document linking (DN complaint ↔ subsequent investigation docs) ───
+
+def _link_entry_for(record: dict, kind: str) -> dict:
+    """Build the JSON object stored inside another record's related_documents array.
+
+    Includes id so the blog detail UI can render `/blog/{id}` links directly without
+    a second lookup. record must have at minimum: id, source_file_path, case_name,
+    document_type, appeal_number, opinion_date.
+    """
+    return {
+        "id": record.get("id"),
+        "source_file_path": record["source_file_path"],
+        "case_name": record["case_name"],
+        "document_type": record["document_type"],
+        "appeal_number": record["appeal_number"],
+        "opinion_date": record["opinion_date"],
+        "kind": kind,
+    }
+
+
+def _fetch_supabase_records(filter_param: str, filter_value: str) -> list[dict]:
+    """Fetch records from Supabase matching a single PostgREST filter."""
+    resp = requests.get(
+        f"{SUPABASE_URL}/rest/v1/cafc_documents",
+        headers=_SUPABASE_HEADERS,
+        params={
+            filter_param: f"eq.{filter_value}",
+            "select": "id,source_file_path,case_name,document_type,appeal_number,opinion_date,related_documents",
+        },
+    )
+    resp.raise_for_status()
+    return resp.json()
+
+
+def _add_related_link_remote(target_source_file_path: str, link_entry: dict) -> None:
+    """Append link_entry to the related_documents array of an existing Supabase record (dedup by source_file_path)."""
+    existing = _fetch_supabase_records("source_file_path", target_source_file_path)
+    if not existing:
+        return
+    current = existing[0].get("related_documents") or []
+    if any(r.get("source_file_path") == link_entry["source_file_path"] for r in current):
+        return  # already linked
+    current.append(link_entry)
+    resp = requests.patch(
+        f"{SUPABASE_URL}/rest/v1/cafc_documents?source_file_path=eq.{target_source_file_path}",
+        headers={**_SUPABASE_HEADERS, "Prefer": "return=minimal"},
+        json={"related_documents": current},
+    )
+    resp.raise_for_status()
+
+
+def find_and_apply_links(record: dict, doc_type_code: str, bridges: list[InstitutionBridge]) -> list[dict]:
+    """Look up related records via the institution bridges and return entries to store in
+    this record's related_documents. Also updates the OTHER record's related_documents
+    to point back at this one (bidirectional consistency)."""
+    related: list[dict] = []
+    self_kind = "complaint" if doc_type_code == "DN" else "investigation_decision"
+    self_link = _link_entry_for(record, self_kind)
+
+    if doc_type_code == "DN":
+        # Pre-institution complaint — look for any institution row referencing this docket
+        docket_digits = record["appeal_number"].replace("DN-", "")
+        target_invs = [b.investigation_number for b in bridges if b.docket_number == docket_digits]
+        for inv in target_invs:
+            for r in _fetch_supabase_records("appeal_number", inv):
+                related.append(_link_entry_for(r, "investigation_decision"))
+                # Add reverse link
+                _add_related_link_remote(r["source_file_path"], self_link)
+    else:
+        # Post-institution doc (NOI/ID/RD/FCO) — look for a DN bridged to its investigation
+        inv = record["appeal_number"]
+        target_dockets = [b.docket_number for b in bridges if b.investigation_number == inv]
+        for docket in target_dockets:
+            for r in _fetch_supabase_records("appeal_number", f"DN-{docket}"):
+                related.append(_link_entry_for(r, "complaint"))
+                _add_related_link_remote(r["source_file_path"], self_link)
+
+    return related
 
 
 def trigger_itc_digest(target_date: date) -> None:
@@ -622,6 +753,16 @@ def main() -> None:
         print(f"  Found {len(pre_institution)} pre-institution complaints from USITC notices index")
         documents.extend(pre_institution)
 
+    # Build DN↔Investigation bridges from the same notices index — used by find_and_apply_links()
+    # to maintain bidirectional related_documents. Always fetch even when documents is empty
+    # because a later run might process a doc whose related counterpart is already in Supabase.
+    try:
+        bridges = query_institution_bridges()
+        print(f"  Cached {len(bridges)} DN→Investigation institution bridge(s) from notices index")
+    except Exception as exc:
+        print(f"  Could not fetch institution bridges: {exc}")
+        bridges = []
+
     if not documents:
         print("  No new ITC documents for today. Exiting.")
         return
@@ -660,6 +801,22 @@ def main() -> None:
                 sync_supabase(record)
                 print(f"    ✓ Upserted: {doc.source_file_path}")
                 processed_dates.add(doc.filing_date)
+                # Build bidirectional related_documents links from institution bridges.
+                # Fetch this record's freshly-assigned id so we can reverse-link other rows.
+                try:
+                    own = _fetch_supabase_records("source_file_path", record["source_file_path"])
+                    record_with_id = {**record, "id": (own[0]["id"] if own else None)}
+                    related = find_and_apply_links(record_with_id, doc.document_type_code, bridges)
+                    if related:
+                        resp = requests.patch(
+                            f"{SUPABASE_URL}/rest/v1/cafc_documents?source_file_path=eq.{record['source_file_path']}",
+                            headers={**_SUPABASE_HEADERS, "Prefer": "return=minimal"},
+                            json={"related_documents": related},
+                        )
+                        resp.raise_for_status()
+                        print(f"    ↔ Linked to {len(related)} related document(s)")
+                except Exception as link_exc:
+                    print(f"    ⚠ Could not maintain related links: {link_exc}")
             except Exception as exc:
                 print(f"    ✗ Supabase error: {exc}")
 

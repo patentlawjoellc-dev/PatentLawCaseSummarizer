@@ -27,6 +27,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Ensure UTF-8 output on Windows consoles (Unicode arrows / checkmarks in print() crash on cp1252)
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
 MODEL = os.environ.get("CAFC_SUMMARY_MODEL", "gpt-5.5")
@@ -74,29 +78,36 @@ def fetch_page(url: str = PTAB_PAGE_URL) -> str:
 def parse_decisions(html: str) -> list[Decision]:
     """
     Parse 'Recently designated decisions' from the USPTO PTAB precedential page.
-    Walks the DOM after the 'recently designated' heading, classifying decisions
-    as precedential or informative based on the nearest h3/h4 sub-heading.
+
+    The page wraps the Recently-Designated list in a <details>/<summary> collapsible.
+    BELOW it, a separate <details> section contains the ARCHIVED decisions (full historical
+    list back to 1997). The earlier implementation used find_all_next() which walked the
+    entire document, slurping up the archive and stamping every pre-PTAB BPAI interference
+    decision with today's date.
+
+    This version finds the <details> element whose <summary> says "Recently designated
+    decisions" and walks ONLY within that element's descendants. It also rejects entries
+    where the case number can't be parsed or the decision date isn't visible — these would
+    have been wrongly back-stamped with date.today() before.
     """
     soup = BeautifulSoup(html, "lxml")
     decisions: list[Decision] = []
 
-    # Find "Recently designated decisions" anchor
-    recently_node = None
-    for tag in soup.find_all(string=re.compile(r"recently designated decisions", re.I)):
-        recently_node = tag.find_parent()
-        break
+    # Locate the <details> container whose <summary> begins with "Recently designated decisions".
+    container = None
+    for summary in soup.find_all("summary"):
+        txt = summary.get_text(" ", strip=True).lower()
+        if txt.startswith("recently designated decisions"):
+            container = summary.find_parent("details")
+            break
 
-    if not recently_node:
-        print("WARNING: 'Recently designated decisions' section not found on page.")
+    if not container:
+        print("WARNING: 'Recently designated decisions' <details> section not found on page.")
         return decisions
 
     current_type: Optional[str] = None
 
-    # Walk all elements that follow the heading in document order.
-    # find_all_next() traverses siblings and their descendants, so it correctly
-    # picks up <h3>Precedential</h3> / <h3>Informative</h3> sub-headings and
-    # <a href="…pdf"> links even when they sit inside a sibling <div>.
-    for el in recently_node.find_all_next(True):
+    for el in container.find_all(True):
         tag_text = el.get_text(strip=True).lower()
 
         if el.name in ("h3", "h4", "strong", "b") and tag_text == "precedential":
@@ -113,7 +124,13 @@ def parse_decisions(html: str) -> list[Decision]:
             context_el = el.find_parent(["li", "p", "div", "td"])
             context_text = context_el.get_text(" ", strip=True) if context_el else ""
 
-            case_number, paper_number, decision_date = _extract_metadata(context_text, href)
+            metadata = _extract_metadata(context_text, href)
+            if metadata is None:
+                # Skip entries we can't reliably identify — better to miss one than to
+                # publish historical interference cases under today's date.
+                print(f"  skip (no parseable metadata): {link_text or href[-60:]}")
+                continue
+            case_number, paper_number, decision_date = metadata
             title = link_text or f"{case_number} Paper {paper_number}"
             slug = re.sub(r"[^a-z0-9-]", "", case_number.lower()) + f"-paper{paper_number}"
             sfp = f"ptab-precedential/{decision_date.isoformat()}/{slug}"
@@ -131,13 +148,27 @@ def parse_decisions(html: str) -> list[Decision]:
     return decisions
 
 
-def _extract_metadata(context_text: str, href: str) -> tuple[str, str, date]:
-    """Extract case number, paper number, and date from surrounding text or PDF filename."""
+def _extract_metadata(context_text: str, href: str) -> Optional[tuple[str, str, date]]:
+    """Extract (case_number, paper_number, decision_date) from a precedential-decisions entry.
+
+    Returns None when essential identifiers are missing. This intentionally drops:
+      • Pre-PTAB BPAI interference cases (no IPR/PGR/CBM/Interference number visible)
+      • Rows where no decision date can be parsed from the surrounding text or filename
+
+    Both of those formerly survived the parser by being assigned a placeholder
+    case_number="UNKNOWN" plus date.today() — that's what produced the "UNKNOWN Paper N"
+    rows showing up on the blog under today's date.
+    """
     case_match = (
         re.search(r"(IPR|PGR|CBM)\d{4}-\d+", context_text)
         or re.search(r"(IPR|PGR|CBM)\d{4}-\d+", href)
+        # Interference numbers (e.g., "Interference No. 105,123") — PTAB precedential
+        # designations CAN include selected old interferences; allow these explicitly
+        or re.search(r"Interference\s*(?:No\.?)?\s*\d[\d,]+", context_text, re.I)
     )
-    case_number = case_match.group(0) if case_match else "UNKNOWN"
+    if not case_match:
+        return None
+    case_number = case_match.group(0).strip()
 
     paper_match = re.search(r"Paper\s+(\d+)", context_text, re.I)
     paper_number = paper_match.group(1) if paper_match else "0"
@@ -147,11 +178,19 @@ def _extract_metadata(context_text: str, href: str) -> tuple[str, str, date]:
         r"|September|October|November|December)\s+\d{1,2},\s+\d{4}",
         context_text,
     )
-    decision_date = (
-        datetime.strptime(date_match.group(0), "%B %d, %Y").date()
-        if date_match
-        else date.today()
-    )
+    if not date_match:
+        # Try filename pattern as a secondary source (e.g., "2024-05-14")
+        iso_match = re.search(r"(\d{4})[-_/](\d{2})[-_/](\d{2})", href)
+        if iso_match:
+            try:
+                decision_date = date(int(iso_match.group(1)), int(iso_match.group(2)), int(iso_match.group(3)))
+            except ValueError:
+                return None
+        else:
+            return None
+    else:
+        decision_date = datetime.strptime(date_match.group(0), "%B %d, %Y").date()
+
     return case_number, paper_number, decision_date
 
 

@@ -159,12 +159,15 @@ def _extract_metadata(context_text: str, href: str) -> Optional[tuple[str, str, 
     case_number="UNKNOWN" plus date.today() — that's what produced the "UNKNOWN Paper N"
     rows showing up on the blog under today's date.
     """
+    # Only modern PTAB cases — IPR (Inter Partes Review), PGR (Post-Grant Review),
+    # CBM (Covered Business Method). Deliberately excludes pre-PTAB BPAI interferences
+    # (e.g., "Interference No. 104,725") and "Ex parte ..." appeals — those are old
+    # Board of Patent Appeals and Interferences cases that the USPTO sometimes
+    # redesignates as precedential/informative, but they're not what the patent-law
+    # blog should surface as recent activity.
     case_match = (
         re.search(r"(IPR|PGR|CBM)\d{4}-\d+", context_text)
         or re.search(r"(IPR|PGR|CBM)\d{4}-\d+", href)
-        # Interference numbers (e.g., "Interference No. 105,123") — PTAB precedential
-        # designations CAN include selected old interferences; allow these explicitly
-        or re.search(r"Interference\s*(?:No\.?)?\s*\d[\d,]+", context_text, re.I)
     )
     if not case_match:
         return None

@@ -518,10 +518,11 @@ def build_omnibus_record(group: list[dict], date_str: str) -> dict:
 # ─────────────────────────────────────────────────────────────────────────────
 
 def summarize_with_claude(fields: dict, text: str) -> dict:
-    import anthropic
+    """Generate PTAB institution summary via OpenAI (function name kept for back-compat)."""
+    from openai import OpenAI
 
-    model = os.environ.get("CAFC_SUMMARY_MODEL", "claude-sonnet-4-6")
-    client = anthropic.Anthropic()
+    model = os.environ.get("CAFC_SUMMARY_MODEL", "gpt-5.5")
+    client = OpenAI()
 
     # statute_bag comes from decisionData.statuteAndRuleBag via extra_meta
     statutes = fields.get("statutes", [])
@@ -589,13 +590,13 @@ document_title:  {doc_title}
 {"Full decision text:" if has_full_text else "OCR excerpt (partial):"}
 {text[:10000] if text else "(no text available — base summary on metadata only)"}"""
 
-    response = client.messages.create(
+    response = client.chat.completions.create(
         model=model,
-        max_tokens=2048,
-        temperature=0.1,
+        max_completion_tokens=2048,
         messages=[{"role": "user", "content": prompt}],
+        response_format={"type": "json_object"},
     )
-    raw = response.content[0].text.strip()
+    raw = (response.choices[0].message.content or "").strip()
     try:
         data = json.loads(raw)
     except json.JSONDecodeError:
@@ -829,7 +830,7 @@ def _trigger_daily_digest(date_str: str) -> None:
 
 def main() -> None:
     args = parse_args()
-    use_ai = not args.no_ai and bool(os.environ.get("ANTHROPIC_API_KEY"))
+    use_ai = not args.no_ai and bool(os.environ.get("OPENAI_API_KEY"))
 
     if args.date_range:
         parts = args.date_range.split(":")

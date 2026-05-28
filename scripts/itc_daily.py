@@ -21,7 +21,7 @@ from dataclasses import dataclass
 from datetime import date, datetime
 from typing import Optional
 
-import anthropic
+from openai import OpenAI
 import pdfplumber
 import requests
 import xmltodict
@@ -42,7 +42,7 @@ if hasattr(sys.stdout, "reconfigure"):
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
 EDIS_API_KEY = os.environ.get("EDIS_API_KEY", "")
-MODEL = os.environ.get("CAFC_SUMMARY_MODEL", "claude-sonnet-4-6")
+MODEL = os.environ.get("CAFC_SUMMARY_MODEL", "gpt-5.5")
 SITE_URL = os.environ.get("NEXT_PUBLIC_SITE_URL", "")
 DIGEST_SECRET = os.environ.get("DIGEST_SECRET", "")
 
@@ -498,8 +498,9 @@ Return ONLY valid JSON.""",
 
 
 def summarize_with_claude(doc: ItcDocument, text: str) -> dict:
+    """Generate a structured ITC summary via OpenAI (function name kept for backward compat)."""
     prompt_template = _PROMPTS.get(doc.document_type_code, _PROMPTS["ID"])
-    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    client = OpenAI()
     prompt = prompt_template.format(
         inv_number=doc.investigation_number,
         inv_title=doc.investigation_title,
@@ -509,11 +510,13 @@ def summarize_with_claude(doc: ItcDocument, text: str) -> dict:
         text=text[:120_000],
         tags_list=", ".join(ITC_TAGS),
     )
-    resp = client.messages.create(
-        model=MODEL, max_tokens=2048, temperature=0.1,
+    resp = client.chat.completions.create(
+        model=MODEL,
+        max_completion_tokens=2048,
         messages=[{"role": "user", "content": prompt}],
+        response_format={"type": "json_object"},
     )
-    raw = resp.content[0].text.strip()
+    raw = (resp.choices[0].message.content or "").strip()
     raw = re.sub(r"^```[a-z]*\n?", "", raw)
     raw = re.sub(r"\n?```$", "", raw)
     return json.loads(raw)
@@ -559,7 +562,7 @@ def build_record(doc: ItcDocument, summary: dict) -> dict:
         "summary_text": summary_text or holding,
         "pdf_url": doc.pdf_url,
         "source_url": f"https://edis.usitc.gov/edis3-internal/case-admin/investigation/{doc.investigation_number.replace('-', '%2D')}",
-        "summary_mode": f"claude:{MODEL}",
+        "summary_mode": f"openai:{MODEL}",
         "cafc_metadata": {
             "complainant": doc.complainant,
             "respondents": doc.respondents,
@@ -636,7 +639,7 @@ def main() -> None:
             print(f"    ✗ PDF error: {exc}")
             text = ""
 
-        use_ai = not args.no_ai and bool(os.environ.get("ANTHROPIC_API_KEY"))
+        use_ai = not args.no_ai and bool(os.environ.get("OPENAI_API_KEY"))
         if use_ai:
             try:
                 summary = summarize_with_claude(doc, text)

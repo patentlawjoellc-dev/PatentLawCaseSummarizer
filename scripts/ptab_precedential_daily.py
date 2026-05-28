@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from datetime import date, datetime
 from typing import Optional
 
-import anthropic
+from openai import OpenAI
 import pdfplumber
 import requests
 from bs4 import BeautifulSoup
@@ -29,7 +29,7 @@ load_dotenv()
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
-MODEL = os.environ.get("CAFC_SUMMARY_MODEL", "claude-sonnet-4-6")
+MODEL = os.environ.get("CAFC_SUMMARY_MODEL", "gpt-5.5")
 SITE_URL = os.environ.get("NEXT_PUBLIC_SITE_URL", "")
 DIGEST_SECRET = os.environ.get("DIGEST_SECRET", "")
 
@@ -291,7 +291,8 @@ Return ONLY valid JSON. No markdown fences, no explanation, no trailing commas.
 
 
 def summarize_with_claude(decision: Decision, text: str) -> dict:
-    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    """Generate PTAB precedential summary via OpenAI (function name kept for back-compat)."""
+    client = OpenAI()
     prompt = _CLAUDE_PROMPT.format(
         designation_type_upper=decision.designation_type.upper(),
         title=decision.title,
@@ -301,13 +302,13 @@ def summarize_with_claude(decision: Decision, text: str) -> dict:
         text=text[:120_000],
         tags_list=", ".join(PTAB_PRECEDENTIAL_TAGS),
     )
-    resp = client.messages.create(
+    resp = client.chat.completions.create(
         model=MODEL,
-        max_tokens=2048,
-        temperature=0.1,
+        max_completion_tokens=2048,
         messages=[{"role": "user", "content": prompt}],
+        response_format={"type": "json_object"},
     )
-    raw = resp.content[0].text.strip()
+    raw = (resp.choices[0].message.content or "").strip()
     raw = re.sub(r"^```[a-z]*\n?", "", raw)
     raw = re.sub(r"\n?```$", "", raw)
     return json.loads(raw)
@@ -363,7 +364,7 @@ def build_record(decision: Decision, summary: dict) -> dict:
         "summary_text": summary_text or holding,
         "pdf_url": decision.pdf_url,
         "source_url": PTAB_PAGE_URL,
-        "summary_mode": f"claude:{MODEL}",
+        "summary_mode": f"openai:{MODEL}",
     }
 
 
@@ -443,7 +444,7 @@ def main() -> None:
             print(f"    ✗ PDF error: {exc}")
             text = ""
 
-        use_ai = not args.no_ai and bool(os.environ.get("ANTHROPIC_API_KEY"))
+        use_ai = not args.no_ai and bool(os.environ.get("OPENAI_API_KEY"))
         if use_ai:
             try:
                 summary = summarize_with_claude(decision, text)

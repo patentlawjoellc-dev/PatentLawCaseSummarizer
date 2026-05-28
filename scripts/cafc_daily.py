@@ -267,7 +267,7 @@ def conclusion_excerpt(text: str) -> str:
 
 
 def fallback_summary(row: OpinionRow, text: str) -> dict:
-    holding = "Fallback draft only: ANTHROPIC_API_KEY is not set, so this entry was not model-summarized."
+    holding = "Fallback draft only: OPENAI_API_KEY is not set or the API call failed, so this entry was not model-summarized."
     key_points = [conclusion_excerpt(text)[:900]]
     tags = infer_tags(row.case_name, holding, " ".join(key_points))
     return {
@@ -293,10 +293,16 @@ def fallback_summary(row: OpinionRow, text: str) -> dict:
 
 
 def summarize_with_claude(row: OpinionRow, text: str) -> dict:
-    import anthropic
+    """Generate a structured summary via the configured AI model.
 
-    model = os.environ.get("CAFC_SUMMARY_MODEL", "claude-sonnet-4-6")
-    client = anthropic.Anthropic()
+    Despite the legacy "claude" name, this function now calls OpenAI
+    (the Anthropic API key was depleted and Anthropic OAuth doesn't cover
+    third-party apps). Override with CAFC_SUMMARY_MODEL env var.
+    """
+    from openai import OpenAI
+
+    model = os.environ.get("CAFC_SUMMARY_MODEL", "gpt-5.5")
+    client = OpenAI()
     trimmed_text = text[:180000]
     prompt = f"""
 You are a senior patent litigator writing a concise Federal Circuit update for in-house counsel and patent lawyers who need to keep up with patent-related developments across the PTAB, district courts, and ITC.
@@ -336,13 +342,13 @@ status: {row.status}
 Extracted PDF text:
 {trimmed_text}
 """
-    response = client.messages.create(
+    response = client.chat.completions.create(
         model=model,
-        max_tokens=2048,
-        temperature=0.1,
+        max_completion_tokens=2048,
         messages=[{"role": "user", "content": prompt}],
+        response_format={"type": "json_object"},
     )
-    output = response.content[0].text.strip()
+    output = (response.choices[0].message.content or "").strip()
     try:
         data = json.loads(output)
     except json.JSONDecodeError:
@@ -352,7 +358,7 @@ Extracted PDF text:
         data = json.loads(match.group(0))
     data["source_pdf"] = row.local_pdf
     data["source_url"] = row.pdf_url
-    data["summary_mode"] = f"claude:{model}"
+    data["summary_mode"] = f"openai:{model}"
     return enrich_summary(data, row)
 
 
@@ -417,7 +423,7 @@ def process_day(day: dt.date, use_openai: bool, force: bool = False) -> list[dic
         row.local_pdf = str(pdf_path.relative_to(PROJECT_ROOT)).replace("\\", "/")
         row.local_text = str(text_path.relative_to(PROJECT_ROOT)).replace("\\", "/")
         text = text_path.read_text(encoding="utf-8", errors="replace")
-        if use_openai and os.environ.get("ANTHROPIC_API_KEY"):
+        if use_openai and os.environ.get("OPENAI_API_KEY"):
             try:
                 summaries.append(summarize_with_claude(row, text))
             except Exception as exc:
@@ -453,7 +459,7 @@ def resync_day(day: dt.date, use_ai: bool) -> list[dict]:
             summaries.append(fallback_summary(row, ""))
             continue
         text = text_path.read_text(encoding="utf-8", errors="replace")
-        if use_ai and os.environ.get("ANTHROPIC_API_KEY"):
+        if use_ai and os.environ.get("OPENAI_API_KEY"):
             try:
                 summaries.append(summarize_with_claude(row, text))
                 print(f"  Summarized: {row.case_name}")

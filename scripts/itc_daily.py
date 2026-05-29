@@ -152,6 +152,30 @@ class ItcDocument:
     doc_id: str                 # EDIS document identifier
     pdf_url: str
     source_file_path: str = ""
+    document_title: str = ""    # EDIS documentTitle — used to pick the principal complaint
+
+
+def _docket_digits(num: str) -> str:
+    """Trailing digit run of an investigation/docket identifier.
+
+    '337-TA-3911' -> '3911', 'DN-3911' -> '3911', '337-TA-1491' -> '1491'.
+    Used to reconcile EDIS complaint records with USITC-notices DN records.
+    """
+    m = re.search(r"(\d+)\D*$", num or "")
+    return m.group(1) if m else ""
+
+
+def _complaint_rank(title: str) -> int:
+    """Rank competing public 'Complaint'-type EDIS docs so the principal
+    complaint beats exhibits-only / supplement filings. Higher is better."""
+    t = (title or "").lower()
+    if "complaint" not in t:
+        return 1                      # e.g. a bare "Exhibits" doc
+    if "supplement" in t:
+        return 2                      # "...Supplement to the Complaint"
+    if "exhibits to the complaint" in t or t.startswith("public exhibits"):
+        return 2                      # exhibits bundle, not the complaint body
+    return 3                          # "Public Complaint and Exhibits", "Verified ... Complaint", etc.
 
 
 # ── EDIS API query ────────────────────────────────────────────────────────────
@@ -219,6 +243,12 @@ def query_edis(target_date: date) -> list[ItcDocument]:
             doc_type_str = item.get("documentType", "")
             if doc_type_str not in EDIS_DOC_TYPE_MAP:
                 continue
+            # Never ingest confidential documents: they're login.gov-gated AND
+            # mirroring them to public Storage would leak sealed material. A
+            # filing always has a public counterpart (e.g. "Public Complaint and
+            # Exhibits" alongside "Confidential Exhibits to the Complaint").
+            if (item.get("securityLevel") or "Public").strip().lower() == "confidential":
+                continue
             doc = _parse_edis_item(item, target_date)
             if not doc:
                 continue
@@ -232,7 +262,22 @@ def query_edis(target_date: date) -> list[ItcDocument]:
             break
         page += 1
 
-    return documents
+    return _dedupe_best(documents)
+
+
+def _dedupe_best(docs: list[ItcDocument]) -> list[ItcDocument]:
+    """Collapse docs that share a source_file_path (e.g. several 'Complaint'-type
+    documents for one investigation) to the single best one. For complaints the
+    principal complaint wins over exhibits/supplements; other types keep the
+    first seen."""
+    best: dict[str, ItcDocument] = {}
+    for d in docs:
+        cur = best.get(d.source_file_path)
+        if cur is None:
+            best[d.source_file_path] = d
+        elif d.document_type_code == "COMPLAINT" and _complaint_rank(d.document_title) > _complaint_rank(cur.document_title):
+            best[d.source_file_path] = d
+    return list(best.values())
 
 
 # ── USITC Federal Register notices index (pre-institution complaints + bridges) ──
@@ -332,14 +377,23 @@ def query_complaints_index(target_date: date) -> list[ItcDocument]:
         if notice_date != target_date:
             continue
 
-        # Extract the DN docket number specifically (avoid matching 337-TA-XXXX if both appear)
+        # Extract the DN docket number specifically. Avoid matching the bare
+        # "337" section number or a 337-TA-XXXX investigation number that may
+        # also appear in the cell.
         m = re.search(r"DN\s*#?\s*(\d+)", num_text)
-        if not m:
-            # Fallback: any numeric sequence
-            m = re.search(r"\d+", num_text)
-            if not m:
-                continue
-        docket = m.group(1) if m.lastindex else m.group(0)
+        if m:
+            docket = m.group(1)
+        else:
+            # The USITC notice filename embeds the docket as .../337_<docket>_notice...
+            hm = re.search(r"/337[_-](\d{3,4})[_-]", href)
+            if hm:
+                docket = hm.group(1)
+            else:
+                # Last resort: a 3–4 digit number in the cell that isn't "337".
+                nums = [n for n in re.findall(r"\d{3,4}", num_text) if n != "337"]
+                if not nums:
+                    continue
+                docket = nums[0]
 
         pdf_url = href if href.startswith("http") else f"{USITC_BASE_URL}{href}"
         slug = f"dn-{docket}"
@@ -400,6 +454,7 @@ def _parse_edis_item(item: dict, fallback_date: date) -> Optional[ItcDocument]:
         doc_id=doc_id,
         pdf_url=public_doc_url(doc_id),
         source_file_path=source_file_path,
+        document_title=item.get("documentTitle", ""),
     )
 
 
@@ -797,7 +852,23 @@ def main() -> None:
 
     pre_institution = query_complaints_index(target_date)
     if pre_institution:
-        print(f"  Found {len(pre_institution)} pre-institution complaints from USITC notices index")
+        # If EDIS already has the actual complaint for a docket, drop the
+        # USITC-notices pre-institution record — it links only the Federal
+        # Register *Notice of Receipt of Complaint*, whereas the EDIS record
+        # links the real complaint PDF.
+        edis_complaint_dockets = {
+            _docket_digits(d.investigation_number)
+            for d in documents
+            if d.document_type_code == "COMPLAINT"
+        }
+        kept = [d for d in pre_institution
+                if _docket_digits(d.investigation_number) not in edis_complaint_dockets]
+        dropped = len(pre_institution) - len(kept)
+        pre_institution = kept
+        msg = f"  Found {len(pre_institution)} pre-institution complaints from USITC notices index"
+        if dropped:
+            msg += f" ({dropped} superseded by EDIS complaint record)"
+        print(msg)
         documents.extend(pre_institution)
 
     # Build DN↔Investigation bridges from the same notices index — used by find_and_apply_links()

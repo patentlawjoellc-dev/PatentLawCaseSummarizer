@@ -48,6 +48,56 @@ DIGEST_SECRET = os.environ.get("DIGEST_SECRET", "")
 
 EDIS_BASE = "https://edis.usitc.gov/data"
 EDIS_DOC_ENDPOINT = f"{EDIS_BASE}/document"
+# Public-facing EDIS document viewer. Browser-clickable, no auth required.
+# The user lands on the document detail page with a "Download" button for the actual PDF.
+EDIS_PUBLIC_DOC_URL = "https://edis.usitc.gov/external/details/document"
+
+
+def public_doc_url(doc_id: str) -> str:
+    """Fallback EDIS document URL when Supabase Storage mirror upload fails.
+
+    EDIS as of 2026 redirects ALL /external/* URLs through login.gov, so this
+    is not truly public — but it's better than storing /data/attachment/{id}
+    which returns XML metadata (not the PDF) to logged-out browsers and broke
+    the blog's 'Full decision' link. Successful runs upload the downloaded
+    PDF to Supabase Storage and overwrite this with the public CDN URL."""
+    return f"{EDIS_PUBLIC_DOC_URL}/{doc_id}"
+
+
+def attachment_api_url(doc_id: str) -> str:
+    """Internal EDIS attachment-list API URL used by download_pdf()."""
+    return f"{EDIS_BASE}/attachment/{doc_id}"
+
+
+STORAGE_BUCKET = "case-pdfs"
+
+
+def upload_pdf_to_storage(pdf_bytes: bytes, key: str) -> Optional[str]:
+    """Upload a PDF to Supabase Storage and return the public URL.
+
+    Returns None on failure so the caller can fall back to the EDIS public URL.
+    The bucket 'case-pdfs' must already exist and be public. Uses x-upsert so
+    re-runs replace prior uploads without erroring.
+    """
+    if not (SUPABASE_URL and SUPABASE_KEY) or not pdf_bytes:
+        return None
+    storage_path = key.lstrip("/")
+    upload_url = f"{SUPABASE_URL}/storage/v1/object/{STORAGE_BUCKET}/{storage_path}"
+    headers = {
+        "Authorization": f"Bearer {SUPABASE_KEY}",
+        "apikey": SUPABASE_KEY,
+        "Content-Type": "application/pdf",
+        "x-upsert": "true",
+    }
+    try:
+        resp = requests.post(upload_url, data=pdf_bytes, headers=headers, timeout=120)
+    except requests.RequestException as exc:
+        print(f"    Storage upload error: {exc}")
+        return None
+    if not resp.ok:
+        print(f"    Storage upload failed: {resp.status_code} {resp.text[:120]}")
+        return None
+    return f"{SUPABASE_URL}/storage/v1/object/public/{STORAGE_BUCKET}/{storage_path}"
 
 # Map actual EDIS documentType strings → internal codes
 EDIS_DOC_TYPE_MAP = {
@@ -333,7 +383,6 @@ def _parse_edis_item(item: dict, fallback_date: date) -> Optional[ItcDocument]:
                    and "Office of" not in on_behalf
                    else "Unknown Complainant")
 
-    attachment_url = f"{EDIS_BASE}/attachment/{doc_id}"
     slug = re.sub(r"[^a-z0-9-]", "", inv_number.lower())
     source_file_path = f"itc/{filing_date.isoformat()}/{slug}/{doc_type_code.lower()}"
 
@@ -346,7 +395,7 @@ def _parse_edis_item(item: dict, fallback_date: date) -> Optional[ItcDocument]:
         complainant=complainant,
         respondents=[],
         doc_id=doc_id,
-        pdf_url=attachment_url,
+        pdf_url=public_doc_url(doc_id),
         source_file_path=source_file_path,
     )
 
@@ -773,9 +822,20 @@ def main() -> None:
         print(f"  [{doc.document_type_code}] {doc.investigation_number}: {doc.investigation_title[:60]}")
 
         try:
-            pdf_bytes = download_pdf(doc.pdf_url)
+            # doc.pdf_url is the EDIS public viewer (login.gov-gated) or a direct
+            # .pdf URL from the USITC Fed Register notices page. The downloader
+            # needs the authenticated /data/attachment/{doc_id} API URL for EDIS
+            # records; pass through direct .pdf URLs unchanged.
+            download_url = doc.pdf_url if doc.pdf_url.lower().endswith(".pdf") else attachment_api_url(doc.doc_id)
+            pdf_bytes = download_pdf(download_url)
             text = extract_text(pdf_bytes)
             print(f"    Downloaded PDF ({len(pdf_bytes):,} bytes, {len(text):,} chars)")
+            # Mirror to public Supabase Storage so blog readers get a browser-
+            # clickable PDF link (EDIS itself is login.gov-gated).
+            storage_url = upload_pdf_to_storage(pdf_bytes, f"{doc.source_file_path}.pdf")
+            if storage_url:
+                doc.pdf_url = storage_url
+                print(f"    Mirrored to Storage")
         except Exception as exc:
             print(f"    ✗ PDF error: {exc}")
             text = ""

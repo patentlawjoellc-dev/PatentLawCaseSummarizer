@@ -23,6 +23,7 @@ import json
 import logging
 import os
 import re
+import time
 from pathlib import Path
 
 import requests
@@ -35,10 +36,11 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 TIMEOUT = 30
 
-# data.uspto.gov — no API key required (uses PowerShell User-Agent trick)
-PTAB_LEGACY_URL = "https://data.uspto.gov/ui/patent/trials/decisions/search"
-# Fallback: new API endpoint with key (used if legacy returns no results)
-PTAB_API_URL    = "https://api.uspto.gov/ui/ptab/appeals/search"
+# USPTO Open Data Portal — PTAB Trials v3 "Search Decisions" API. Requires an
+# ODP API key (x-api-key). The old v2 endpoints (data.uspto.gov/ui/... and
+# api.uspto.gov/ui/ptab/appeals/...) were decommissioned by the USPTO on
+# 2026-01-06, which is why the daily script silently captured nothing.
+PTAB_V3_URL = "https://api.uspto.gov/api/v1/patent/trials/decisions/search"
 
 PS_UA = (
     "Mozilla/5.0 (Windows NT 10.0; Microsoft Windows 10.0.22631; en-US) "
@@ -137,90 +139,66 @@ def _is_institution_decision(r: dict) -> bool:
 
 
 def fetch_decisions(date_str: str) -> list[dict]:
-    """Fetch institution decisions for date_str from data.uspto.gov.
+    """Fetch all PTAB trial decision documents issued on date_str from the USPTO
+    Open Data Portal PTAB v3 "Search Decisions" API, then filter to institution
+    decisions client-side.
 
-    The status filter (trialMetaData.trialStatusCategory) is not supported by the
-    API — it returns 400. We fetch all decisions for the date and filter client-side.
-    The API also embeds full OCR text in documentData.documentOCRText, so no PDF
-    download is needed.
+    v2 (data.uspto.gov + api.uspto.gov/ui/ptab/appeals) was decommissioned by the
+    USPTO on 2026-01-06 — which is why this script silently captured 0 decisions.
+    v3 returns the same record shape (patentTrialDocumentDataBag with decisionData /
+    trialMetaData / patentOwnerData / documentData incl. full OCR text in
+    documentData.documentOCRText), so downstream parsing is unchanged; only the
+    request differs (GET + q=, not POST + rangeFilters). Requires USPTO_API_KEY,
+    a persistent ODP key (it does not expire).
     """
-    payload = {
-        "q": None,
-        "filters": [],
-        "rangeFilters": [
-            {
-                "field": "decisionData.decisionIssueDate",
-                "valueFrom": date_str,
-                "valueTo": date_str,
-            }
-        ],
-        "pagination": {"offset": 0, "limit": 100},
-        "sort": [{"field": "decisionData.decisionIssueDate", "order": "Desc"}],
-    }
-    headers = {
-        "User-Agent":   PS_UA,
-        "Content-Type": "application/json",
-        "Accept":       "application/json",
-    }
+    api_key = os.environ.get("USPTO_API_KEY", "")
+    if not api_key:
+        log.error("USPTO_API_KEY is not set — cannot query the PTAB v3 API.")
+        return []
 
+    headers = {"x-api-key": api_key, "Accept": "application/json", "User-Agent": PS_UA}
     all_records: list[dict] = []
     offset = 0
-    url = PTAB_LEGACY_URL
-    use_api_key = False
+    limit = 100
 
     while True:
-        payload["pagination"]["offset"] = offset
+        params = {
+            "q": f"decisionData.decisionIssueDate:{date_str}",
+            "offset": offset,
+            "limit": limit,
+        }
         try:
-            resp = requests.post(url, json=payload, headers=headers, timeout=TIMEOUT)
+            resp = None
+            for attempt in range(4):
+                resp = requests.get(PTAB_V3_URL, headers=headers, params=params, timeout=TIMEOUT)
+                # 429 = ODP rate limit. Back off and retry (honor Retry-After).
+                if resp.status_code == 429 and attempt < 3:
+                    wait = int(resp.headers.get("Retry-After") or 0) or (5 * (attempt + 1))
+                    log.warning("PTAB v3 rate-limited (429) for %s; retrying in %ds", date_str, wait)
+                    time.sleep(wait)
+                    continue
+                break
+            # The v3 API returns 404 (not 200/empty) when no decisions match the
+            # query — normal on weekends/holidays. Treat it as "no records".
+            if resp.status_code == 404:
+                log.info("No PTAB decisions for %s (404 = empty result set).", date_str)
+                break
             resp.raise_for_status()
             data = resp.json()
         except requests.RequestException as exc:
-            log.error("Request to %s failed: %s", url, exc)
-            # If the legacy endpoint failed and we haven't tried the keyed endpoint yet, fall through
-            if url == PTAB_LEGACY_URL and offset == 0:
-                api_key = os.environ.get("USPTO_API_KEY", "")
-                if api_key:
-                    log.info("Legacy endpoint failed. Retrying with api.uspto.gov...")
-                    url = PTAB_API_URL
-                    headers["x-api-key"] = api_key
-                    use_api_key = True
-                    continue
+            log.error("PTAB v3 request failed for %s (offset %d): %s", date_str, offset, exc)
             break
 
-        # Detect response envelope — log keys if unexpected
-        records = data.get("patentTrialDocumentDataBag", [])
-        if not records:
-            actual_keys = list(data.keys()) if isinstance(data, dict) else []
-            if actual_keys:
-                log.warning("Unexpected envelope keys from %s: %s", url, actual_keys)
-                # Try common alternative field names
-                for key in ("results", "decisions", "data", "items"):
-                    if isinstance(data.get(key), list):
-                        records = data[key]
-                        log.info("Found records under key '%s'", key)
-                        break
-
-        # If legacy endpoint returned an empty result, retry with the keyed API endpoint
-        if not records and offset == 0 and url == PTAB_LEGACY_URL:
-            api_key = os.environ.get("USPTO_API_KEY", "")
-            if api_key:
-                log.info("Legacy endpoint returned no records. Retrying with api.uspto.gov...")
-                url = PTAB_API_URL
-                headers["x-api-key"] = api_key
-                use_api_key = True
-                continue
-            else:
-                log.warning("Legacy endpoint returned no records and USPTO_API_KEY is not set.")
-                break
-
+        records = data.get("patentTrialDocumentDataBag", []) or []
         all_records.extend(records)
-        log.info("Fetched %d records (offset %d, url=%s)", len(records), offset, url)
+        total = data.get("count", len(all_records))
+        log.info("Fetched %d PTAB decision docs (offset %d) of %s total for %s", len(records), offset, total, date_str)
 
-        if len(records) < 100:
+        if len(records) < limit or len(all_records) >= total:
             break
-        offset += 100
+        offset += limit
 
-    log.info("Total records for %s: %d (api_key_used=%s)", date_str, len(all_records), use_api_key)
+    log.info("Total decision documents for %s: %d", date_str, len(all_records))
 
     # Filter client-side: a document is an institution decision if its issue date
     # matches the trial's institutionDecisionDate — this avoids capturing final written
@@ -359,6 +337,10 @@ def download_pdf_text(url: str, trial_number: str) -> str:
         return ""
     try:
         headers = {"User-Agent": PS_UA, "Accept": "application/pdf,*/*"}
+        # ODP ptab-files endpoint requires the API key, like the search API.
+        api_key = os.environ.get("USPTO_API_KEY", "")
+        if api_key and "api.uspto.gov" in url:
+            headers["x-api-key"] = api_key
         resp = requests.get(url, headers=headers, timeout=60, stream=True)
         resp.raise_for_status()
 

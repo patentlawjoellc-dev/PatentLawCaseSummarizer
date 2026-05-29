@@ -25,6 +25,9 @@ import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 
+from common import digest, supa_rest
+from common.jsonutil import parse_llm_json
+
 load_dotenv()
 
 # Ensure UTF-8 output on Windows consoles (Unicode arrows / checkmarks in print() crash on cp1252)
@@ -351,9 +354,7 @@ def summarize_with_claude(decision: Decision, text: str) -> dict:
         response_format={"type": "json_object"},
     )
     raw = (resp.choices[0].message.content or "").strip()
-    raw = re.sub(r"^```[a-z]*\n?", "", raw)
-    raw = re.sub(r"\n?```$", "", raw)
-    return json.loads(raw)
+    return parse_llm_json(raw)
 
 
 def fallback_summary(decision: Decision) -> dict:
@@ -411,10 +412,9 @@ def build_record(decision: Decision, summary: dict) -> dict:
 
 
 def sync_supabase(record: dict) -> None:
-    resp = requests.post(
-        f"{SUPABASE_URL}/rest/v1/cafc_documents?on_conflict=source_file_path",
-        headers={**_SUPABASE_HEADERS, "Prefer": "resolution=merge-duplicates,return=minimal"},
-        json=record,
+    resp = supa_rest.upsert(
+        SUPABASE_URL, SUPABASE_KEY, "cafc_documents", record,
+        on_conflict="source_file_path",
     )
     resp.raise_for_status()
 
@@ -424,11 +424,9 @@ def trigger_breaking_news(target_date: date) -> None:
         print("  SKIP: SITE_URL or DIGEST_SECRET not set, skipping breaking news trigger")
         return
     try:
-        resp = requests.post(
-            f"{SITE_URL}/api/admin/ptab-breaking-news",
-            headers={"Authorization": DIGEST_SECRET, "Content-Type": "application/json"},
-            json={"date": target_date.isoformat()},
-            timeout=30,
+        resp = digest.post_trigger(
+            "/api/admin/ptab-breaking-news", {"date": target_date.isoformat()},
+            secret=DIGEST_SECRET, site=SITE_URL,
         )
         if resp.ok:
             data = resp.json()

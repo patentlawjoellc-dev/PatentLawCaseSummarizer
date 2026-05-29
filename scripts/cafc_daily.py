@@ -22,6 +22,9 @@ except ImportError:
 from dotenv import load_dotenv
 from ftfy import fix_text
 
+from common import digest, supa_rest
+from common.tagutil import normalize_tags
+
 
 BASE_URL = "https://www.cafc.uscourts.gov/"
 OPINIONS_URL = urljoin(BASE_URL, "home/case-information/opinions-orders/")
@@ -225,20 +228,6 @@ def detect_disposition(text: str) -> str:
     tail = text[-4000:].upper()
     match = re.search(rf"(WE|FOR THE FOREGOING REASONS).{{0,500}}\b({signals})\b", tail, re.DOTALL)
     return match.group(2) if match else "Disposition not detected"
-
-
-def normalize_tags(values: list[str] | tuple[str, ...] | None) -> list[str]:
-    seen: set[str] = set()
-    tags: list[str] = []
-    for value in values or []:
-        tag = re.sub(r"\s+", " ", str(value).strip())
-        if not tag:
-            continue
-        key = tag.lower()
-        if key not in seen:
-            seen.add(key)
-            tags.append(tag)
-    return tags
 
 
 def infer_tags(*parts: str) -> list[str]:
@@ -584,17 +573,9 @@ def sync_supabase(records: list[dict]) -> None:
     if not url or not key:
         print("Supabase sync skipped: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are not configured.")
         return
-    endpoint = f"{url}/rest/v1/cafc_documents?on_conflict=source_file_path"
-    response = requests.post(
-        endpoint,
-        headers={
-            "apikey": key,
-            "Authorization": f"Bearer {key}",
-            "Content-Type": "application/json",
-            "Prefer": "resolution=merge-duplicates,return=minimal",
-        },
-        data=json.dumps(records),
-        timeout=TIMEOUT,
+    response = supa_rest.upsert(
+        url, key, "cafc_documents", records,
+        on_conflict="source_file_path", timeout=TIMEOUT,
     )
     response.raise_for_status()
     print(f"Synced {len(records)} record(s) to Supabase.")
@@ -752,36 +733,24 @@ def rebuild_posts_from_summaries() -> None:
 
 
 def _trigger_case_digest(day: dt.date) -> None:
-    site = os.environ.get("NEXT_PUBLIC_SITE_URL", "https://patentlawprofessor.com")
     secret = os.environ.get("DIGEST_SECRET", "")
     if not secret:
         print("DIGEST_SECRET not set — skipping digest trigger.")
         return
     try:
-        resp = requests.post(
-            f"{site}/api/admin/send-digest",
-            headers={"Authorization": secret, "Content-Type": "application/json"},
-            json={"date": day.isoformat()},
-            timeout=30,
-        )
+        resp = digest.post_trigger("/api/admin/send-digest", {"date": day.isoformat()}, secret=secret)
         print(f"Digest trigger: {resp.status_code} {resp.text[:120]}")
     except Exception as exc:
         print(f"Digest trigger failed (non-fatal): {exc}")
 
 
 def _trigger_beehiiv_post(day: dt.date) -> None:
-    site = os.environ.get("NEXT_PUBLIC_SITE_URL", "https://patentlawprofessor.com")
     secret = os.environ.get("DIGEST_SECRET", "")
     if not secret:
         print("DIGEST_SECRET not set — skipping Beehiiv post trigger.")
         return
     try:
-        resp = requests.post(
-            f"{site}/api/admin/beehiiv-post",
-            headers={"Authorization": secret, "Content-Type": "application/json"},
-            json={"date": day.isoformat()},
-            timeout=30,
-        )
+        resp = digest.post_trigger("/api/admin/beehiiv-post", {"date": day.isoformat()}, secret=secret)
         print(f"Beehiiv post trigger: {resp.status_code} {resp.text[:120]}")
     except Exception as exc:
         print(f"Beehiiv post trigger failed (non-fatal): {exc}")

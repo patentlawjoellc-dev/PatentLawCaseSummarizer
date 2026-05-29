@@ -28,6 +28,9 @@ from pathlib import Path
 import requests
 from dotenv import load_dotenv
 
+from common import digest, supa_rest
+from common.tagutil import normalize_tags
+
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 TIMEOUT = 30
@@ -406,17 +409,6 @@ def infer_ptab_tags(*parts: str, issue_types: list[str] | None = None) -> list[s
     return tags
 
 
-def normalize_tags(values: list[str]) -> list[str]:
-    seen: set[str] = set()
-    result: list[str] = []
-    for v in values:
-        v = re.sub(r"\s+", " ", v.strip())
-        if v and v.lower() not in seen:
-            seen.add(v.lower())
-            result.append(v)
-    return result
-
-
 # ─────────────────────────────────────────────────────────────────────────────
 # Stat block for omnibus decisions (no AI call)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -684,17 +676,11 @@ def cleanup_ptab_for_date(date_str: str) -> None:
     """
     url = os.environ["SUPABASE_URL"].rstrip("/")
     key = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
-    endpoint = (
-        f"{url}/rest/v1/cafc_documents"
-        f"?source_type=eq.ptab_director"
-        f"&opinion_date=eq.{date_str}"
+    resp = supa_rest.delete_where(
+        url, key, "cafc_documents",
+        f"source_type=eq.ptab_director&opinion_date=eq.{date_str}",
+        timeout=30,
     )
-    headers = {
-        "apikey":        key,
-        "Authorization": f"Bearer {key}",
-        "Prefer":        "return=minimal",
-    }
-    resp = requests.delete(endpoint, headers=headers, timeout=30)
     if resp.ok:
         log.info("Cleaned up existing ptab_director records for %s.", date_str)
     else:
@@ -704,22 +690,21 @@ def cleanup_ptab_for_date(date_str: str) -> None:
 def sync_supabase(records: list[dict]) -> None:
     url = os.environ["SUPABASE_URL"].rstrip("/")
     key = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
-    endpoint = f"{url}/rest/v1/cafc_documents?on_conflict=source_file_path"
-    headers = {
-        "apikey":         key,
-        "Authorization":  f"Bearer {key}",
-        "Content-Type":   "application/json",
-        "Prefer":         "resolution=merge-duplicates,return=minimal",
-    }
     # Batch upsert all records in one request
-    resp = requests.post(endpoint, headers=headers, json=records, timeout=60)
+    resp = supa_rest.upsert(
+        url, key, "cafc_documents", records,
+        on_conflict="source_file_path", timeout=60,
+    )
     if resp.ok:
         log.info("Upserted %d records to Supabase.", len(records))
     else:
         log.error("Supabase upsert failed %s: %s", resp.status_code, resp.text[:300])
         # Fall back to one-by-one so partial failures don't lose everything
         for rec in records:
-            r = requests.post(endpoint, headers=headers, json=[rec], timeout=30)
+            r = supa_rest.upsert(
+                url, key, "cafc_documents", [rec],
+                on_conflict="source_file_path", timeout=30,
+            )
             if r.ok:
                 log.info("  Upserted: %s", rec["appeal_number"])
             else:
@@ -803,18 +788,12 @@ def process_date(date_str: str, use_ai: bool, no_supabase: bool, no_trigger: boo
 
 
 def _trigger_daily_digest(date_str: str) -> None:
-    site = os.environ.get("NEXT_PUBLIC_SITE_URL", "https://patentlawprofessor.com")
     secret = os.environ.get("DIGEST_SECRET", "")
     if not secret:
         log.info("DIGEST_SECRET not set — skipping digest trigger.")
         return
     try:
-        resp = requests.post(
-            f"{site}/api/admin/send-digest",
-            headers={"Authorization": secret, "Content-Type": "application/json"},
-            json={"date": date_str},
-            timeout=30,
-        )
+        resp = digest.post_trigger("/api/admin/send-digest", {"date": date_str}, secret=secret)
         if resp.ok:
             d = resp.json()
             log.info(

@@ -27,6 +27,9 @@ import requests
 import xmltodict
 from dotenv import load_dotenv
 
+from common import digest, supa_rest
+from common.jsonutil import parse_llm_json
+
 try:
     from curl_cffi import requests as cffi_requests
     _CFFI = True
@@ -615,9 +618,7 @@ def summarize_with_claude(doc: ItcDocument, text: str) -> dict:
         response_format={"type": "json_object"},
     )
     raw = (resp.choices[0].message.content or "").strip()
-    raw = re.sub(r"^```[a-z]*\n?", "", raw)
-    raw = re.sub(r"\n?```$", "", raw)
-    return json.loads(raw)
+    return parse_llm_json(raw)
 
 
 def fallback_summary(doc: ItcDocument) -> dict:
@@ -672,10 +673,9 @@ def build_record(doc: ItcDocument, summary: dict) -> dict:
 
 
 def sync_supabase(record: dict) -> None:
-    resp = requests.post(
-        f"{SUPABASE_URL}/rest/v1/cafc_documents?on_conflict=source_file_path",
-        headers={**_SUPABASE_HEADERS, "Prefer": "resolution=merge-duplicates,return=minimal"},
-        json=record,
+    resp = supa_rest.upsert(
+        SUPABASE_URL, SUPABASE_KEY, "cafc_documents", record,
+        on_conflict="source_file_path",
     )
     resp.raise_for_status()
 
@@ -765,11 +765,9 @@ def trigger_itc_digest(target_date: date) -> None:
         print("  SKIP: SITE_URL or DIGEST_SECRET not set")
         return
     try:
-        resp = requests.post(
-            f"{SITE_URL}/api/admin/send-digest",
-            headers={"Authorization": DIGEST_SECRET, "Content-Type": "application/json"},
-            json={"date": target_date.isoformat()},
-            timeout=30,
+        resp = digest.post_trigger(
+            "/api/admin/send-digest", {"date": target_date.isoformat()},
+            secret=DIGEST_SECRET, site=SITE_URL,
         )
         if resp.ok:
             data = resp.json()

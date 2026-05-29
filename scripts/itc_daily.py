@@ -460,11 +460,43 @@ def _parse_edis_item(item: dict, fallback_date: date) -> Optional[ItcDocument]:
 
 # ── PDF download + text extraction ───────────────────────────────────────────
 
+def _attachment_score(att: dict) -> float:
+    """Score an EDIS attachment so we link the substantive document body — not a
+    cover letter or an exhibit. An EDIS complaint filing lists, in order, a cover
+    letter, confidential-filing letter, PI statement, the COMPLAINT itself, then
+    dozens of exhibits; grabbing attachments[0] linked the cover letter
+    ("...notifying that they filed the complaint").
+
+    Page count is the key signal: the complaint/decision body is long (50-150+
+    pages) while transmittal cover letters are 2-3 pages. Firms also bundle the
+    complaint differently — sometimes a clean "X Complaint", sometimes a combined
+    "Complaint, Cover Letters, Public Interest Statement" — so we keep any title
+    containing "complaint" in contention and let page count pick the body.
+    """
+    t = (att.get("title") or "").lower()
+    try:
+        pages = int(att.get("pageCount") or 0)
+    except (ValueError, TypeError):
+        pages = 0
+    # Exhibits / appendices / claim charts / certificates — supporting material.
+    if (re.search(r"\bex\.?\s*\d", t) or "exhibit" in t or "appendix" in t
+            or "appendices" in t or "claim chart" in t or "certificate of service" in t):
+        return -1_000_000 + pages
+    base = 0
+    if "complaint" in t:
+        base = 1_000_000           # the complaint body (bundled or standalone)
+    elif any(k in t for k in ("determination", "opinion", "notice", "decision", "order")):
+        base = 800_000             # decision body for non-complaint document types
+    # Add page count so the long body beats a short same-keyword cover letter.
+    return base + pages
+
+
 def download_pdf(attachment_url: str) -> bytes:
     """Download a PDF.
 
     Two URL shapes are supported:
-    1. EDIS attachment list URL (XML listing) — resolves to first downloadable PDF.
+    1. EDIS attachment list URL (XML listing) — resolves to the SUBSTANTIVE
+       attachment (complaint/decision body), not merely the first one.
     2. Direct .pdf URL (USITC Federal Register notices) — fetched directly.
     """
     # Direct PDF URL (used by pre-institution DN complaints from USITC notices page)
@@ -487,16 +519,19 @@ def download_pdf(attachment_url: str) -> bytes:
     attachments = parsed.get("results", {}).get("attachments", {}).get("attachment", [])
     if isinstance(attachments, dict):
         attachments = [attachments]
-    for att in attachments:
-        uri = att.get("downloadUri")
-        if uri and uri.startswith("http"):
-            if _CFFI:
-                resp2 = cffi_requests.get(uri, headers={**_edis_headers(), "Accept": "application/pdf"}, impersonate="chrome", timeout=60)
-            else:
-                resp2 = requests.get(uri, headers={**_edis_headers(), "Accept": "application/pdf"}, timeout=60)
-            resp2.raise_for_status()
-            return resp2.content
-    raise ValueError(f"No downloadable attachment found at {attachment_url}")
+    downloadable = [a for a in attachments if (a.get("downloadUri") or "").startswith("http")]
+    if not downloadable:
+        raise ValueError(f"No downloadable attachment found at {attachment_url}")
+    # Pick the substantive document (complaint/decision body), not the first
+    # attachment (which is usually a cover letter). Ties keep listing order.
+    best = max(downloadable, key=_attachment_score)
+    uri = best["downloadUri"]
+    if _CFFI:
+        resp2 = cffi_requests.get(uri, headers={**_edis_headers(), "Accept": "application/pdf"}, impersonate="chrome", timeout=60)
+    else:
+        resp2 = requests.get(uri, headers={**_edis_headers(), "Accept": "application/pdf"}, timeout=60)
+    resp2.raise_for_status()
+    return resp2.content
 
 
 def extract_text(pdf_bytes: bytes) -> str:
